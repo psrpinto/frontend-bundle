@@ -1,0 +1,24 @@
+{
+    "name": "regularjack/frontend-bundle",
+    "type": "symfony-bundle",
+    "description": "A modern frontend workflow for Symfony apps",
+    "keywords": ["frontend"],
+    "homepage": "https://github.com/regularjack/frontend-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Paulo Rodrigues Pinto",
+            "email": "regularjack@gmail.com"
+        },
+        {
+            "name": "Contributors",
+            "homepage": "https://github.com/regularjack/frontend-bundle/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "autoload": {
+        "psr-4": { "Rj\\FrontendBundle\\": "" }
+    }
+}
