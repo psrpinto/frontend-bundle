@@ -1,0 +1,5 @@
+services:
+    rj_frontend.listener.livereload:
+        class: Rj\FrontendBundle\EventListener\LiveReloadListener
+        tags:
+            -  { name: kernel.event_subscriber }
