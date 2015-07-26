@@ -1,7 +1,7 @@
 {
     "name": "regularjack/frontend-bundle",
     "type": "symfony-bundle",
-    "description": "A modern frontend workflow for Symfony apps",
+    "description": "A modern frontend development workflow for Symfony apps",
     "keywords": ["frontend"],
     "homepage": "https://github.com/regularjack/frontend-bundle",
     "license": "MIT",
@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "symfony/framework-bundle": "~2.3"
+        "symfony/framework-bundle": "2.3.*"
     },
     "autoload": {
         "psr-4": { "Rj\\FrontendBundle\\": "" }

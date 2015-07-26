@@ -4,6 +4,13 @@
     <testsuites>
         <testsuite name="FrontendBundle Test Suite">
             <directory>./Tests</directory>
+            <exclude>./Tests/Functional/TestBundle</exclude>
         </testsuite>
     </testsuites>
+    <filter>
+        <blacklist>
+            <!-- Exclude from code coverage -->
+            <directory>./vendor</directory>
+        </blacklist>
+    </filter>
 </phpunit>
