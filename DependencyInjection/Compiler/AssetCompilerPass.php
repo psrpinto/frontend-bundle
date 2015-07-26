@@ -2,12 +2,11 @@
 
 namespace Rj\FrontendBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 
-class AssetCompilerPass implements CompilerPassInterface
+class AssetCompilerPass extends BaseCompilerPass
 {
     public function process(ContainerBuilder $container)
     {
@@ -74,7 +73,7 @@ class AssetCompilerPass implements CompilerPassInterface
 
             return $package
                 ->setPublic(false)
-                ->replaceArgument(0, $basePath)
+                ->replaceArgument(0, $pathPrefix)
                 ->replaceArgument(1, $version)
             ;
         }
@@ -86,15 +85,5 @@ class AssetCompilerPass implements CompilerPassInterface
             ->replaceArgument(0, $urlPrefixes)
             ->replaceArgument(1, $version)
         ;
-    }
-
-    private function getConfig($container)
-    {
-        return $container->getParameter($this->getAlias().'.__config');
-    }
-
-    private function getAlias()
-    {
-        return 'rj_frontend';
     }
 }

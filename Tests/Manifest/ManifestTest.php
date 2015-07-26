@@ -8,20 +8,30 @@ class ManifestTest extends \PHPUnit_Framework_TestCase
 {
     public function testHas()
     {
-        $this->assertEquals($this->manifest->has('foo'), false);
-        $this->assertEquals($this->manifest->has('foo.css'), true);
+        $this->assertFalse($this->manifest->has('foo'));
+        $this->assertTrue($this->manifest->has('foo.css'));
     }
 
     public function testGet()
     {
-        $this->assertEquals($this->manifest->get('foo'), '');
-        $this->assertEquals($this->manifest->get('foo.css'), 'foo-123.css');
+        $this->assertEmpty($this->manifest->get('foo'));
+        $this->assertEquals('foo-123.css', $this->manifest->get('foo.css'));
+    }
+
+    public function testAll()
+    {
+        $entries = $this->manifest->all();
+
+        $this->assertCount(2, $entries);
+        $this->assertEquals('foo-123.css', $entries['foo.css']);
+        $this->assertEquals('bar-123.js', $entries['bar.js']);
     }
 
     public function setUp()
     {
         $this->manifest = new Manifest(array(
             'foo.css' => 'foo-123.css',
+            'bar.js' => 'bar-123.js',
         ));
     }
 }

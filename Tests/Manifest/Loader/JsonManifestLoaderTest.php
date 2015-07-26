@@ -8,41 +8,34 @@ class JsonManifestLoaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoad()
     {
-        file_put_contents($this->path, json_encode(array(
-            'foo.css' => 'foo-123.css',
-        )));
+        $manifest = $this->load(array('foo.css' => 'foo-123.css'));
 
-        $loader = new JsonManifestLoader($this->path);
-        $manifest = $loader->load();
-
-        $this->assertEquals($manifest->get('foo.css'), 'foo-123.css');
+        $this->assertEquals('foo-123.css', $manifest->get('foo.css'));
     }
 
     public function testLoadRootKey()
     {
-        $rootKey = 'assets';
+        $manifest = $this->load(array('foo.css' => 'foo-123.css'), 'assets');
 
-        file_put_contents($this->path, json_encode(array(
-            $rootKey => array(
-                'foo.css' => 'foo-123.css',
-            ),
-        )));
+        $this->assertEquals('foo-123.css', $manifest->get('foo.css'));
+    }
 
-        $loader = new JsonManifestLoader($this->path, $rootKey);
-        $manifest = $loader->load();
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testLoadRootKeyNotFound()
+    {
+        file_put_contents($this->path, json_encode(array('foo.css' => 'foo-123.css')));
 
-        $this->assertEquals($manifest->get('foo.css'), 'foo-123.css');
+        $loader = new JsonManifestLoader($this->path, 'assets');
+        $loader->load();
     }
 
     public function testGetPath()
     {
-        file_put_contents($this->path, json_encode(array(
-            'foo.css' => 'foo-123.css',
-        )));
-
         $loader = new JsonManifestLoader($this->path);
 
-        $this->assertEquals($loader->getPath(), $this->path);
+        $this->assertEquals($this->path, $loader->getPath());
     }
 
     public function setUp()
@@ -53,5 +46,18 @@ class JsonManifestLoaderTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         unlink($this->path);
+    }
+
+    private function load($entries, $rootKey = null)
+    {
+        if ($rootKey) {
+            $entries = array($rootKey => $entries);
+        }
+
+        file_put_contents($this->path, json_encode($entries));
+
+        $loader = new JsonManifestLoader($this->path, $rootKey);
+
+        return $loader->load();
     }
 }

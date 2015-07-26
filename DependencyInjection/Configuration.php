@@ -41,7 +41,7 @@ class Configuration implements ConfigurationInterface
                                     ->canBeDisabled()
                                     ->children()
                                         ->enumNode('format')
-                                            ->values(array('json', 'yml'))
+                                            ->values(array('json', 'yaml'))
                                             ->defaultValue('json')
                                         ->end()
                                         ->scalarNode('path')->defaultNull()->end()
