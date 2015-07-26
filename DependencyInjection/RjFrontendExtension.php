@@ -14,18 +14,20 @@ class RjFrontendExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $env = $container->getParameter('kernel.environment');
-
-        $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $config = $this->processConfiguration(new Configuration(), $configs);
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/'));
+        $loader->load('asset.yml');
+        $loader->load('manifest.yml');
 
-        if ('dev' === $env && $config['livereload']['enabled']) {
+        if ($config['livereload']['enabled']) {
             $loader->load('livereload.yml');
-            $container->getDefinition('rj_frontend.listener.livereload')
+            $container->getDefinition($this->getAlias().'.listener.livereload')
                 ->addArgument($config['livereload']['url']);
         }
-    }
+
+        // FIXME: There must be a better way to pass the configuration to the
+        // compiler passes.
+        $container->setParameter($this->getAlias().'.__config', $config);
     }
 }

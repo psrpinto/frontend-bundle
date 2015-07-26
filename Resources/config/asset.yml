@@ -1,0 +1,4 @@
+services:
+    rj_frontend.version_strategy.manifest:
+        class: Rj\FrontendBundle\Asset\ManifestVersionStrategy
+        public: false

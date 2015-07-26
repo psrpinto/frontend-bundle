@@ -1,0 +1,11 @@
+services:
+    rj_frontend.manifest_loader.json:
+        class: Rj\FrontendBundle\Manifest\Loader\JsonManifestLoader
+        public: false
+
+    rj_frontend.manifest_loader.cached:
+        class: Rj\FrontendBundle\Manifest\Loader\CachedManifestLoader
+        public: false
+        arguments:
+            - %kernel.cache_dir%/rj_frontend
+            - %kernel.debug%
