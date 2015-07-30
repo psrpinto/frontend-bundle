@@ -20,6 +20,11 @@ class BaseTestCase extends WebTestCase
 
     protected function get($id)
     {
-        return self::$kernel->getContainer()->get($id);
+        return $this->getContainer()->get($id);
+    }
+
+    protected function getContainer()
+    {
+        return self::$kernel->getContainer();
     }
 }

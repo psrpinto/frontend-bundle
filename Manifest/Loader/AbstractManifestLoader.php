@@ -14,7 +14,7 @@ abstract class AbstractManifestLoader implements ManifestLoaderInterface
     public function __construct($path, $rootKey = null)
     {
         if (!is_file($path)) {
-            throw new \InvalidArgumentException("The manifest file could not be found: $path");
+            throw new \InvalidArgumentException("The manifest file '$path' could not be found");
         }
 
         $this->path = $path;
