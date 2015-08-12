@@ -25,6 +25,7 @@ class PackagesTest extends BaseTestCase
     }
 
     /**
+     * @runInSeparateProcess
      */
     public function testCustomPackageWithManifest()
     {

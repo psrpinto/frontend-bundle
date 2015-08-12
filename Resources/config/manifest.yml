@@ -1,9 +1,9 @@
 services:
-    rj_frontend.manifest_loader.json:
+    rj_frontend.manifest.loader.json:
         class: Rj\FrontendBundle\Manifest\Loader\JsonManifestLoader
         public: false
 
-    rj_frontend.manifest_loader.cached:
+    rj_frontend.manifest.loader.cached:
         class: Rj\FrontendBundle\Manifest\Loader\CachedManifestLoader
         public: false
         arguments:

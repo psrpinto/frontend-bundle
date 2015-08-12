@@ -2,7 +2,7 @@
     "name": "regularjack/frontend-bundle",
     "type": "symfony-bundle",
     "description": "A modern frontend development workflow for Symfony apps",
-    "keywords": ["frontend"],
+    "keywords": ["frontend", "front-end"],
     "homepage": "https://github.com/regularjack/frontend-bundle",
     "license": "MIT",
     "authors": [
@@ -21,7 +21,8 @@
     },
     "require-dev": {
         "symfony/browser-kit": "~2.3",
-        "matthiasnoback/symfony-config-test": "^1.1"
+        "matthiasnoback/symfony-config-test": "^1.1",
+        "matthiasnoback/symfony-dependency-injection-test": "0.7.*"
     },
     "autoload": {
         "psr-4": { "Rj\\FrontendBundle\\": "" }

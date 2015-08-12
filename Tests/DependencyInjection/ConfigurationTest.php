@@ -21,6 +21,35 @@ class ConfigurationTest extends AbstractConfigurationTestCase
         );
     }
 
+    public function testPackagePrefixString()
+    {
+        $this->assertConfigurationEquals(
+            array(
+                'packages' => array(
+                    'app' => array(
+                        'prefixes' => 'foo',
+                    ),
+                ),
+            ),
+            array(
+                'livereload' => array(
+                    'enabled' => false,
+                    'url' => '/livereload.js?port=37529',
+                ),
+                'packages' => array(
+                    'app' => array(
+                        'prefixes' => array('foo'),
+                        'manifest' => array(
+                            'enabled' => false,
+                            'format' => 'json',
+                            'root_key' => null,
+                        ),
+                    ),
+                ),
+            )
+        );
+    }
+
     protected function assertConfigurationEquals($config, $expected)
     {
         $this->assertProcessedConfigurationEquals(array($config), $expected);

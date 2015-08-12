@@ -2,17 +2,17 @@
 
 namespace Rj\FrontendBundle\Asset;
 
+use Rj\FrontendBundle\Manifest\ManifestVersioner;
 use Rj\FrontendBundle\Manifest\Loader\ManifestLoaderInterface;
 use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
 
 class ManifestVersionStrategy implements VersionStrategyInterface
 {
-    private $loader;
-    private $manifest = null;
+    private $versioner;
 
     public function __construct(ManifestLoaderInterface $loader)
     {
-        $this->loader = $loader;
+        $this->versioner = new ManifestVersioner($loader);
     }
 
     /**
@@ -28,14 +28,6 @@ class ManifestVersionStrategy implements VersionStrategyInterface
      */
     public function applyVersion($path)
     {
-        if ($this->manifest === null) {
-            $this->manifest = $this->loader->load();
-        }
-
-        if (!$this->manifest->has($path)) {
-            return $path;
-        }
-
-        return $this->manifest->get($path);
+        return $this->versioner->applyVersion($path);
     }
 }
