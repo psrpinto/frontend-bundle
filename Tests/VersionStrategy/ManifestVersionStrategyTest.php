@@ -1,8 +1,8 @@
 <?php
 
-namespace Rj\FrontendBundle\Tests\Asset;
+namespace Rj\FrontendBundle\Tests\VersionStrategy;
 
-use Rj\FrontendBundle\Util\Util;
+use Rj\FrontendBundle\VersionStrategy\ManifestVersionStrategy;
 use Rj\FrontendBundle\Manifest\Loader\JsonManifestLoader;
 
 class ManifestVersionStrategyTest extends \PHPUnit_Framework_TestCase
@@ -15,20 +15,11 @@ class ManifestVersionStrategyTest extends \PHPUnit_Framework_TestCase
             'foo.css' => 'foo-123.css',
         )));
 
-        $vs = new \Rj\FrontendBundle\Asset\ManifestVersionStrategy(new JsonManifestLoader($jsonFile));
-
-        $this->assertEquals('', $vs->getVersion('foo.css'));
+        $vs = new ManifestVersionStrategy(new JsonManifestLoader($jsonFile));
 
         $this->assertEquals('foo-123.css', $vs->applyVersion('foo.css'));
         $this->assertEquals('bar.css', $vs->applyVersion('bar.css'));
 
         unlink($jsonFile);
-    }
-
-    public function setUp()
-    {
-        if (!Util::hasAssetComponent()) {
-            return $this->markTestSkipped();
-        }
     }
 }

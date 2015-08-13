@@ -6,40 +6,46 @@ use Rj\FrontendBundle\Util\Util;
 
 class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
 {
-    public function testPrefixPackageIsRegistered()
+    public function testPathPackageIsRegistered()
     {
         $this->load(array('packages' => array(
-            'foo' => array(
+            'app' => array(
                 'prefixes' => 'foo',
             ),
         )));
 
-        $package = $this->container->findDefinition($this->namespaceService('_package.foo'));
+        $package = $this->container->findDefinition($this->namespaceService('_package.app'));
 
         $this->assertEquals($package->getParent(), 'assets.path_package');
         $this->assertEquals($package->getArgument(0), 'foo');
-        $this->assertEquals($package->getArgument(1), 'assets.empty_version_strategy');
+        $this->assertEquals($package->getArgument(1), $this->namespaceService('_package.app.version_strategy_asset'));
+
+        $vs = $this->container->findDefinition($this->namespaceService('_package.app.version_strategy_asset'));
+        $this->assertEquals($vs->getArgument(0), $this->namespaceService('version_strategy.empty'));
     }
 
     public function testUrlPackageIsRegistered()
     {
         $this->load(array('packages' => array(
-            'foo' => array(
+            'app' => array(
                 'prefixes' => 'http://foo',
             ),
         )));
 
-        $package = $this->container->findDefinition($this->namespaceService('_package.foo'));
+        $package = $this->container->findDefinition($this->namespaceService('_package.app'));
 
         $this->assertEquals($package->getParent(), 'assets.url_package');
         $this->assertEquals($package->getArgument(0), array('http://foo'));
-        $this->assertEquals($package->getArgument(1), 'assets.empty_version_strategy');
+        $this->assertEquals($package->getArgument(1), $this->namespaceService('_package.app.version_strategy_asset'));
+
+        $vs = $this->container->findDefinition($this->namespaceService('_package.app.version_strategy_asset'));
+        $this->assertEquals($vs->getArgument(0), $this->namespaceService('version_strategy.empty'));
     }
 
     public function testPackageWithManifestIsRegistered()
     {
         $this->load(array('packages' => array(
-            'foo' => array(
+            'app' => array(
                 'prefixes' => 'foo',
                 'manifest' => array(
                     'path' => 'foo',
@@ -47,29 +53,30 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
             ),
         )));
 
-        $package = $this->container->findDefinition($this->namespaceService('_package.foo'));
-        $this->assertEquals($package->getArgument(1), $this->namespaceService('_package.foo.version_strategy'));
+        $package = $this->container->findDefinition($this->namespaceService('_package.app'));
+        $this->assertEquals($package->getArgument(1), $this->namespaceService('_package.app.version_strategy_asset'));
 
-        $version = $this->container->findDefinition($this->namespaceService('_package.foo.version_strategy'));
-        $this->assertEquals($version->getParent(), $this->namespaceService('version_strategy.manifest'));
+        $vsAsset = $this->container->findDefinition($this->namespaceService('_package.app.version_strategy_asset'));
+        $vs = $this->container->findDefinition($vsAsset->getArgument(0));
+        $this->assertEquals($vs->getParent(), $this->namespaceService('version_strategy.manifest'));
     }
 
     public function testPackageHasAliasTag()
     {
         $this->load(array('packages' => array(
-            'foo' => array(
+            'app' => array(
                 'prefixes' => 'foo',
             ),
         )));
 
-        $package = $this->container->findDefinition($this->namespaceService('_package.foo'));
+        $package = $this->container->findDefinition($this->namespaceService('_package.app'));
 
         $this->assertTrue($package->hasTag($this->namespaceService('package.asset')));
 
         $tag = $package->getTag($this->namespaceService('package.asset'));
         $tag = $tag[0];
         $this->assertArrayHasKey('alias', $tag);
-        $this->assertEquals('foo', $tag['alias']);
+        $this->assertEquals('app', $tag['alias']);
     }
 
     protected function setUp()

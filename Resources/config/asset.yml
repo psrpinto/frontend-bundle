@@ -1,4 +1,4 @@
 services:
-    rj_frontend.version_strategy.manifest:
-        class: Rj\FrontendBundle\Asset\ManifestVersionStrategy
+    rj_frontend.asset.version_strategy:
+        class: Rj\FrontendBundle\Asset\VersionStrategy
         public: false

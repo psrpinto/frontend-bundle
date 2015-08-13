@@ -15,7 +15,7 @@ class PackagesTest extends BaseTestCase
     /**
      * @runInSeparateProcess
      */
-    public function testCustomPackageNoManifest()
+    public function testPathPackage()
     {
         $this->doTest('packages_custom', '/css/foo.css', array(
             'packages' => array(
@@ -27,7 +27,49 @@ class PackagesTest extends BaseTestCase
     /**
      * @runInSeparateProcess
      */
-    public function testCustomPackageWithManifest()
+    public function testUrlPackage()
+    {
+        $this->doTest('packages_custom', 'http://foo/css/foo.css', array(
+            'packages' => array(
+                'app' => array(
+                    'prefixes' => 'http://foo',
+                ),
+            ),
+        ));
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testUrlPackageSsl()
+    {
+        $this->doTest('packages_custom', 'https://foo/css/foo.css', array(
+            'packages' => array(
+                'app' => array(
+                    'prefixes' => 'https://foo',
+                ),
+            ),
+        ));
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testUrlPackageNoProtocol()
+    {
+        $this->doTest('packages_custom', '//foo/css/foo.css', array(
+            'packages' => array(
+                'app' => array(
+                    'prefixes' => '//foo',
+                ),
+            ),
+        ));
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testPackageWithManifest()
     {
         $manifest = tempnam('/tmp', '');
 

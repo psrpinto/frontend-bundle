@@ -51,7 +51,7 @@ class AssetCompilerPassTest extends BaseCompilerPassTest
 
         $this->container->removeDefinition('assets.packages');
 
-        $this->registerAssetsPackages(array(
+        $this->registerPackagesService(array(
             new Reference('default_package'),
             array('foo', new Reference('foo_package')),
         ));
@@ -99,7 +99,7 @@ class AssetCompilerPassTest extends BaseCompilerPassTest
 
         parent::setUp();
 
-        $this->registerAssetsPackages();
+        $this->registerPackagesService();
     }
 
     protected function registerCompilerPass(ContainerBuilder $container)
@@ -107,7 +107,7 @@ class AssetCompilerPassTest extends BaseCompilerPassTest
         $container->addCompilerPass(new AssetCompilerPass());
     }
 
-    private function registerAssetsPackages($arguments = array())
+    private function registerPackagesService($arguments = array())
     {
         $service = $this
             ->registerService('assets.packages', null)

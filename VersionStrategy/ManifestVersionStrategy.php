@@ -1,10 +1,10 @@
 <?php
 
-namespace Rj\FrontendBundle\Manifest;
+namespace Rj\FrontendBundle\VersionStrategy;
 
 use Rj\FrontendBundle\Manifest\Loader\ManifestLoaderInterface;
 
-class ManifestVersioner
+class ManifestVersionStrategy implements VersionStrategyInterface
 {
     private $loader;
     private $manifest = null;
@@ -12,6 +12,11 @@ class ManifestVersioner
     public function __construct(ManifestLoaderInterface $loader)
     {
         $this->loader = $loader;
+    }
+
+    public function getVersion($path)
+    {
+        return '';
     }
 
     public function applyVersion($path)

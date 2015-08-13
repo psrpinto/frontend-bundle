@@ -1,0 +1,8 @@
+services:
+    rj_frontend.version_strategy.empty:
+        class: Rj\FrontendBundle\VersionStrategy\EmptyVersionStrategy
+        public: false
+
+    rj_frontend.version_strategy.manifest:
+        class: Rj\FrontendBundle\VersionStrategy\ManifestVersionStrategy
+        public: false

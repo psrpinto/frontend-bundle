@@ -15,46 +15,44 @@ class AssetExtensionHelper extends BaseExtensionHelper
         $loader->load('asset.yml');
     }
 
-    public function createPathPackage($name, $config)
-    {
-        return $this->createPackage($name, $config['prefixes'][0], $config['manifest']);
-    }
-
-    public function createUrlPackage($name, $config)
-    {
-        return $this->createPackage($name, $config['prefixes'], $config['manifest'], true);
-    }
-
-    private function createPackage($name, $prefix, $manifest, $isUrl = false)
+    protected function createPackage($name, $prefixes, $manifest, $isUrl = false)
     {
         $package = $isUrl
             ? new DefinitionDecorator('assets.url_package')
             : new DefinitionDecorator('assets.path_package')
         ;
 
-        $package->replaceArgument(0, $prefix);
-
-        if ($manifest['enabled']) {
-            $version = $this->createManifestVersionStrategy($name, $manifest);
-        } else {
-            $version = new Reference('assets.empty_version_strategy');
-        }
-
         return $package
-            ->setPublic(false)
-            ->replaceArgument(1, $version)
-            ->addTag($this->namespaceService('package.asset'), array('alias' => $name))
+            ->replaceArgument(0, $isUrl ? $prefixes : $prefixes[0])
+            ->replaceArgument(1, $this->createVersionStrategy($name, $manifest))
         ;
     }
 
-    private function createManifestVersionStrategy($packageName, $config)
+    protected function getPackageTag()
     {
-        $loader = $this->createManifestLoader($packageName, $config);
+        return $this->namespaceService('package.asset');
+    }
 
-        $version = new DefinitionDecorator($this->namespaceService('version_strategy.manifest'));
-        $version->addArgument($loader);
+    protected function createEmptyVersionStrategy($packageName)
+    {
+        $versionStrategy = parent::createEmptyVersionStrategy($packageName);
 
-        $versionId = $this->namespaceService("_package.$packageName.version_strategy");
+        return $this->createAssetVersionStrategy($packageName, $versionStrategy);
+    }
+
+    protected function createManifestVersionStrategy($packageName, $config)
+    {
+        $versionStrategy = parent::createManifestVersionStrategy($packageName, $config);
+
+        return $this->createAssetVersionStrategy($packageName, $versionStrategy);
+    }
+
+    private function createAssetVersionStrategy($packageName, $versionStrategy)
+    {
+        $version = new DefinitionDecorator($this->namespaceService('asset.version_strategy'));
+        $version->addArgument($versionStrategy);
+
+        $versionId = $this->namespaceService("_package.$packageName.version_strategy_asset");
         $this->container->setDefinition($versionId, $version);
 
         return new Reference($versionId);
