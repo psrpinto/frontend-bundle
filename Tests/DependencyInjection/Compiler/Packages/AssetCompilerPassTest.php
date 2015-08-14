@@ -91,6 +91,21 @@ class AssetCompilerPassTest extends BaseCompilerPassTest
         );
     }
 
+    public function testDefaultPackageIsRegisteredIntoAssets()
+    {
+        $package = new Definition();
+        $package->addTag($this->namespaceService('package.asset'), array('alias' => 'default'));
+        $this->setDefinition('default_service', $package);
+
+        $this->compile();
+
+        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+            'assets.packages',
+            'setDefaultPackage',
+            array(new Reference('default_service'))
+        );
+    }
+
     public function setUp()
     {
         if (!Util::hasAssetComponent()) {

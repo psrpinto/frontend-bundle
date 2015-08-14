@@ -13,6 +13,7 @@ abstract class BasePackagesCompilerPass extends BaseCompilerPass
 
     public function process(ContainerBuilder $container)
     {
+        $defaultPackage = null;
         $packages = array();
         $registeredPackages = $this->getRegisteredPackages($container);
 
@@ -37,7 +38,15 @@ abstract class BasePackagesCompilerPass extends BaseCompilerPass
                 );
             }
 
-            $packages[$packageName] = $id;
+            if ($packageName === 'default') {
+                $defaultPackage = $id;
+            } else {
+                $packages[$packageName] = $id;
+            }
+        }
+
+        if ($defaultPackage !== null) {
+            $this->setDefaultPackage($id, $container);
         }
 
         $this->addPackages($packages, $container);
@@ -48,8 +57,21 @@ abstract class BasePackagesCompilerPass extends BaseCompilerPass
         $packagesService = $this->getPackagesService($container);
 
         foreach ($packages as $name => $id) {
-            $packagesService->addMethodCall('addPackage', array($name, new Reference($id)));
+            $packagesService->addMethodCall(
+                'addPackage',
+                array($name, new Reference($id))
+            );
         }
+    }
+
+    protected function setDefaultPackage($id, $container)
+    {
+        $packagesService = $this->getPackagesService($container);
+
+        $packagesService->addMethodCall(
+            'setDefaultPackage',
+            array(new Reference($id))
+        );
     }
 
     /**

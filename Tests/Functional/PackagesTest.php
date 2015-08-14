@@ -7,9 +7,23 @@ class PackagesTest extends BaseTestCase
     /**
      * @runInSeparateProcess
      */
-    public function testDefaultPackage()
+    public function testBundleDisabled()
     {
         $this->doTest('packages_default', '/css/foo.css');
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testDefaultPackage()
+    {
+        $this->doTest('packages_default', '/foo/css/foo.css', array(
+            'packages' => array(
+                'default' => array(
+                    'prefixes' => 'foo',
+                ),
+            ),
+        ));
     }
 
     /**
