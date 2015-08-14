@@ -41,11 +41,10 @@ class RjFrontendExtension extends Extension
                 throw new \LogicException("The '$name' package can only have one path prefix");
             }
 
-            if ($hasUrlPrefix) {
-                $package = $helper->createUrlPackage($name, $packageConfig);
-            } else {
-                $package = $helper->createPathPackage($name, $packageConfig);
-            }
+            $package = $hasUrlPrefix
+                ? $helper->createUrlPackage($name, $packageConfig)
+                : $helper->createPathPackage($name, $packageConfig)
+            ;
 
             $container->setDefinition($helper->getPackageId($name), $package);
         }

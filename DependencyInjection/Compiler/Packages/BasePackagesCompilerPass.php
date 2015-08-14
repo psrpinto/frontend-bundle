@@ -55,7 +55,7 @@ abstract class BasePackagesCompilerPass extends BaseCompilerPass
     /**
      * Retrieve packages that have already been registered.
      *
-     * @return array with the packages' name as key
+     * @return array with the packages' name as keys
      */
     protected function getRegisteredPackages($container)
     {
@@ -65,9 +65,13 @@ abstract class BasePackagesCompilerPass extends BaseCompilerPass
             return array();
         }
 
-        $packageName = $arguments[1][0];
-        $package = $arguments[1][1];
+        $argPackages = $arguments[1];
 
-        return array($packageName => $package);
+        $packages = array();
+        for ($i = 0; $i < count($argPackages); $i++) {
+            $packages[$argPackages[$i]] = $argPackages[++$i];
+        }
+
+        return $packages;
     }
 }
