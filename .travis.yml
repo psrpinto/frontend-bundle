@@ -40,3 +40,6 @@ install:
 
 script:
   - phpunit
+
+script: ./.travis.script.sh
+after_script: ./.travis.after_script.sh
