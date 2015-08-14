@@ -15,7 +15,7 @@ class InjectLivereloadTest extends BaseTestCase
 
         $router = $this->get('router');
 
-        $crawler = $client->request('GET', $router->generate('livereload_inject'));
+        $client->request('GET', $router->generate('livereload_inject'));
 
         $response = $client->getResponse()->getContent();
         $this->assertEquals('foo</body>', $response);
@@ -34,7 +34,7 @@ class InjectLivereloadTest extends BaseTestCase
 
         $router = $this->get('router');
 
-        $crawler = $client->request('GET', $router->generate('livereload_inject'));
+        $client->request('GET', $router->generate('livereload_inject'));
 
         $response = $client->getResponse()->getContent();
         $this->assertEquals('foo<script src="foo"></script></body>', $response);
@@ -53,7 +53,7 @@ class InjectLivereloadTest extends BaseTestCase
 
         $router = $this->get('router');
 
-        $crawler = $client->request('GET', $router->generate('livereload_not_inject'));
+        $client->request('GET', $router->generate('livereload_not_inject'));
 
         $response = $client->getResponse()->getContent();
         $this->assertEquals('foo', $response);

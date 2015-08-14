@@ -9,11 +9,11 @@ class InjectLivereloadController extends Controller
 {
     public function injectAction()
     {
-        return new Response("foo</body>");
+        return new Response('foo</body>');
     }
 
     public function notInjectAction()
     {
-        return new Response("foo");
+        return new Response('foo');
     }
 }

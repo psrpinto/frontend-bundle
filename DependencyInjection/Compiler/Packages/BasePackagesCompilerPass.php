@@ -46,7 +46,7 @@ abstract class BasePackagesCompilerPass extends BaseCompilerPass
         }
 
         if ($defaultPackage !== null) {
-            $this->setDefaultPackage($id, $container);
+            $this->setDefaultPackage($defaultPackage, $container);
         }
 
         $this->addPackages($packages, $container);
@@ -90,7 +90,8 @@ abstract class BasePackagesCompilerPass extends BaseCompilerPass
         $argPackages = $arguments[1];
 
         $packages = array();
-        for ($i = 0; $i < count($argPackages); $i++) {
+        $argCount = count($argPackages);
+        for ($i = 0; $i < $argCount; $i++) {
             $packages[$argPackages[$i]] = $argPackages[++$i];
         }
 

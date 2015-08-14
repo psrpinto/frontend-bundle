@@ -4,6 +4,7 @@ namespace Rj\FrontendBundle\DependencyInjection\ExtensionHelper;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 abstract class BaseExtensionHelper
@@ -96,7 +97,7 @@ abstract class BaseExtensionHelper
         return $this->alias.'.'.$id;
     }
 
-    private function configurePackage($packageName, $package)
+    private function configurePackage($packageName, Definition $package)
     {
         return $package
             ->setPublic(false)
@@ -106,7 +107,7 @@ abstract class BaseExtensionHelper
 
     private function matchPrefixes($prefixes, $flags = null)
     {
-        $result = preg_grep("|^(https?:)?//|", $prefixes, $flags);
+        $result = preg_grep('|^(https?:)?//|', $prefixes, $flags);
 
         return !empty($result);
     }

@@ -21,7 +21,7 @@ class UrlPackage extends BaseUrlPackage
      */
     public function getVersion()
     {
-        return $this->delegate->getVersion();
+        return $this->delegate->getVersion(null);
     }
 
     /**

@@ -8,6 +8,6 @@ abstract class BaseCompilerPass implements CompilerPassInterface
 {
     protected function namespaceService($id)
     {
-        return "rj_frontend.$id";
+        return 'rj_frontend.'.$id;
     }
 }

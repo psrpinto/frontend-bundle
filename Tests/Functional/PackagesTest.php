@@ -110,7 +110,7 @@ class PackagesTest extends BaseTestCase
         $client = $this->createClient($config);
         $router = $this->get('router');
 
-        $crawler = $client->request('GET', $router->generate($route));
+        $client->request('GET', $router->generate($route));
 
         $response = $client->getResponse()->getContent();
         $this->assertEquals($expected, $response);

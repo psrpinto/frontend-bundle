@@ -21,7 +21,7 @@ class PathPackage extends BasePathPackage
      */
     public function getVersion()
     {
-        return $this->delegate->getVersion();
+        return $this->delegate->getVersion(null);
     }
 
     /**
