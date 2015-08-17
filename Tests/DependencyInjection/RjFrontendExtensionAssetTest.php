@@ -16,7 +16,7 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
 
         $package = $this->container->findDefinition($this->namespaceService('_package.app'));
 
-        $this->assertEquals($package->getParent(), 'assets.path_package');
+        $this->assertEquals($package->getParent(), $this->namespaceService('asset.package.path'));
         $this->assertEquals($package->getArgument(0), 'foo');
         $this->assertEquals($package->getArgument(1), $this->namespaceService('_package.app.version_strategy_asset'));
 
@@ -34,7 +34,7 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
 
         $package = $this->container->findDefinition($this->namespaceService('_package.app'));
 
-        $this->assertEquals($package->getParent(), 'assets.url_package');
+        $this->assertEquals($package->getParent(), $this->namespaceService('asset.package.url'));
         $this->assertEquals($package->getArgument(0), array('http://foo'));
         $this->assertEquals($package->getArgument(1), $this->namespaceService('_package.app.version_strategy_asset'));
 
