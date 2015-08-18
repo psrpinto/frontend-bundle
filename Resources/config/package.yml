@@ -1,0 +1,4 @@
+services:
+    rj_frontend.package.fallback:
+        class: Rj\FrontendBundle\Package\FallbackPackage
+        public: false

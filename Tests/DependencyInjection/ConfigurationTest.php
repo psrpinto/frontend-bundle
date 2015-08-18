@@ -21,6 +21,13 @@ class ConfigurationTest extends AbstractConfigurationTestCase
         );
     }
 
+    public function testDefaultFallbackPatterns()
+    {
+        $expected = array('fallback_patterns' => array('.*bundles\/.*'));
+
+        $this->assertConfigurationEquals(array(), $expected, 'fallback_patterns');
+    }
+
     public function testPackageManifestIsDisabledByDefault()
     {
         $config = $this->getDefaultPackageConfig();

@@ -22,11 +22,23 @@ class RjFrontendExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/'));
         $loader->load('version_strategy.yml');
         $loader->load('manifest.yml');
+        $loader->load('package.yml');
+
+        if ($config['livereload']['enabled']) {
+            $loader->load('livereload.yml');
+            $container->getDefinition($this->namespaceService('livereload.listener'))
+                ->addArgument($config['livereload']['url']);
+        }
 
         $helper = Util::hasAssetComponent()
             ? new AssetExtensionHelper($this->getAlias(), $container, $loader)
             : new TemplatingExtensionHelper($this->getAlias(), $container, $loader)
         ;
+
+        $container->setDefinition(
+            $this->namespaceService('package.fallback'),
+            $helper->createFallbackPackage($config['fallback_patterns'])
+        );
 
         foreach ($config['packages'] as $name => $packageConfig) {
             $prefixes = $packageConfig['prefixes'];
@@ -47,12 +59,6 @@ class RjFrontendExtension extends Extension
             ;
 
             $container->setDefinition($helper->getPackageId($name), $package);
-        }
-
-        if ($config['livereload']['enabled']) {
-            $loader->load('livereload.yml');
-            $container->getDefinition($this->namespaceService('livereload.listener'))
-                ->addArgument($config['livereload']['url']);
         }
     }
 

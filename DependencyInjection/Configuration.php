@@ -12,47 +12,41 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-
-        return $treeBuilder
-            ->root('rj_frontend', 'array')
-                ->children()
-                    ->append($this->addLivereloadSection())
-                    ->arrayNode('packages')
-                        ->useAttributeAsKey('name')
-                        ->prototype('array')
-                            ->children()
-                                ->append($this->addPackagePrefixesSection())
-                                ->append($this->addPackageManifestSection())
-                            ->end()
+        return $this->createRoot('rj_frontend', 'array')
+            ->children()
+                ->arrayNode('fallback_patterns')
+                    ->prototype('scalar')->end()
+                    ->defaultValue(array('.*bundles\/.*'))
+                ->end()
+                ->append($this->addLivereloadSection())
+                ->arrayNode('packages')
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->children()
+                            ->append($this->addPackagePrefixesSection())
+                            ->append($this->addPackageManifestSection())
                         ->end()
                     ->end()
+                ->end()
+            ->end()
+        ->end();
+    }
+
+    private function addLivereloadSection()
+    {
+        return $this->createRoot('livereload')
+            ->canBeEnabled()
+            ->children()
+                ->scalarNode('url')
+                    ->defaultValue('/livereload.js?port=37529')
                 ->end()
             ->end()
         ;
     }
 
-    private function addLivereloadSection()
-    {
-        $builder = new TreeBuilder();
-        $node = $builder->root('livereload');
-
-        $node
-            ->canBeEnabled()
-            ->children()
-                ->scalarNode('url')->defaultValue('/livereload.js?port=37529')->end()
-            ->end()
-        ;
-
-        return $node;
-    }
-
     private function addPackagePrefixesSection()
     {
-        $builder = new TreeBuilder();
-        $node = $builder->root('prefixes');
-
-        $node
+        return $this->createRoot('prefixes')
             ->prototype('scalar')->end()
             ->defaultValue(array(null))
             ->beforeNormalization()
@@ -60,16 +54,11 @@ class Configuration implements ConfigurationInterface
                 ->then(function ($v) { return array($v); })
             ->end()
         ;
-
-        return $node;
     }
 
     private function addPackageManifestSection()
     {
-        $builder = new TreeBuilder();
-        $node = $builder->root('manifest');
-
-        $node
+        return $this->createRoot('manifest')
             ->canBeEnabled()
             ->children()
                 ->enumNode('format')
@@ -80,7 +69,16 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('root_key')->defaultNull()->end()
             ->end()
         ;
+    }
 
-        return $node;
+    private function createRoot($root, $type = null)
+    {
+        $treeBuilder = new TreeBuilder();
+
+        if ($type !== null) {
+            return $treeBuilder->root($root, $type);
+        }
+
+        return $treeBuilder->root($root);
     }
 }

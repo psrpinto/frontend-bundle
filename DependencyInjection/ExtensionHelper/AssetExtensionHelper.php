@@ -18,14 +18,19 @@ class AssetExtensionHelper extends BaseExtensionHelper
     protected function createPackage($name, $prefixes, $manifest, $isUrl = false)
     {
         $package = $isUrl
-            ? new DefinitionDecorator('assets.url_package')
-            : new DefinitionDecorator('assets.path_package')
+            ? new DefinitionDecorator($this->namespaceService('asset.package.url'))
+            : new DefinitionDecorator($this->namespaceService('asset.package.path'))
         ;
 
         return $package
-            ->replaceArgument(0, $isUrl ? $prefixes : $prefixes[0])
-            ->replaceArgument(1, $this->createVersionStrategy($name, $manifest))
+            ->addArgument($isUrl ? $prefixes : $prefixes[0])
+            ->addArgument($this->createVersionStrategy($name, $manifest))
         ;
+    }
+
+    protected function getFallbackPackageId()
+    {
+        return $this->namespaceService('asset.package.fallback');
     }
 
     protected function getPackageTag()

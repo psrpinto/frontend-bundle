@@ -91,6 +91,51 @@ class TemplatingCompilerPassTest extends BaseCompilerPassTest
         );
     }
 
+    public function testDefaultPackageIsRegisteredIntoAssets()
+    {
+        $package = new Definition();
+        $package->addTag($this->namespaceService('package.templating'), array('alias' => 'default'));
+        $this->setDefinition('default_service', $package);
+
+        $this->container->removeDefinition('templating.helper.assets');
+        $this->registerPackagesService(array(
+            new Reference('default_package'),
+            array('foo', new Reference('foo_package')),
+        ));
+
+        $this
+            ->registerService($this->namespaceService('package.fallback'), null)
+            ->addArgument(array('foo_pattern'))
+            ->setPublic(false)
+        ;
+
+        $this->compile();
+
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            $this->namespaceService('package.fallback'),
+            0,
+            array('foo_pattern')
+        );
+
+        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+            $this->namespaceService('package.fallback'),
+            'setPackage',
+            array(new Reference('default_service'))
+        );
+
+        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+            $this->namespaceService('package.fallback'),
+            'setFallback',
+            array(new Reference('default_package'))
+        );
+
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            'templating.helper.assets',
+            0,
+            new Reference($this->namespaceService('package.fallback'))
+        );
+    }
+
     public function setUp()
     {
         if (Util::hasAssetComponent()) {
