@@ -14,6 +14,13 @@ class TemplatingExtensionHelper extends BaseExtensionHelper
         $loader->load('templating.yml');
     }
 
+    public function createFallbackPackage($patterns)
+    {
+        return parent::createFallbackPackage($patterns)
+            ->setScope('request')
+        ;
+    }
+
     protected function createPackage($name, $prefixes, $manifest, $isUrl = false)
     {
         $package = $isUrl
@@ -25,6 +32,11 @@ class TemplatingExtensionHelper extends BaseExtensionHelper
             ->addArgument($isUrl ? $prefixes : $prefixes[0])
             ->addArgument($this->createVersionStrategy($name, $manifest))
         ;
+    }
+
+    protected function getFallbackPackageId()
+    {
+        return $this->namespaceService('templating.package.fallback');
     }
 
     protected function getPackageTag()

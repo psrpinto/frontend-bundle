@@ -13,6 +13,7 @@ abstract class BaseExtensionHelper
     protected $container;
 
     abstract protected function createPackage($name, $prefixes, $manifest, $isUrl = false);
+    abstract protected function getFallbackPackageId();
     abstract protected function getPackageTag();
 
     public function __construct($alias, ContainerBuilder $container)
@@ -37,6 +38,16 @@ abstract class BaseExtensionHelper
         );
     }
 
+    public function createFallbackPackage($patterns)
+    {
+        $package = new DefinitionDecorator($this->getFallbackPackageId());
+
+        return $package
+            ->setPublic(false)
+            ->addArgument($patterns)
+        ;
+    }
+
     public function getPackageId($name)
     {
         return $this->namespaceService("_package.$name");
@@ -44,12 +55,12 @@ abstract class BaseExtensionHelper
 
     public function hasUrlPrefix($prefixes)
     {
-        return $this->matchPrefixes($prefixes);
+        return $this->isUrl($prefixes);
     }
 
     public function hasPathPrefix($prefixes)
     {
-        return $this->matchPrefixes($prefixes, PREG_GREP_INVERT);
+        return $this->isUrl($prefixes, $negate = true);
     }
 
     protected function createVersionStrategy($packageName, $manifest)
@@ -105,9 +116,9 @@ abstract class BaseExtensionHelper
         ;
     }
 
-    private function matchPrefixes($prefixes, $flags = null)
+    private function isUrl($prefixes, $negate = false)
     {
-        $result = preg_grep('|^(https?:)?//|', $prefixes, $flags);
+        $result = preg_grep('|^(https?:)?//|', $prefixes, $negate ? PREG_GREP_INVERT : null);
 
         return !empty($result);
     }

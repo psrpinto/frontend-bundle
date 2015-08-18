@@ -7,6 +7,10 @@ services:
         class: Rj\FrontendBundle\Asset\UrlPackage
         public: false
 
+    rj_frontend.asset.package.fallback:
+        class: Rj\FrontendBundle\Asset\FallbackPackage
+        public: false
+
     rj_frontend.asset.version_strategy:
         class: Rj\FrontendBundle\Asset\VersionStrategy
         public: false

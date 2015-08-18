@@ -29,6 +29,20 @@ class PackagesTest extends BaseTestCase
     /**
      * @runInSeparateProcess
      */
+    public function testFallbackPackage()
+    {
+        $this->doTest('packages_fallback', '/bundles/foo.css', array(
+            'packages' => array(
+                'default' => array(
+                    'prefixes' => 'foo',
+                ),
+            ),
+        ));
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
     public function testPathPackage()
     {
         $this->doTest('packages_custom', '/css/foo.css', array(

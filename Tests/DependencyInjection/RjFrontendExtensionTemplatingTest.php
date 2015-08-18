@@ -70,6 +70,17 @@ class RjFrontendExtensionTemplatingTest extends RjFrontendExtensionBaseTest
         $this->assertEquals('app', $tag['alias']);
     }
 
+    public function testFallbackPackageIsRegistered()
+    {
+        $this->load();
+
+        $package = $this->container->findDefinition($this->namespaceService('package.fallback'));
+
+        $this->assertEquals($package->getParent(), $this->namespaceService('templating.package.fallback'));
+        $this->assertFalse($package->isPublic());
+        $this->assertEquals($package->getArgument(0), array('.*bundles\/.*'));
+    }
+
     protected function setUp()
     {
         if (Util::hasAssetComponent()) {

@@ -67,11 +67,15 @@ abstract class BasePackagesCompilerPass extends BaseCompilerPass
     protected function setDefaultPackage($id, $container)
     {
         $packagesService = $this->getPackagesService($container);
+        $defaultPackage = $this->getRegisteredDefaultPackage($container);
+        $fallbackPackageId = $this->namespaceService('package.fallback');
 
-        $packagesService->addMethodCall(
-            'setDefaultPackage',
-            array(new Reference($id))
-        );
+        $container->getDefinition($fallbackPackageId)
+            ->addMethodCall('setPackage', array(new Reference($id)))
+            ->addMethodCall('setFallback', array($defaultPackage))
+        ;
+
+        $packagesService->replaceArgument(0, new Reference($fallbackPackageId));
     }
 
     /**
@@ -96,5 +100,16 @@ abstract class BasePackagesCompilerPass extends BaseCompilerPass
         }
 
         return $packages;
+    }
+
+    protected function getRegisteredDefaultPackage($container)
+    {
+        $arguments = $this->getPackagesService($container)->getArguments();
+
+        if (!isset($arguments[0])) {
+            return;
+        }
+
+        return $arguments[0];
     }
 }

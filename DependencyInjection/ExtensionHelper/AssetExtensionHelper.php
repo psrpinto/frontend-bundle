@@ -28,6 +28,11 @@ class AssetExtensionHelper extends BaseExtensionHelper
         ;
     }
 
+    protected function getFallbackPackageId()
+    {
+        return $this->namespaceService('asset.package.fallback');
+    }
+
     protected function getPackageTag()
     {
         return $this->namespaceService('package.asset');
