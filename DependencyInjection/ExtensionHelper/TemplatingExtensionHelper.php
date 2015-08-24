@@ -14,33 +14,28 @@ class TemplatingExtensionHelper extends BaseExtensionHelper
         $loader->load('templating.yml');
     }
 
-    public function createFallbackPackage($patterns)
+    public function getPackageTag()
     {
-        return parent::createFallbackPackage($patterns)
+        return $this->namespaceService('package.templating');
+    }
+
+    public function createFallbackPackage($patterns, $customDefaultPackage)
+    {
+        return parent::createFallbackPackage($patterns, $customDefaultPackage)
             ->setScope('request')
         ;
     }
 
-    protected function createPackage($name, $prefixes, $manifest, $isUrl = false)
+    protected function getPackageDefinition($isUrl)
     {
-        $package = $isUrl
+        return $isUrl
             ? new DefinitionDecorator($this->namespaceService('templating.package.url'))
             : new DefinitionDecorator($this->namespaceService('templating.package.path'))
         ;
-
-        return $package
-            ->addArgument($isUrl ? $prefixes : $prefixes[0])
-            ->addArgument($this->createVersionStrategy($name, $manifest))
-        ;
     }
 
-    protected function getFallbackPackageId()
+    protected function getFallbackPackageDefinition()
     {
-        return $this->namespaceService('templating.package.fallback');
-    }
-
-    protected function getPackageTag()
-    {
-        return $this->namespaceService('package.templating');
+        return new DefinitionDecorator($this->namespaceService('templating.package.fallback'));
     }
 }
