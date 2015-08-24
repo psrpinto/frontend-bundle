@@ -15,27 +15,22 @@ class AssetExtensionHelper extends BaseExtensionHelper
         $loader->load('asset.yml');
     }
 
-    protected function createPackage($name, $prefixes, $manifest, $isUrl = false)
+    public function getPackageTag()
     {
-        $package = $isUrl
+        return $this->namespaceService('package.asset');
+    }
+
+    protected function getPackageDefinition($isUrl)
+    {
+        return $isUrl
             ? new DefinitionDecorator($this->namespaceService('asset.package.url'))
             : new DefinitionDecorator($this->namespaceService('asset.package.path'))
         ;
-
-        return $package
-            ->addArgument($isUrl ? $prefixes : $prefixes[0])
-            ->addArgument($this->createVersionStrategy($name, $manifest))
-        ;
     }
 
-    protected function getFallbackPackageId()
+    protected function getFallbackPackageDefinition()
     {
-        return $this->namespaceService('asset.package.fallback');
-    }
-
-    protected function getPackageTag()
-    {
-        return $this->namespaceService('package.asset');
+        return new DefinitionDecorator($this->namespaceService('asset.package.fallback'));
     }
 
     protected function createEmptyVersionStrategy($packageName)

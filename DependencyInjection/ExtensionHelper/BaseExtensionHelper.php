@@ -2,9 +2,9 @@
 
 namespace Rj\FrontendBundle\DependencyInjection\ExtensionHelper;
 
+use Rj\FrontendBundle\Util\Util;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 abstract class BaseExtensionHelper
@@ -12,9 +12,9 @@ abstract class BaseExtensionHelper
     private $alias;
     protected $container;
 
-    abstract protected function createPackage($name, $prefixes, $manifest, $isUrl = false);
-    abstract protected function getFallbackPackageId();
-    abstract protected function getPackageTag();
+    abstract public function getPackageTag();
+    abstract protected function getPackageDefinition($isUrl);
+    abstract protected function getFallbackPackageDefinition();
 
     public function __construct($alias, ContainerBuilder $container)
     {
@@ -22,45 +22,30 @@ abstract class BaseExtensionHelper
         $this->container = $container;
     }
 
-    public function createPathPackage($name, $config)
+    public function createPackage($name, $config)
     {
-        return $this->configurePackage(
-            $name,
-            $this->createPackage($name, $config['prefixes'], $config['manifest'])
-        );
+        $prefixes = $config['prefix'];
+        $isUrl = Util::containsUrl($prefixes);
+
+        return $this->getPackageDefinition($isUrl)
+            ->addArgument($isUrl ? $prefixes : $prefixes[0])
+            ->addArgument($this->createVersionStrategy($name, $config['manifest']))
+            ->setPublic(false)
+        ;
     }
 
-    public function createUrlPackage($name, $config)
+    public function createFallbackPackage($patterns, $customDefaultPackage)
     {
-        return $this->configurePackage(
-            $name,
-            $this->createPackage($name, $config['prefixes'], $config['manifest'], true)
-        );
-    }
-
-    public function createFallbackPackage($patterns)
-    {
-        $package = new DefinitionDecorator($this->getFallbackPackageId());
-
-        return $package
+        return $this->getFallbackPackageDefinition()
             ->setPublic(false)
             ->addArgument($patterns)
+            ->addArgument($customDefaultPackage)
         ;
     }
 
     public function getPackageId($name)
     {
         return $this->namespaceService("_package.$name");
-    }
-
-    public function hasUrlPrefix($prefixes)
-    {
-        return $this->isUrl($prefixes);
-    }
-
-    public function hasPathPrefix($prefixes)
-    {
-        return $this->isUrl($prefixes, $negate = true);
     }
 
     protected function createVersionStrategy($packageName, $manifest)
@@ -106,20 +91,5 @@ abstract class BaseExtensionHelper
     protected function namespaceService($id)
     {
         return $this->alias.'.'.$id;
-    }
-
-    private function configurePackage($packageName, Definition $package)
-    {
-        return $package
-            ->setPublic(false)
-            ->addTag($this->getPackageTag(), array('alias' => $packageName))
-        ;
-    }
-
-    private function isUrl($prefixes, $negate = false)
-    {
-        $result = preg_grep('|^(https?:)?//|', $prefixes, $negate ? PREG_GREP_INVERT : null);
-
-        return !empty($result);
     }
 }

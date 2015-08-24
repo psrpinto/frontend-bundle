@@ -8,13 +8,13 @@
         </testsuite>
     </testsuites>
     <filter>
-        <blacklist>
-            <!-- Exclude from code coverage -->
-            <directory>./vendor</directory>
-            <directory>./Tests</directory>
-            <file>/tmp/rj_frontend/FunctionalTestDebugProjectContainer.php</file>
-            <file>/tmp/rj_frontend/FunctionalTestUrlGenerator.php</file>
-            <file>/tmp/rj_frontend/FunctionalTestUrlMatcher.php</file>
-        </blacklist>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./</directory>
+            <exclude>
+                <directory>./vendor</directory>
+                <directory>./Tests</directory>
+                <directory>./Asset</directory>
+            </exclude>
+        </whitelist>
     </filter>
 </phpunit>
