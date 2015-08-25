@@ -13,7 +13,6 @@ abstract class BasePackagesCompilerPass extends BaseCompilerPass
 
     public function process(ContainerBuilder $container)
     {
-        $defaultPackage = null;
         $packages = array();
         $registeredPackages = $this->getRegisteredPackages($container);
 
@@ -38,18 +37,14 @@ abstract class BasePackagesCompilerPass extends BaseCompilerPass
                 );
             }
 
-            if ($packageName === 'default') {
-                $defaultPackage = $id;
-            } else {
-                $packages[$packageName] = $id;
-            }
-        }
-
-        if ($defaultPackage !== null) {
-            $this->setDefaultPackage($defaultPackage, $container);
+            $packages[$packageName] = $id;
         }
 
         $this->addPackages($packages, $container);
+
+        if ($container->hasDefinition($this->namespaceService('package.fallback'))) {
+            $this->setDefaultPackage($container);
+        }
     }
 
     protected function addPackages($packages, $container)
@@ -64,14 +59,13 @@ abstract class BasePackagesCompilerPass extends BaseCompilerPass
         }
     }
 
-    protected function setDefaultPackage($id, $container)
+    protected function setDefaultPackage($container)
     {
         $packagesService = $this->getPackagesService($container);
         $defaultPackage = $this->getRegisteredDefaultPackage($container);
         $fallbackPackageId = $this->namespaceService('package.fallback');
 
         $container->getDefinition($fallbackPackageId)
-            ->addMethodCall('setPackage', array(new Reference($id)))
             ->addMethodCall('setFallback', array($defaultPackage))
         ;
 

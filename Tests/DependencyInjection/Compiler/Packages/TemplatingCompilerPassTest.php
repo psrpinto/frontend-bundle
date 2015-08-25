@@ -119,12 +119,6 @@ class TemplatingCompilerPassTest extends BaseCompilerPassTest
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             $this->namespaceService('package.fallback'),
-            'setPackage',
-            array(new Reference('default_service'))
-        );
-
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            $this->namespaceService('package.fallback'),
             'setFallback',
             array(new Reference('default_package'))
         );

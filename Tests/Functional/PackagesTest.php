@@ -7,9 +7,11 @@ class PackagesTest extends BaseTestCase
     /**
      * @runInSeparateProcess
      */
-    public function testBundleDisabled()
+    public function testDontOverrideDefaultPackage()
     {
-        $this->doTest('packages_default', '/css/foo.css');
+        $this->doTest('packages_default', '/css/foo.css', array(
+            'override_default_package' => false,
+        ));
     }
 
     /**
@@ -18,12 +20,30 @@ class PackagesTest extends BaseTestCase
     public function testDefaultPackage()
     {
         $this->doTest('packages_default', '/foo/css/foo.css', array(
-            'packages' => array(
-                'default' => array(
-                    'prefixes' => 'foo',
-                ),
+            'prefix' => 'foo',
+        ));
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testDefaultPackageWithManifest()
+    {
+        $manifest = tempnam('/tmp', '');
+
+        file_put_contents($manifest, json_encode(array(
+            'css/foo.css' => 'css/foo-123.css',
+        )));
+
+        $this->doTest('packages_default', '/app_prefix/css/foo-123.css', array(
+            'prefix' => 'app_prefix',
+            'manifest' => array(
+                'enabled' => true,
+                'path' => $manifest,
             ),
         ));
+
+        unlink($manifest);
     }
 
     /**
@@ -32,11 +52,7 @@ class PackagesTest extends BaseTestCase
     public function testFallbackPackage()
     {
         $this->doTest('packages_fallback', '/bundles/foo.css', array(
-            'packages' => array(
-                'default' => array(
-                    'prefixes' => 'foo',
-                ),
-            ),
+            'prefix' => 'foo',
         ));
     }
 
@@ -45,9 +61,11 @@ class PackagesTest extends BaseTestCase
      */
     public function testPathPackage()
     {
-        $this->doTest('packages_custom', '/css/foo.css', array(
+        $this->doTest('packages_custom', '/app_prefix/css/foo.css', array(
             'packages' => array(
-                'app' => array(),
+                'app' => array(
+                    'prefix' => 'app_prefix',
+                ),
             ),
         ));
     }
@@ -60,7 +78,7 @@ class PackagesTest extends BaseTestCase
         $this->doTest('packages_custom', 'http://foo/css/foo.css', array(
             'packages' => array(
                 'app' => array(
-                    'prefixes' => 'http://foo',
+                    'prefix' => 'http://foo',
                 ),
             ),
         ));
@@ -74,7 +92,7 @@ class PackagesTest extends BaseTestCase
         $this->doTest('packages_custom', 'https://foo/css/foo.css', array(
             'packages' => array(
                 'app' => array(
-                    'prefixes' => 'https://foo',
+                    'prefix' => 'https://foo',
                 ),
             ),
         ));
@@ -88,7 +106,7 @@ class PackagesTest extends BaseTestCase
         $this->doTest('packages_custom', '//foo/css/foo.css', array(
             'packages' => array(
                 'app' => array(
-                    'prefixes' => '//foo',
+                    'prefix' => '//foo',
                 ),
             ),
         ));
@@ -105,9 +123,10 @@ class PackagesTest extends BaseTestCase
             'css/foo.css' => 'css/foo-123.css',
         )));
 
-        $this->doTest('packages_custom', '/css/foo-123.css', array(
+        $this->doTest('packages_custom', '/app_prefix/css/foo-123.css', array(
             'packages' => array(
                 'app' => array(
+                    'prefix' => 'app_prefix',
                     'manifest' => array(
                         'enabled' => true,
                         'path' => $manifest,

@@ -34,7 +34,11 @@ class RjFrontendExtensionTest extends RjFrontendExtensionBaseTest
 
     public function testPackageIsRegisteredAndPrivate()
     {
-        $this->load(array('packages' => array('foo' => array())));
+        $this->load(array('packages' => array(
+            'foo' => array(
+                'prefix' => 'foo_prefix',
+            ),
+        )));
 
         $this->assertContainerBuilderHasService($this->namespaceService('_package.foo'));
         $this->assertFalse($this->container->findDefinition($this->namespaceService('_package.foo'))->isPublic());

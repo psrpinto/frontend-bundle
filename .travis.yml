@@ -1,5 +1,9 @@
 language: php
 
+branches:
+  only:
+    - master
+
 php:
     - 5.3
     - 5.4
@@ -37,9 +41,6 @@ matrix:
 install:
   - composer self-update
   - composer require symfony/framework-bundle:${SYMFONY_VERSION} --prefer-dist
-
-script:
-  - phpunit
 
 script: ./.travis.script.sh
 after_script: ./.travis.after_script.sh

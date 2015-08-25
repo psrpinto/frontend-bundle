@@ -7,7 +7,7 @@ use Rj\FrontendBundle\Package\FallbackPackage;
 
 class FallbackPackageTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetVersio()
+    public function testGetVersion()
     {
         $this->package
             ->method('getVersion')
@@ -59,12 +59,12 @@ class FallbackPackageTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
 
-        $this->fallbackPackage = new FallbackPackage(array(
-            'must_fallback\/',
-        ));
+        $this->fallbackPackage = new FallbackPackage(
+            array('must_fallback\/'),
+            $this->package
+        );
 
         $this->fallbackPackage
-            ->setPackage($this->package)
             ->setFallback($this->default)
         ;
     }
