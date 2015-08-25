@@ -99,5 +99,7 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
         }
 
         parent::setup();
+
+        $this->container->setParameter('kernel.root_dir', 'root_dir');
     }
 }

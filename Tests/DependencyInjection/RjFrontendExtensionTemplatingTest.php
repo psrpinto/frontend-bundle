@@ -88,5 +88,7 @@ class RjFrontendExtensionTemplatingTest extends RjFrontendExtensionBaseTest
         }
 
         parent::setup();
+
+        $this->container->setParameter('kernel.root_dir', 'root_dir');
     }
 }

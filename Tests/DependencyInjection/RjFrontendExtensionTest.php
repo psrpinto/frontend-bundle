@@ -43,4 +43,11 @@ class RjFrontendExtensionTest extends RjFrontendExtensionBaseTest
         $this->assertContainerBuilderHasService($this->namespaceService('_package.foo'));
         $this->assertFalse($this->container->findDefinition($this->namespaceService('_package.foo'))->isPublic());
     }
+
+    protected function setUp()
+    {
+        parent::setup();
+
+        $this->container->setParameter('kernel.root_dir', 'root_dir');
+    }
 }

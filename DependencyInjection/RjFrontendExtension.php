@@ -18,7 +18,8 @@ class RjFrontendExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $config = $this->processConfiguration(new Configuration(), $configs);
+        $configuration = $this->getConfiguration(array(), $container);
+        $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/'));
         $loader->load('version_strategy.yml');

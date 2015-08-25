@@ -1,6 +1,6 @@
 <?php
 
-namespace Rj\FrontendBundle\Tests\Functional;
+namespace Rj\FrontendBundle\Tests\Functional\TestApp\app;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
@@ -21,7 +21,7 @@ class AppKernel extends Kernel
         return array(
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new \Rj\FrontendBundle\RjFrontendBundle(),
-            new \Rj\FrontendBundle\Tests\Functional\TestBundle\TestBundle(),
+            new \Rj\FrontendBundle\Tests\Functional\TestApp\TestBundle\TestBundle(),
         );
     }
 
