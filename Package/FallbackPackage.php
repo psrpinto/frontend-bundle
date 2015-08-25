@@ -8,16 +8,10 @@ class FallbackPackage
     private $package;
     private $fallback;
 
-    public function __construct($patterns = array())
+    public function __construct($patterns = array(), $package)
     {
         $this->patterns = $patterns;
-    }
-
-    public function setPackage($package)
-    {
         $this->package = $package;
-
-        return $this;
     }
 
     public function setFallback($fallback)

@@ -10,7 +10,7 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
     {
         $this->load(array('packages' => array(
             'app' => array(
-                'prefixes' => 'foo',
+                'prefix' => 'foo',
             ),
         )));
 
@@ -29,7 +29,7 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
     {
         $this->load(array('packages' => array(
             'app' => array(
-                'prefixes' => 'http://foo',
+                'prefix' => 'http://foo',
             ),
         )));
 
@@ -48,7 +48,7 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
     {
         $this->load(array('packages' => array(
             'app' => array(
-                'prefixes' => 'foo',
+                'prefix' => 'foo',
                 'manifest' => array(
                     'path' => 'foo',
                 ),
@@ -67,7 +67,7 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
     {
         $this->load(array('packages' => array(
             'app' => array(
-                'prefixes' => 'foo',
+                'prefix' => 'foo',
             ),
         )));
 
