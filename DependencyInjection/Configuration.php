@@ -12,11 +12,7 @@ class Configuration implements ConfigurationInterface
 
     private $kernelRootDir;
 
-    /**
-     * @param string $kernelRootDir Set a default value so that the
-     *                              config:dump-reference command works
-     */
-    public function __construct($kernelRootDir = 'root_dir')
+    public function __construct($kernelRootDir)
     {
         $this->kernelRootDir = $kernelRootDir;
     }

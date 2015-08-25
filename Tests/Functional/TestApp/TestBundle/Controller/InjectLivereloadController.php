@@ -1,6 +1,6 @@
 <?php
 
-namespace Rj\FrontendBundle\Tests\Functional\TestBundle\Controller;
+namespace Rj\FrontendBundle\Tests\Functional\TestApp\TestBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;

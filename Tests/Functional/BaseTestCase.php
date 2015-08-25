@@ -2,6 +2,7 @@
 
 namespace Rj\FrontendBundle\Tests\Functional;
 
+use Rj\FrontendBundle\Tests\Functional\TestApp\app\AppKernel;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

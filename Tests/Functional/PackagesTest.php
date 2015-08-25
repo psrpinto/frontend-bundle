@@ -49,6 +49,20 @@ class PackagesTest extends BaseTestCase
     /**
      * @runInSeparateProcess
      */
+    public function testDefaultPackageWithManifestWithInferredPath()
+    {
+        // it uses the manifest file in TestApp/web/assets/manifest.json
+
+        $this->doTest('packages_default', '/assets/css/foo-123.css', array(
+            'manifest' => array(
+                'enabled' => true,
+            ),
+        ));
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
     public function testFallbackPackage()
     {
         $this->doTest('packages_fallback', '/bundles/foo.css', array(
