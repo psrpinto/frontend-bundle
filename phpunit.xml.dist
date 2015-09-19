@@ -4,7 +4,7 @@
     <testsuites>
         <testsuite name="FrontendBundle Test Suite">
             <directory>./Tests</directory>
-            <exclude>./Tests/Functional/TestBundle</exclude>
+            <exclude>./Tests/Functional/TestApp</exclude>
         </testsuite>
     </testsuites>
     <filter>
@@ -13,6 +13,7 @@
             <exclude>
                 <directory>./vendor</directory>
                 <directory>./Tests</directory>
+                <directory>./Resources</directory>
                 <directory>./Asset</directory>
             </exclude>
         </whitelist>

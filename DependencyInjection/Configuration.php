@@ -144,7 +144,7 @@ class Configuration implements ConfigurationInterface
      * represents the path to the manifest file.
      *
      * This method is public because of the inability to use $this in closures
-     * in PHP 5.3
+     * in PHP 5.3.
      *
      * @param  array   $config
      * @return boolean
@@ -186,7 +186,7 @@ class Configuration implements ConfigurationInterface
             $config['manifest'] = array('enabled' => true);
         }
 
-        $config['manifest']['path'] = implode(DIRECTORY_SEPARATOR, array(
+        $config['manifest']['path'] = implode('/', array(
             $this->kernelRootDir,
             '..',
             'web',

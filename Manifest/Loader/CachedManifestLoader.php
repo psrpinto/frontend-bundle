@@ -13,7 +13,7 @@ class CachedManifestLoader implements ManifestLoaderInterface
 
     public function __construct($cacheDir, $debug, ManifestLoaderInterface $loader)
     {
-        $cachePath = $cacheDir.DIRECTORY_SEPARATOR.hash('sha1', $loader->getPath()).'.php.cache';
+        $cachePath = $cacheDir.'/'.hash('sha1', $loader->getPath()).'.php.cache';
 
         $this->cache = new ConfigCache($cachePath, $debug);
         $this->loader = $loader;

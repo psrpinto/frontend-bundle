@@ -2,9 +2,9 @@
 
 namespace Rj\FrontendBundle\Asset;
 
-use Symfony\Component\Asset\UrlPackage as BaseUrlPathPackage;
+use Symfony\Component\Asset\UrlPackage as BaseUrlPackage;
 
-class UrlPackage extends BaseUrlPathPackage
+class UrlPackage extends BaseUrlPackage
 {
     public function __construct($baseUrls, VersionStrategy $versionStrategy)
     {
