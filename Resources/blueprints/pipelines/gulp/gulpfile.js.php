@@ -288,8 +288,11 @@ var getUrlPrefix = function() {
  * it throws if the bower_components/ directory does not exist.
  */
 var bower = function() {
-  return require('gulp-main-bower-files')(function(error) {
-    if (!error.toString().match(/^Error: Bower components directory does not exist/)) {
+  return require('gulp-main-bower-files')({
+    bowerJson: config.vendor.bowerFile,
+    bowerDirectory: config.vendor.bowerComponents
+  }, function(error) {
+    if (error && !error.toString().match(/^Error: Bower components directory does not exist/)) {
       util.log(error);
     }
   });
