@@ -218,7 +218,7 @@ gulp.task('watch', ['build'], function() {
 
   watch(config.sources.images, 'images');
   watch(config.sources.stylesheets, 'stylesheets');
-  watch(config.sources.scripts), 'scripts';
+  watch(config.sources.scripts, 'scripts');
 
   watch(config.vendor.bowerFile, 'vendor');
   watch(config.vendor.bowerComponents + '/**/*.js', 'vendor:scripts');
