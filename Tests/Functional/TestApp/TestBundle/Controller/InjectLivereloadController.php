@@ -11,9 +11,4 @@ class InjectLivereloadController extends Controller
     {
         return new Response('foo</body>');
     }
-
-    public function notInjectAction()
-    {
-        return new Response('foo');
-    }
 }

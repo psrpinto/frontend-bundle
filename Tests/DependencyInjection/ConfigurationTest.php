@@ -7,13 +7,13 @@ use Matthias\SymfonyConfigTest\PhpUnit\AbstractConfigurationTestCase;
 
 class ConfigurationTest extends AbstractConfigurationTestCase
 {
-    public function testLivereloadIsDisabledByDefault()
+    public function testLivereloadIsEnabledByDefault()
     {
         $this->assertConfigurationEquals(
             array(),
             array(
                 'livereload' => array(
-                    'enabled' => false,
+                    'enabled' => true,
                     'url' => '//localhost:35729/livereload.js',
                 ),
             ),
@@ -63,7 +63,7 @@ class ConfigurationTest extends AbstractConfigurationTestCase
             'override_default_package' => true,
             'fallback_patterns' => array('.*bundles\/.*'),
             'livereload' => array(
-                'enabled' => false,
+                'enabled' => true,
                 'url' => '//localhost:35729/livereload.js',
             ),
             'prefix' => array('foo'),

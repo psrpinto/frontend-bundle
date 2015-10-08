@@ -4,7 +4,7 @@ namespace Rj\FrontendBundle\Tests\DependencyInjection;
 
 class RjFrontendExtensionTest extends RjFrontendExtensionBaseTest
 {
-    public function testLivereloadListenerIsRegistered()
+    public function testInjectLivereloadListenerIsRegistered()
     {
         $this->load(array(
             'livereload' => array(
@@ -15,7 +15,7 @@ class RjFrontendExtensionTest extends RjFrontendExtensionBaseTest
 
         $this->assertContainerBuilderHasService(
             $this->namespaceService('livereload.listener'),
-            'Rj\FrontendBundle\EventListener\LiveReloadListener'
+            'Rj\FrontendBundle\EventListener\InjectLiveReloadListener'
         );
 
         $this->assertContainerBuilderHasServiceDefinitionWithArgument(
@@ -25,7 +25,7 @@ class RjFrontendExtensionTest extends RjFrontendExtensionBaseTest
         );
     }
 
-    public function testLivereloadListenerIsNotRegistered()
+    public function testInjectLivereloadListenerIsNotRegistered()
     {
         $this->load(array('livereload' => false));
 

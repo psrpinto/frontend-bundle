@@ -62,6 +62,7 @@ If you decide to use this bundle, please consider opening issues if:
 * [Referencing assets](#referencing-assets)
 * [Using Bower](#using-bower)
 * [Deployment](#deployment)
+* [Livereload](#livereload)
 
 # Setup
 ## Installation
@@ -110,31 +111,6 @@ rj_frontend:
 ```
 
 For information on why this is needed see [Overriding the default package](#overriding-the-default-asset-package).
-
-## Enabling Livereload
-Enabling Livereload is as simple as:
-```yml
-# app/config/config_dev.yml
-rj_frontend:
-    livereload: true
-```
-> Make sure you enable Livereload only when in development by adding the configuration to `app/config/config_dev.yml`.
-
-With Livereload enabled, all the requests that return an HTML response with a closing `body` tag will have the following injected into the HTML, right before `</body>`:
-
-```html
-<script src="//localhost:35729/livereload.js"></script>
-```
-
-If, for some reason, you need to change the URL, you can do so with the following configuration:
-
-```yml
-# app/config/config_dev.yml
-rj_frontend:
-    livereload:
-        enabled: true
-        url: //example.com:1234/livereload.js
-```
 
 ## Setting up the asset pipeline
 A console command is provided that allows you to generate a `gulpfile.js` tailored for your project. The command will ask you a set of questions (Where are your source assets? Where should the compiled assets be placed? Which CSS pre-processor you wish to use? Etc.) and use your answers to generate the `gulpfile.js`.
@@ -561,6 +537,31 @@ var config = {
   urlPrefix: '//cdn.example.com',
   ...
 };
+```
+
+# Livereload
+> Livereload is enabled by default in development and disabled in production.
+
+With Livereload enabled, all the requests that return a response with a closing `body` tag will have the following injected into the HTML, right before `</body>`:
+```html
+<script src="//localhost:35729/livereload.js"></script>
+```
+
+If, for some reason, you need to change the URL, you can do so with the following configuration:
+```yml
+# app/config/config_dev.yml
+rj_frontend:
+    livereload:
+        url: //example.com:1234/livereload.js
+```
+
+> Note that the configuration should be added to `app/config/config_dev.yml` since it does not apply in other environments.
+
+If you wish to not have the livereload script injected, you can do so with the following configuration:
+```yml
+# app/config/config_dev.yml
+rj_frontend:
+    livereload: false
 ```
 
 # Overriding the default asset package

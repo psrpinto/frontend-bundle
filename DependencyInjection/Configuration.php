@@ -72,7 +72,7 @@ class Configuration implements ConfigurationInterface
     private function addLivereloadSection()
     {
         return $this->createRoot('livereload')
-            ->canBeEnabled()
+            ->canBeDisabled()
             ->children()
                 ->scalarNode('url')
                     ->defaultValue('//localhost:35729/livereload.js')

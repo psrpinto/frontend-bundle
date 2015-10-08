@@ -2,10 +2,6 @@ livereload_inject:
     pattern:  /livereload/inject
     defaults: { _controller: TestBundle:InjectLivereload:inject }
 
-livereload_not_inject:
-    pattern:  /livereload/not_inject
-    defaults: { _controller: TestBundle:InjectLivereload:notInject }
-
 packages_custom:
     pattern:  /packages/custom
     defaults: { _controller: TestBundle:Packages:custom }
