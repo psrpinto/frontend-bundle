@@ -4,6 +4,7 @@ namespace Rj\FrontendBundle\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class InjectLiveReloadListener implements EventSubscriberInterface
@@ -42,7 +43,7 @@ class InjectLiveReloadListener implements EventSubscriberInterface
 
     private function shouldInject($event)
     {
-        if (!$event->isMasterRequest()) {
+        if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
             return false;
         }
 
