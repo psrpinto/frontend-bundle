@@ -62,7 +62,7 @@ matrix:
 
 install:
   - composer self-update
-  - composer require symfony/framework-bundle:${SYMFONY_VERSION} --prefer-dist
+  - composer require --prefer-dist symfony/symfony:${SYMFONY_VERSION}
 
 script: ./.travis.script.sh
 after_script: ./.travis.after_script.sh
