@@ -1,0 +1,3 @@
+services:
+    rj_frontend.console.helper.question_legacy:
+        class: Rj\FrontendBundle\Command\Options\Legacy\QuestionHelper

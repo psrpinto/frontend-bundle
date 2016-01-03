@@ -4,6 +4,7 @@ namespace Rj\FrontendBundle\Tests\Command;
 
 use Rj\FrontendBundle\Command\SetupCommand;
 use Rj\FrontendBundle\Command\InstallCommand;
+use Rj\FrontendBundle\Util\Util;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
@@ -270,6 +271,12 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
         mkdir($this->baseDir);
 
         $application = new Application();
+
+        if (!Util::hasQuestionHelper()) {
+            $helper = new \Rj\FrontendBundle\Command\Options\Legacy\QuestionHelper();
+            $application->getHelperSet()->set($helper, 'question');
+        }
+
         $application->add($this->getInstallCommand());
         $application->add($command = new SetupCommand());
 

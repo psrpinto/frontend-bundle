@@ -15,6 +15,7 @@
                 <directory>./Tests</directory>
                 <directory>./Resources</directory>
                 <directory>./Asset</directory>
+                <directory>./Command/Options/Legacy</directory>
             </exclude>
         </whitelist>
     </filter>

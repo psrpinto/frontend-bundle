@@ -9,6 +9,11 @@ class Util
         return class_exists('Symfony\Component\Asset\Packages');
     }
 
+    public static function hasQuestionHelper()
+    {
+        return class_exists('Symfony\Component\Console\Question\Question');
+    }
+
     public static function containsNotUrl($subject)
     {
         return static::containsUrl($subject, true);
