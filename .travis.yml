@@ -60,9 +60,7 @@ matrix:
     - env: SYMFONY_VERSION=3.0.*
     - env: SYMFONY_VERSION=dev-master
 
-install:
-  - composer self-update
-  - composer require --prefer-dist symfony/symfony:${SYMFONY_VERSION}
-
-script: ./.travis.script.sh
-after_script: ./.travis.after_script.sh
+before_install: ./.travis/before_install.php
+install: ./.travis/install.php
+script: ./.travis/script.php
+after_script: ./.travis/after_script.php
