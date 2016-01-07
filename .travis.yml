@@ -39,13 +39,9 @@ matrix:
       env: SYMFONY_VERSION=2.3.*
     - php: hhvm
       env: SYMFONY_VERSION=2.8.*
-    # current PHP with all Symfony versions
+    # current PHP with all non-EOLed Symfony versions
     - php: 7.0
       env: SYMFONY_VERSION=2.3.*
-    - php: 7.0
-      env: SYMFONY_VERSION=2.4.*
-    - php: 7.0
-      env: SYMFONY_VERSION=2.5.*
     - php: 7.0
       env: SYMFONY_VERSION=2.6.*
     - php: 7.0
