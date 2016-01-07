@@ -19,13 +19,6 @@ class TemplatingExtensionHelper extends BaseExtensionHelper
         return $this->namespaceService('package.templating');
     }
 
-    public function createFallbackPackage($patterns, $customDefaultPackage)
-    {
-        return parent::createFallbackPackage($patterns, $customDefaultPackage)
-            ->setScope('request')
-        ;
-    }
-
     protected function getPackageDefinition($isUrl)
     {
         return $isUrl

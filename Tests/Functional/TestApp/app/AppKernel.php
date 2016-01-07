@@ -29,10 +29,11 @@ class AppKernel extends Kernel
     {
         $loader->load(__DIR__.'/config/config.yml');
 
-        $config = $this->config;
-        $loader->load(function ($container) use ($config) {
-            $container->loadFromExtension('rj_frontend', $config);
-        });
+        foreach ($this->config as $key => $values) {
+            $loader->load(function ($container) use ($key, $values) {
+                $container->loadFromExtension($key, $values);
+            });
+        }
     }
 
     public function getCacheDir()

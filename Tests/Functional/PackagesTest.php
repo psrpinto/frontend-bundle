@@ -10,7 +10,28 @@ class PackagesTest extends BaseTestCase
     public function testDontOverrideDefaultPackage()
     {
         $this->doTest('packages_default', '/css/foo.css', array(
-            'override_default_package' => false,
+            'rj_frontend' => array(
+                'override_default_package' => false,
+            ),
+        ));
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testNoRequestScope()
+    {
+        $this->doTest('packages_default', '/assets/css/foo.css', array(
+            'framework' => array(
+                'templating' => array(
+                    'assets_base_urls' => array(
+                        // when http === ssl, the package service does not have
+                        // the request scope
+                        'http' => array('https://example.com/somethingelse'),
+                        'ssl' => array('https://example.com/somethingelse'),
+                    ),
+                ),
+            ),
         ));
     }
 
@@ -20,7 +41,9 @@ class PackagesTest extends BaseTestCase
     public function testDefaultPackage()
     {
         $this->doTest('packages_default', '/foo/css/foo.css', array(
-            'prefix' => 'foo',
+            'rj_frontend' => array(
+                'prefix' => 'foo',
+            ),
         ));
     }
 
@@ -36,10 +59,12 @@ class PackagesTest extends BaseTestCase
         )));
 
         $this->doTest('packages_default', '/app_prefix/css/foo-123.css', array(
-            'prefix' => 'app_prefix',
-            'manifest' => array(
-                'enabled' => true,
-                'path' => $manifest,
+            'rj_frontend' => array(
+                'prefix' => 'app_prefix',
+                'manifest' => array(
+                    'enabled' => true,
+                    'path' => $manifest,
+                ),
             ),
         ));
 
@@ -54,8 +79,10 @@ class PackagesTest extends BaseTestCase
         // it uses the manifest file in TestApp/web/assets/manifest.json
 
         $this->doTest('packages_default', '/assets/css/foo-123.css', array(
-            'manifest' => array(
-                'enabled' => true,
+            'rj_frontend' => array(
+                'manifest' => array(
+                    'enabled' => true,
+                ),
             ),
         ));
     }
@@ -66,7 +93,9 @@ class PackagesTest extends BaseTestCase
     public function testFallbackPackage()
     {
         $this->doTest('packages_fallback', '/bundles/foo.css', array(
-            'prefix' => 'foo',
+            'rj_frontend' => array(
+                'prefix' => 'foo',
+            ),
         ));
     }
 
@@ -76,9 +105,11 @@ class PackagesTest extends BaseTestCase
     public function testPathPackage()
     {
         $this->doTest('packages_custom', '/app_prefix/css/foo.css', array(
-            'packages' => array(
-                'app' => array(
-                    'prefix' => 'app_prefix',
+            'rj_frontend' => array(
+                'packages' => array(
+                    'app' => array(
+                        'prefix' => 'app_prefix',
+                    ),
                 ),
             ),
         ));
@@ -90,9 +121,11 @@ class PackagesTest extends BaseTestCase
     public function testUrlPackage()
     {
         $this->doTest('packages_custom', 'http://foo/css/foo.css', array(
-            'packages' => array(
-                'app' => array(
-                    'prefix' => 'http://foo',
+            'rj_frontend' => array(
+                'packages' => array(
+                    'app' => array(
+                        'prefix' => 'http://foo',
+                    ),
                 ),
             ),
         ));
@@ -104,9 +137,11 @@ class PackagesTest extends BaseTestCase
     public function testUrlPackageSsl()
     {
         $this->doTest('packages_custom', 'https://foo/css/foo.css', array(
-            'packages' => array(
-                'app' => array(
-                    'prefix' => 'https://foo',
+            'rj_frontend' => array(
+                'packages' => array(
+                    'app' => array(
+                        'prefix' => 'https://foo',
+                    ),
                 ),
             ),
         ));
@@ -118,9 +153,11 @@ class PackagesTest extends BaseTestCase
     public function testUrlPackageNoProtocol()
     {
         $this->doTest('packages_custom', '//foo/css/foo.css', array(
-            'packages' => array(
-                'app' => array(
-                    'prefix' => '//foo',
+            'rj_frontend' => array(
+                'packages' => array(
+                    'app' => array(
+                        'prefix' => '//foo',
+                    ),
                 ),
             ),
         ));
@@ -138,12 +175,14 @@ class PackagesTest extends BaseTestCase
         )));
 
         $this->doTest('packages_custom', '/app_prefix/css/foo-123.css', array(
-            'packages' => array(
-                'app' => array(
-                    'prefix' => 'app_prefix',
-                    'manifest' => array(
-                        'enabled' => true,
-                        'path' => $manifest,
+            'rj_frontend' => array(
+                'packages' => array(
+                    'app' => array(
+                        'prefix' => 'app_prefix',
+                        'manifest' => array(
+                            'enabled' => true,
+                            'path' => $manifest,
+                        ),
                     ),
                 ),
             ),
