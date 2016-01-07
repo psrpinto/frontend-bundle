@@ -9,6 +9,10 @@ class InjectLivereloadController extends Controller
 {
     public function injectAction()
     {
-        return new Response('foo</body>');
+        $response = new Response('foo</body>');
+
+        $response->headers->set('X-Debug-Token', 'xxxxxxxx');
+
+        return $response;
     }
 }
