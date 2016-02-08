@@ -3,7 +3,6 @@
 namespace Rj\FrontendBundle\Tests\Command;
 
 use Rj\FrontendBundle\Command\SetupCommand;
-use Rj\FrontendBundle\Command\InstallCommand;
 use Rj\FrontendBundle\Util\Util;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -104,7 +103,7 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
         $this->commandTester->execute(
             array(
                 '--src-dir' => $base,
-                '--csspre'  => 'less',
+                '--csspre' => 'less',
             ),
             array('interactive' => false)
         );
@@ -125,7 +124,7 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
         $this->commandTester->execute(
             array(
                 '--src-dir' => $base,
-                '--coffee'  => 'true',
+                '--coffee' => 'true',
             ),
             array('interactive' => false)
         );
@@ -157,13 +156,15 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateFilesDryRun()
     {
+        $base = $this->baseDir;
+
         $this->commandTester->execute(array(
             '--dry-run' => true,
         ), array('interactive' => false));
 
-        $this->assertRegExp('|Would have created file /tmp/rj_frontend/gulpfile.js|', $this->commandTester->getDisplay());
-        $this->assertRegExp('|Would have created file /tmp/rj_frontend/package.json|', $this->commandTester->getDisplay());
-        $this->assertRegExp('|Would have created file /tmp/rj_frontend/bower.json|', $this->commandTester->getDisplay());
+        $this->assertRegExp("|Would have created file $base/gulpfile.js|", $this->commandTester->getDisplay());
+        $this->assertRegExp("|Would have created file $base/package.json|", $this->commandTester->getDisplay());
+        $this->assertRegExp("|Would have created file $base/bower.json|", $this->commandTester->getDisplay());
     }
 
     /**
@@ -171,15 +172,17 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateFilesExists()
     {
-        touch($this->baseDir.'/gulpfile.js');
-        touch($this->baseDir.'/package.json');
-        touch($this->baseDir.'/bower.json');
+        $base = $this->baseDir;
+
+        touch($base.'/gulpfile.js');
+        touch($base.'/package.json');
+        touch($base.'/bower.json');
 
         $this->commandTester->execute(array(), array('interactive' => false));
 
-        $this->assertRegExp('|/tmp/rj_frontend/gulpfile.js already exists|', $this->commandTester->getDisplay());
-        $this->assertRegExp('|/tmp/rj_frontend/package.json already exists|', $this->commandTester->getDisplay());
-        $this->assertRegExp('|/tmp/rj_frontend/bower.json already exists|', $this->commandTester->getDisplay());
+        $this->assertRegExp("|$base/gulpfile.js already exists|", $this->commandTester->getDisplay());
+        $this->assertRegExp("|$base/package.json already exists|", $this->commandTester->getDisplay());
+        $this->assertRegExp("|$base/bower.json already exists|", $this->commandTester->getDisplay());
     }
 
     /**
@@ -187,17 +190,19 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateFilesExistsForce()
     {
-        touch($this->baseDir.'/gulpfile.js');
-        touch($this->baseDir.'/package.json');
-        touch($this->baseDir.'/bower.json');
+        $base = $this->baseDir;
+
+        touch($base.'/gulpfile.js');
+        touch($base.'/package.json');
+        touch($base.'/bower.json');
 
         $this->commandTester->execute(array(
             '--force' => true,
         ), array('interactive' => false));
 
-        $this->assertRegExp('|Creating file /tmp/rj_frontend/gulpfile.js|', $this->commandTester->getDisplay());
-        $this->assertRegExp('|Creating file /tmp/rj_frontend/package.json|', $this->commandTester->getDisplay());
-        $this->assertRegExp('|Creating file /tmp/rj_frontend/bower.json|', $this->commandTester->getDisplay());
+        $this->assertRegExp("|Creating file $base/gulpfile.js|", $this->commandTester->getDisplay());
+        $this->assertRegExp("|Creating file $base/package.json|", $this->commandTester->getDisplay());
+        $this->assertRegExp("|Creating file $base/bower.json|", $this->commandTester->getDisplay());
     }
 
     /**
@@ -205,16 +210,18 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateFiles()
     {
+        $base = $this->baseDir;
+
         $this->commandTester->execute(array(), array('interactive' => false));
 
-        $this->assertRegExp('|Creating file /tmp/rj_frontend/gulpfile.js|', $this->commandTester->getDisplay());
-        $this->assertNotEmpty(file_get_contents('/tmp/rj_frontend/gulpfile.js'));
+        $this->assertRegExp("|Creating file $base/gulpfile.js|", $this->commandTester->getDisplay());
+        $this->assertNotEmpty(file_get_contents("$base/gulpfile.js"));
 
-        $this->assertRegExp('|Creating file /tmp/rj_frontend/package.json|', $this->commandTester->getDisplay());
-        $this->assertNotEmpty(file_get_contents('/tmp/rj_frontend/package.json'));
+        $this->assertRegExp("|Creating file $base/package.json|", $this->commandTester->getDisplay());
+        $this->assertNotEmpty(file_get_contents("$base/package.json"));
 
-        $this->assertRegExp('|Creating file /tmp/rj_frontend/bower.json|', $this->commandTester->getDisplay());
-        $this->assertNotEmpty(file_get_contents('/tmp/rj_frontend/bower.json'));
+        $this->assertRegExp("|Creating file $base/bower.json|", $this->commandTester->getDisplay());
+        $this->assertNotEmpty(file_get_contents("$base/bower.json"));
     }
 
     /**
@@ -232,11 +239,11 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
     private function assertOptions($options, $expected, $interactive = true)
     {
         $defaults = !$interactive ? array() : array(
-            'src-dir'  => 'bar',
+            'src-dir' => 'bar',
             'dest-dir' => 'web/bar',
             'pipeline' => 'bar',
-            'csspre'   => 'bar',
-            'coffee'   => 'bar',
+            'csspre' => 'bar',
+            'coffee' => 'bar',
         );
 
         $options = array_merge($defaults, $options);
