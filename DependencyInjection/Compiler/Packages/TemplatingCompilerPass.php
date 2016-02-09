@@ -17,4 +17,15 @@ class TemplatingCompilerPass extends BasePackagesCompilerPass
 
         return $container->getDefinition('templating.helper.assets');
     }
+
+    protected function setDefaultPackage($container)
+    {
+        parent::setDefaultPackage($container);
+
+        if ($this->getPackagesService($container)->getScope() === 'request') {
+            $container->getDefinition($this->namespaceService('package.fallback'))
+                ->setScope('request')
+            ;
+        }
+    }
 }

@@ -64,13 +64,8 @@ abstract class BasePackagesCompilerPass extends BaseCompilerPass
         $packagesService = $this->getPackagesService($container);
         $defaultPackage = $this->getRegisteredDefaultPackage($container);
         $fallbackPackageId = $this->namespaceService('package.fallback');
-        $fallbackPackageDefinition = $container->getDefinition($fallbackPackageId);
 
-        if ($packagesService->getScope() === 'request') {
-            $fallbackPackageDefinition->setScope('request');
-        }
-
-        $fallbackPackageDefinition->addMethodCall('setFallback', array($defaultPackage));
+        $container->getDefinition($fallbackPackageId)->addMethodCall('setFallback', array($defaultPackage));
 
         $packagesService->replaceArgument(0, new Reference($fallbackPackageId));
     }

@@ -2,6 +2,8 @@
 
 namespace Rj\FrontendBundle\Tests\Functional;
 
+use Rj\FrontendBundle\Util\Util;
+
 class PackagesTest extends BaseTestCase
 {
     /**
@@ -21,6 +23,10 @@ class PackagesTest extends BaseTestCase
      */
     public function testNoRequestScope()
     {
+        if (Util::hasAssetComponent()) {
+            return $this->markTestSkipped();
+        }
+
         $this->doTest('packages_default', '/assets/css/foo.css', array(
             'framework' => array(
                 'templating' => array(

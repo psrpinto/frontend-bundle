@@ -1,15 +1,15 @@
 livereload_inject:
-    pattern:  /livereload/inject
+    path: /livereload/inject
     defaults: { _controller: TestBundle:InjectLivereload:inject }
 
 packages_custom:
-    pattern:  /packages/custom
+    path: /packages/custom
     defaults: { _controller: TestBundle:Packages:custom }
 
 packages_default:
-    pattern:  /packages/default
+    path: /packages/default
     defaults: { _controller: TestBundle:Packages:default }
 
 packages_fallback:
-    pattern:  /packages/fallback
+    path: /packages/fallback
     defaults: { _controller: TestBundle:Packages:fallback }

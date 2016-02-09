@@ -6,8 +6,6 @@ branches:
 
 php:
     - 5.3
-    - 5.4
-    - 5.5
     - 5.6
     - 7.0
     - hhvm
@@ -20,30 +18,20 @@ matrix:
     # old PHP versions with and without the Asset component (introduced in 2.7)
     - php: 5.3
       env: SYMFONY_VERSION=2.3.*
-    - php: 5.4
-      env: SYMFONY_VERSION=2.3.*
-    - php: 5.5
-      env: SYMFONY_VERSION=2.3.*
     - php: 5.6
       env: SYMFONY_VERSION=2.3.*
     - php: 5.3
-      env: SYMFONY_VERSION=2.8.*
-    - php: 5.4
-      env: SYMFONY_VERSION=2.8.*
-    - php: 5.5
-      env: SYMFONY_VERSION=2.8.*
+      env: SYMFONY_VERSION=2.8.* # Symfony 3 doesn't support PHP 5.3
     - php: 5.6
-      env: SYMFONY_VERSION=2.8.*
+      env: SYMFONY_VERSION=3.0.*
     # HHVM with and without the Asset component (introduced in 2.7)
     - php: hhvm
       env: SYMFONY_VERSION=2.3.*
     - php: hhvm
-      env: SYMFONY_VERSION=2.8.*
+      env: SYMFONY_VERSION=3.0.*
     # current PHP with all non-EOLed Symfony versions
     - php: 7.0
       env: SYMFONY_VERSION=2.3.*
-    - php: 7.0
-      env: SYMFONY_VERSION=2.6.*
     - php: 7.0
       env: SYMFONY_VERSION=2.7.*
     - php: 7.0
@@ -53,7 +41,6 @@ matrix:
     - php: 7.0
       env: SYMFONY_VERSION=dev-master
   allow_failures:
-    - env: SYMFONY_VERSION=3.0.*
     - env: SYMFONY_VERSION=dev-master
 
 before_install: ./.travis/before_install.php
