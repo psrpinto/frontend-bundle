@@ -2,7 +2,7 @@
 
 function withCodeCoverage()
 {
-    return isLatestPhp() && in_array(getSymfonyVersion(), array('2.3.*', '3.0.*'));
+    return isLatestPhp() && in_array(getSymfonyVersion(), array('2.3.*', '3.1.*'));
 }
 
 function isHhvm()
@@ -17,7 +17,7 @@ function isLatestPhp()
 
 function isLatestSymfony()
 {
-    return getSymfonyVersion() === '3.0.*';
+    return getSymfonyVersion() === '3.1.*';
 }
 
 function getSymfonyVersion()
