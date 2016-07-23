@@ -90,11 +90,11 @@ class InjectLiveReloadListenerTest extends \PHPUnit_Framework_TestCase
 
     protected function getRequestMock($isXmlHttpRequest = false)
     {
-        $request = $this->getMock(
-            'Symfony\Component\HttpFoundation\Request',
-            array('isXmlHttpRequest'),
-            array(), '', false
-        );
+        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
+            ->disableOriginalConstructor()
+            ->setMethods(array('isXmlHttpRequest'))
+            ->getMock()
+        ;
 
         $request->expects($this->any())
             ->method('isXmlHttpRequest')
@@ -105,6 +105,9 @@ class InjectLiveReloadListenerTest extends \PHPUnit_Framework_TestCase
 
     protected function getKernelMock()
     {
-        return $this->getMock('Symfony\Component\HttpKernel\Kernel', array(), array(), '', false);
+        return $this->getMockBuilder('Symfony\Component\HttpKernel\Kernel')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
     }
 }
