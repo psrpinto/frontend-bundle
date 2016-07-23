@@ -4,9 +4,9 @@ A modern frontend development workflow for Symfony apps.
 [![Build Status](https://img.shields.io/travis/regularjack/frontend-bundle/master.svg?style=flat-square)](https://travis-ci.org/regularjack/frontend-bundle)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/regularjack/frontend-bundle.svg?style=flat-square)](https://scrutinizer-ci.com/g/regularjack/frontend-bundle/code-structure)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/regularjack/frontend-bundle.svg?style=flat-square)](https://scrutinizer-ci.com/g/regularjack/frontend-bundle)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/5f7d6dc7-1dcb-4acf-86b7-eb1564c59939/mini.png)](https://insight.sensiolabs.com/projects/5f7d6dc7-1dcb-4acf-86b7-eb1564c59939)
 [![Packagist Version](https://img.shields.io/packagist/v/regularjack/frontend-bundle.svg?style=flat-square)](https://packagist.org/packages/regularjack/frontend-bundle)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](Resources/meta/LICENSE)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/5f7d6dc7-1dcb-4acf-86b7-eb1564c59939/mini.png)](https://insight.sensiolabs.com/projects/5f7d6dc7-1dcb-4acf-86b7-eb1564c59939)
 <!-- [![Total Downloads](https://img.shields.io/packagist/dt/regularjack/frontend-bundle.svg?style=flat-square)](https://packagist.org/packages/regularjack/frontend-bundle) -->
 
 Symfony comes packaged with [Assetic](https://github.com/symfony/AsseticBundle) for managing frontend assets like CSS, JavaScript or images. Assetic is great to quickly start a project but, as applications grow, its limitations start to show.
@@ -22,14 +22,14 @@ This bundle attempts to be the go-to solution for quickly, easily and cleanly se
 # Features
 * **Asset pipeline**
     * Automatically generate the build file for your preferred asset pipeline
-    * Supports [Gulp](https://github.com/gulpjs/gulp) ([Broccoli](https://github.com/broccolijs/broccoli) and others on the way)
+    * Supports [Gulp](https://github.com/gulpjs/gulp) ([Webpack](https://webpack.github.io/), [Broccoli](https://github.com/broccolijs/broccoli) and others on the way)
     * Sensible defaults that work with most Symfony projects
     * You can easily adapt it for your use case
 * **Use Symfony's native calls to reference assets**
     * `<script src="{{ asset('js/foo.js') }}"></script>`
     * No need to clutter your Twig templates with *boundaries* for the asset pipeline
     * Assets are automatically *cache-busted* in production
-* **Fast**
+* **Fast development**
     * Fast rebuilds make for an efficient workflow
     * Only changed files are processed
     * No more slow refreshes due to Assetic
@@ -44,17 +44,6 @@ This bundle attempts to be the go-to solution for quickly, easily and cleanly se
     * Automatically add a version to assets when in production
     * No more need to set a version on every deploy
     * An asset's version only changes if its content changed
-
-# Contributing
-This bundle is all about Developer Experience so your feedback is **essential** for us, the community, to make it better. Every issue and Pull Request will be treated with respect.
-
-If you decide to use this bundle, please consider opening issues if:
-
-* You had any hiccups while setting it up
-* You notice something missing in the documentation
-* You see something you think should be done differently
-* You notice something missing that you consider would benefit the majority of the users of this bundle
-* Whatever else
 
 # Table of Contents
 * [Setup](#setup)
@@ -593,5 +582,13 @@ This will ensure that existing `asset()` calls will keep functioning as expected
 <script src="{{ asset('js/foo.js', 'mypackage') }}"></script>
 ```
 
-# Contribute
-[Contributing](#contributing)
+# Contributing
+This bundle is all about Developer Experience so your feedback is **essential** for us, the community, to make it better. Every issue and Pull Request will be treated with respect.
+
+If you decide to use this bundle, please consider opening issues if:
+
+* You had any hiccups while setting it up
+* You notice something missing in the documentation
+* You see something you think should be done differently
+* You notice something missing that you consider would benefit the majority of the users of this bundle
+* Whatever else
