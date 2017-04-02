@@ -3,8 +3,6 @@
 
 include_once 'common.php';
 
-runCommand('composer self-update');
-
 if (isLatestPhp() && isLatestSymfony()) {
     // Make sure composer.json references all necessary components by having one
     // job run a `composer update`. Since `composer update` will install the
@@ -18,4 +16,8 @@ if (isLatestPhp() && isLatestSymfony()) {
     }
 
     runCommand('composer require --prefer-dist symfony/symfony:'.getSymfonyVersion());
+}
+
+if (shouldBuildDocs()) {
+    runCommand('export PATH=$HOME/.local/bin:$PATH && pip install -r requirements.txt --user `whoami`');
 }
