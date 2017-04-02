@@ -1,8 +1,13 @@
 <?php
 
+function shouldBuildDocs()
+{
+    return isLatestPhp() && isLatestSymfony();
+}
+
 function withCodeCoverage()
 {
-    return isLatestPhp() && in_array(getSymfonyVersion(), array('2.3.*', '3.1.*'));
+    return isLatestPhp() && in_array(getSymfonyVersion(), array('2.3.*', '3.2.*'));
 }
 
 function isHhvm()
@@ -12,12 +17,12 @@ function isHhvm()
 
 function isLatestPhp()
 {
-    return getPhpVersion() === '7.0';
+    return getPhpVersion() === '7.1';
 }
 
 function isLatestSymfony()
 {
-    return getSymfonyVersion() === '3.1.*';
+    return getSymfonyVersion() === '3.2.*';
 }
 
 function getSymfonyVersion()

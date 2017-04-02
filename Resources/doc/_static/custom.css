@@ -1,0 +1,12 @@
+.wy-menu-vertical p.caption {
+    color: #CCCCCC;
+    margin-top: 16px;
+    margin-bottom: 0;
+    margin-left: 3px;
+}
+.wy-menu-vertical p.caption .caption-text {
+    font-size: 110%;
+}
+div.section #features li dl {
+    margin-bottom: 0;
+}

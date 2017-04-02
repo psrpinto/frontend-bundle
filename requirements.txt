@@ -1,0 +1,4 @@
+Sphinx==1.5.4
+sphinx-autobuild==0.6.0
+sphinx-rtd-theme==0.2.4
+-e git+https://github.com/fabpot/sphinx-php.git@f1b69df331217d34425aa09821449e08fa219d38#egg=sphinx_php

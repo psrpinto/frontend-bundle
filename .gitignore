@@ -1,3 +1,5 @@
 /vendor/
 /bin/
+/venv/
+/Resources/doc/_build/
 composer.lock
