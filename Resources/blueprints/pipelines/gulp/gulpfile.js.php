@@ -256,7 +256,7 @@ gulp.task('clean', function(cb) {
  */
 var rewriteCssUrls = function() {
   return replace(
-    /url\(['"]?(?!data:)(\.\.\/)*\/?([^'"]+)['"]?\)/g,
+    /url\(['"]?(?!data:)(\.\.\/)*\/?([^'"]+?)['"]?\)/g,
     development() ? 'url(' + getUrlPrefix() + '/$2)' : 'url(/$2)'
   );
 };
