@@ -49,4 +49,4 @@ This bundle attempts to be the go-to solution for quickly, easily and cleanly se
 [View Documentation](http://frontend-bundle.readthedocs.io)
 
 # Contributing
-[CONTRIBUTING](Resources/doc/CONTRIBUTING.md)
+[CONTRIBUTING](CONTRIBUTING.md)
