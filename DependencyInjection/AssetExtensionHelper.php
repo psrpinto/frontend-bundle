@@ -1,6 +1,6 @@
 <?php
 
-namespace Rj\FrontendBundle\DependencyInjection\ExtensionHelper;
+namespace Rj\FrontendBundle\DependencyInjection;
 
 use Rj\FrontendBundle\Util\Util;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
