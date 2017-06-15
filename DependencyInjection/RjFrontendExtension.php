@@ -2,7 +2,6 @@
 
 namespace Rj\FrontendBundle\DependencyInjection;
 
-use Rj\FrontendBundle\DependencyInjection\ExtensionHelper\AssetExtensionHelper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
