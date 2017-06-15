@@ -2,8 +2,6 @@
 
 namespace Rj\FrontendBundle\Tests\Functional;
 
-use Rj\FrontendBundle\Util\Util;
-
 class PackagesTest extends BaseTestCase
 {
     /**
@@ -14,29 +12,6 @@ class PackagesTest extends BaseTestCase
         $this->doTest('packages_default', '/css/foo.css', array(
             'rj_frontend' => array(
                 'override_default_package' => false,
-            ),
-        ));
-    }
-
-    /**
-     * @runInSeparateProcess
-     */
-    public function testNoRequestScope()
-    {
-        if (Util::hasAssetComponent()) {
-            return $this->markTestSkipped();
-        }
-
-        $this->doTest('packages_default', '/assets/css/foo.css', array(
-            'framework' => array(
-                'templating' => array(
-                    'assets_base_urls' => array(
-                        // when http === ssl, the package service does not have
-                        // the request scope
-                        'http' => array('https://example.com/somethingelse'),
-                        'ssl' => array('https://example.com/somethingelse'),
-                    ),
-                ),
             ),
         ));
     }

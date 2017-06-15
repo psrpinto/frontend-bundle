@@ -16,7 +16,6 @@
                 <directory>./Resources</directory>
                 <directory>./Asset</directory>
                 <directory>./Command/Options/Legacy</directory>
-                <directory>./Templating</directory>
             </exclude>
         </whitelist>
     </filter>

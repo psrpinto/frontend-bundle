@@ -2,9 +2,7 @@
 
 namespace Rj\FrontendBundle\DependencyInjection;
 
-use Rj\FrontendBundle\Util\Util;
 use Rj\FrontendBundle\DependencyInjection\ExtensionHelper\AssetExtensionHelper;
-use Rj\FrontendBundle\DependencyInjection\ExtensionHelper\TemplatingExtensionHelper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -32,10 +30,7 @@ class RjFrontendExtension extends Extension
                 ->addArgument($config['livereload']['url']);
         }
 
-        $helper = Util::hasAssetComponent()
-            ? new AssetExtensionHelper($this->getAlias(), $container, $loader)
-            : new TemplatingExtensionHelper($this->getAlias(), $container, $loader)
-        ;
+        $helper = new AssetExtensionHelper($this->getAlias(), $container, $loader);
 
         if ($config['override_default_package']) {
             $loader->load('fallback.yml');
