@@ -3,22 +3,76 @@
 namespace Rj\FrontendBundle\DependencyInjection;
 
 use Rj\FrontendBundle\Util\Util;
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 
-class AssetExtensionHelper
+class AssetExtensionLoader
 {
+    /**
+     * @var string
+     */
     private $alias;
+
+    /**
+     * @var ContainerBuilder
+     */
     private $container;
 
+    /**
+     * @param string $alias
+     * @param ContainerBuilder $container
+     */
     public function __construct($alias, ContainerBuilder $container)
     {
         $this->alias = $alias;
         $this->container = $container;
     }
 
-    public function createPackage($name, $config)
+    /**
+     * @param array $config
+     * @param LoaderInterface $loader
+     */
+    public function load(array $config, LoaderInterface $loader)
+    {
+        $loader->load('asset.yml');
+
+        if ($config['override_default_package']) {
+            $loader->load('fallback.yml');
+
+            $defaultPackage = $this->createPackage('default', array(
+                'prefix'   => $config['prefix'],
+                'manifest' => $config['manifest'],
+            ));
+
+            $defaultPackageId = $this->getPackageId('default');
+            $this->container->setDefinition($defaultPackageId, $defaultPackage);
+
+            $fallbackPackage = $this->createFallbackPackage(
+                $config['fallback_patterns'],
+                new Reference($defaultPackageId)
+            );
+
+            $this->container->setDefinition($this->namespaceService('package.fallback'), $fallbackPackage);
+        }
+
+        foreach ($config['packages'] as $name => $packageConfig) {
+            $packageTag = $this->namespaceService('package.asset');
+            $package = $this->createPackage($name, $packageConfig)
+                ->addTag($packageTag, array('alias' => $name));
+
+            $this->container->setDefinition($this->getPackageId($name), $package);
+        }
+    }
+
+    /**
+     * @param string $name
+     * @param array $config
+     * @return Definition
+     */
+    private function createPackage($name, array $config)
     {
         $prefixes = $config['prefix'];
         $isUrl = Util::containsUrl($prefixes);
@@ -34,7 +88,12 @@ class AssetExtensionHelper
             ->setPublic(false);
     }
 
-    public function createFallbackPackage($patterns, $customDefaultPackage)
+    /**
+     * @param array $patterns
+     * @param Reference $customDefaultPackage
+     * @return Definition
+     */
+    private function createFallbackPackage(array $patterns, Reference $customDefaultPackage)
     {
         $packageDefinition = new DefinitionDecorator($this->namespaceService('asset.package.fallback'));
 
@@ -44,22 +103,36 @@ class AssetExtensionHelper
             ->addArgument($customDefaultPackage);
     }
 
-    public function getPackageId($name)
+    /**
+     * @param string $name
+     * @return string
+     */
+    private function getPackageId($name)
     {
         return $this->namespaceService("_package.$name");
     }
 
-    private function createVersionStrategy($packageName, $manifest)
+    /**
+     * @param string $packageName
+     * @param array $manifest
+     * @return Reference
+     */
+    private function createVersionStrategy($packageName, array $manifest)
     {
         if ($manifest['enabled']) {
             return $this->createManifestVersionStrategy($packageName, $manifest);
         }
 
-        $versionStrategy = new Reference($this->namespaceService('version_strategy.empty'));;
+        $versionStrategy = new Reference($this->namespaceService('version_strategy.empty'));
 
         return $this->createAssetVersionStrategy($packageName, $versionStrategy);
     }
 
+    /**
+     * @param string $packageName
+     * @param array $config
+     * @return Reference
+     */
     private function createManifestVersionStrategy($packageName, $config)
     {
         $loader = new DefinitionDecorator($this->namespaceService('manifest.loader.'.$config['format']));
@@ -86,6 +159,11 @@ class AssetExtensionHelper
         return $this->createAssetVersionStrategy($packageName, new Reference($versionStrategyId));
     }
 
+    /**
+     * @param string $packageName
+     * @param Reference $versionStrategy
+     * @return Reference
+     */
     private function createAssetVersionStrategy($packageName, $versionStrategy)
     {
         $version = new DefinitionDecorator($this->namespaceService('asset.version_strategy'));
@@ -97,6 +175,10 @@ class AssetExtensionHelper
         return new Reference($versionId);
     }
 
+    /**
+     * @param string $id
+     * @return string
+     */
     private function namespaceService($id)
     {
         return $this->alias.'.'.$id;
