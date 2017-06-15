@@ -3,6 +3,7 @@
 namespace Rj\FrontendBundle\VersionStrategy;
 
 use Rj\FrontendBundle\Manifest\Loader\ManifestLoaderInterface;
+use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
 
 class ManifestVersionStrategy implements VersionStrategyInterface
 {

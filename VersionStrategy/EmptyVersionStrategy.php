@@ -2,6 +2,8 @@
 
 namespace Rj\FrontendBundle\VersionStrategy;
 
+use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
+
 class EmptyVersionStrategy implements VersionStrategyInterface
 {
     public function getVersion($path)

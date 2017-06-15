@@ -17,10 +17,9 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
         $this->assertEquals($package->getParent(), $this->namespaceService('asset.package.path'));
         $this->assertFalse($package->isPublic());
         $this->assertEquals($package->getArgument(0), 'foo');
-        $this->assertEquals($package->getArgument(1), $this->namespaceService('_package.app.version_strategy_asset'));
+        $this->assertEquals($package->getArgument(1), $this->namespaceService('version_strategy.empty'));
 
-        $vs = $this->container->findDefinition($this->namespaceService('_package.app.version_strategy_asset'));
-        $this->assertEquals($vs->getArgument(0), $this->namespaceService('version_strategy.empty'));
+        $this->assertTrue($this->container->hasDefinition($this->namespaceService('version_strategy.empty')));
     }
 
     public function testUrlPackageIsRegistered()
@@ -36,10 +35,9 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
         $this->assertEquals($package->getParent(), $this->namespaceService('asset.package.url'));
         $this->assertFalse($package->isPublic());
         $this->assertEquals($package->getArgument(0), array('http://foo'));
-        $this->assertEquals($package->getArgument(1), $this->namespaceService('_package.app.version_strategy_asset'));
+        $this->assertEquals($package->getArgument(1), $this->namespaceService('version_strategy.empty'));
 
-        $vs = $this->container->findDefinition($this->namespaceService('_package.app.version_strategy_asset'));
-        $this->assertEquals($vs->getArgument(0), $this->namespaceService('version_strategy.empty'));
+        $this->assertTrue($this->container->hasDefinition($this->namespaceService('version_strategy.empty')));
     }
 
     public function testPackageWithManifestIsRegistered()
@@ -54,11 +52,10 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
         )));
 
         $package = $this->container->findDefinition($this->namespaceService('_package.app'));
-        $this->assertEquals($package->getArgument(1), $this->namespaceService('_package.app.version_strategy_asset'));
+        $this->assertEquals($package->getArgument(1), $this->namespaceService('_package.app.version_strategy'));
 
-        $vsAsset = $this->container->findDefinition($this->namespaceService('_package.app.version_strategy_asset'));
-        $vs = $this->container->findDefinition($vsAsset->getArgument(0));
-        $this->assertEquals($vs->getParent(), $this->namespaceService('version_strategy.manifest'));
+        $vs = $this->container->findDefinition($this->namespaceService('_package.app.version_strategy'));
+        $this->assertEquals($vs->getArgument(0), $this->namespaceService('_package.app.manifest_loader_cached'));
     }
 
     public function testPackageHasAliasTag()
