@@ -40,7 +40,7 @@ class FallbackPackageTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $packageBuilder = $this->getMockBuilder('Rj\FrontendBundle\Asset\PathPackage');
+        $packageBuilder = $this->getMockBuilder('Symfony\Component\Asset\PathPackage');
         $defaultBuilder = $this->getMockBuilder('Symfony\Component\Asset\PathPackage');
 
         $this->package = $packageBuilder

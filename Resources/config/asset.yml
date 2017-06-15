@@ -1,12 +1,8 @@
 services:
     rj_frontend.asset.package.path:
-        class: Rj\FrontendBundle\Asset\PathPackage
+        class: Symfony\Component\Asset\PathPackage
         public: false
 
     rj_frontend.asset.package.url:
-        class: Rj\FrontendBundle\Asset\UrlPackage
-        public: false
-
-    rj_frontend.asset.package.fallback:
-        class: Rj\FrontendBundle\Asset\FallbackPackage
+        class: Symfony\Component\Asset\UrlPackage
         public: false

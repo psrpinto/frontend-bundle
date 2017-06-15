@@ -4,6 +4,13 @@ namespace Rj\FrontendBundle\Tests\DependencyInjection;
 
 class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
 {
+    protected function setUp()
+    {
+        parent::setup();
+
+        $this->container->setParameter('kernel.root_dir', 'root_dir');
+    }
+
     public function testPathPackageIsRegistered()
     {
         $this->load(array('packages' => array(
@@ -82,15 +89,7 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
 
         $package = $this->container->findDefinition($this->namespaceService('package.fallback'));
 
-        $this->assertEquals($package->getParent(), $this->namespaceService('asset.package.fallback'));
         $this->assertFalse($package->isPublic());
         $this->assertEquals($package->getArgument(0), array('.*bundles\/.*'));
-    }
-
-    protected function setUp()
-    {
-        parent::setup();
-
-        $this->container->setParameter('kernel.root_dir', 'root_dir');
     }
 }
