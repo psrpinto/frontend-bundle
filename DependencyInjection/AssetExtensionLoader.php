@@ -50,12 +50,9 @@ class AssetExtensionLoader
             $defaultPackageId = $this->getPackageId('default');
             $this->container->setDefinition($defaultPackageId, $defaultPackage);
 
-            $fallbackPackage = $this->createFallbackPackage(
-                $config['fallback_patterns'],
-                new Reference($defaultPackageId)
-            );
-
-            $this->container->setDefinition($this->namespaceService('package.fallback'), $fallbackPackage);
+            $this->container->getDefinition($this->namespaceService('package.fallback'))
+                ->addArgument($config['fallback_patterns'])
+                ->addArgument(new Reference($defaultPackageId));
         }
 
         foreach ($config['packages'] as $name => $packageConfig) {
@@ -92,21 +89,6 @@ class AssetExtensionLoader
             ->addArgument($isUrl ? $prefixes : $prefixes[0])
             ->addArgument($versionStrategy)
             ->setPublic(false);
-    }
-
-    /**
-     * @param array $patterns
-     * @param Reference $customDefaultPackage
-     * @return Definition
-     */
-    private function createFallbackPackage(array $patterns, Reference $customDefaultPackage)
-    {
-        $packageDefinition = new DefinitionDecorator($this->namespaceService('asset.package.fallback'));
-
-        return $packageDefinition
-            ->setPublic(false)
-            ->addArgument($patterns)
-            ->addArgument($customDefaultPackage);
     }
 
     /**

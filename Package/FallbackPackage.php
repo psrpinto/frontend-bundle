@@ -2,7 +2,9 @@
 
 namespace Rj\FrontendBundle\Package;
 
-class FallbackPackage
+use Symfony\Component\Asset\PackageInterface;
+
+class FallbackPackage implements PackageInterface
 {
     private $patterns;
     private $package;
