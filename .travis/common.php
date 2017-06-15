@@ -7,12 +7,7 @@ function shouldBuildDocs()
 
 function withCodeCoverage()
 {
-    return isLatestPhp() && in_array(getSymfonyVersion(), array('2.3.*', '3.2.*'));
-}
-
-function isHhvm()
-{
-    return getPhpVersion() === 'hhvm';
+    return isLatestPhp() && in_array(getSymfonyVersion(), array('2.3.*', '3.3.*'));
 }
 
 function isLatestPhp()
@@ -22,7 +17,7 @@ function isLatestPhp()
 
 function isLatestSymfony()
 {
-    return getSymfonyVersion() === '3.2.*';
+    return getSymfonyVersion() === '3.3.*';
 }
 
 function getSymfonyVersion()
