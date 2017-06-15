@@ -12,17 +12,10 @@ class AssetExtensionHelper
     private $alias;
     private $container;
 
-    public function __construct($alias, ContainerBuilder $container, $loader)
+    public function __construct($alias, ContainerBuilder $container)
     {
         $this->alias = $alias;
         $this->container = $container;
-
-        $loader->load('asset.yml');
-    }
-
-    public function getPackageTag()
-    {
-        return $this->namespaceService('package.asset');
     }
 
     public function createPackage($name, $config)
@@ -30,7 +23,12 @@ class AssetExtensionHelper
         $prefixes = $config['prefix'];
         $isUrl = Util::containsUrl($prefixes);
 
-        return $this->getPackageDefinition($isUrl)
+        $packageDefinition = $isUrl
+            ? new DefinitionDecorator($this->namespaceService('asset.package.url'))
+            : new DefinitionDecorator($this->namespaceService('asset.package.path'))
+        ;
+
+        return $packageDefinition
             ->addArgument($isUrl ? $prefixes : $prefixes[0])
             ->addArgument($this->createVersionStrategy($name, $config['manifest']))
             ->setPublic(false);
@@ -38,7 +36,9 @@ class AssetExtensionHelper
 
     public function createFallbackPackage($patterns, $customDefaultPackage)
     {
-        return $this->getFallbackPackageDefinition()
+        $packageDefinition = new DefinitionDecorator($this->namespaceService('asset.package.fallback'));
+
+        return $packageDefinition
             ->setPublic(false)
             ->addArgument($patterns)
             ->addArgument($customDefaultPackage);
@@ -55,11 +55,6 @@ class AssetExtensionHelper
             return $this->createManifestVersionStrategy($packageName, $manifest);
         }
 
-        return $this->createEmptyVersionStrategy($packageName);
-    }
-
-    private function createEmptyVersionStrategy($packageName)
-    {
         $versionStrategy = new Reference($this->namespaceService('version_strategy.empty'));;
 
         return $this->createAssetVersionStrategy($packageName, $versionStrategy);
@@ -88,22 +83,7 @@ class AssetExtensionHelper
         $versionStrategyId = $this->namespaceService("_package.$packageName.version_strategy");
         $this->container->setDefinition($versionStrategyId, $versionStrategy);
 
-        $versionStrategy = new Reference($versionStrategyId);
-
-        return $this->createAssetVersionStrategy($packageName, $versionStrategy);
-    }
-
-    private function getPackageDefinition($isUrl)
-    {
-        return $isUrl
-            ? new DefinitionDecorator($this->namespaceService('asset.package.url'))
-            : new DefinitionDecorator($this->namespaceService('asset.package.path'))
-        ;
-    }
-
-    protected function getFallbackPackageDefinition()
-    {
-        return new DefinitionDecorator($this->namespaceService('asset.package.fallback'));
+        return $this->createAssetVersionStrategy($packageName, new Reference($versionStrategyId));
     }
 
     private function createAssetVersionStrategy($packageName, $versionStrategy)

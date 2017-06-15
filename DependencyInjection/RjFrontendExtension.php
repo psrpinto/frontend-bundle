@@ -29,7 +29,8 @@ class RjFrontendExtension extends Extension
                 ->addArgument($config['livereload']['url']);
         }
 
-        $helper = new AssetExtensionHelper($this->getAlias(), $container, $loader);
+        $loader->load('asset.yml');
+        $helper = new AssetExtensionHelper($this->getAlias(), $container);
 
         if ($config['override_default_package']) {
             $loader->load('fallback.yml');
@@ -51,8 +52,9 @@ class RjFrontendExtension extends Extension
         }
 
         foreach ($config['packages'] as $name => $packageConfig) {
+            $packageTag = $this->id('package.asset');
             $package = $helper->createPackage($name, $packageConfig)
-                ->addTag($helper->getPackageTag(), array('alias' => $name))
+                ->addTag($packageTag, array('alias' => $name))
             ;
 
             $container->setDefinition($helper->getPackageId($name), $package);
