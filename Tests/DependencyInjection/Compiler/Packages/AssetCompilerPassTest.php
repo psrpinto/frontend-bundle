@@ -3,7 +3,6 @@
 namespace Rj\FrontendBundle\Tests\DependencyInjection\Compiler\Packages;
 
 use Rj\FrontendBundle\Tests\DependencyInjection\Compiler\BaseCompilerPassTest;
-use Rj\FrontendBundle\Util\Util;
 use Rj\FrontendBundle\DependencyInjection\Compiler\Packages\AssetCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -132,10 +131,6 @@ class AssetCompilerPassTest extends BaseCompilerPassTest
 
     public function setUp()
     {
-        if (!Util::hasAssetComponent()) {
-            return $this->markTestSkipped();
-        }
-
         parent::setUp();
 
         $this->registerPackagesService();

@@ -4,7 +4,6 @@ namespace Rj\FrontendBundle;
 
 use Rj\FrontendBundle\Util\Util;
 use Rj\FrontendBundle\DependencyInjection\Compiler\Packages\AssetCompilerPass;
-use Rj\FrontendBundle\DependencyInjection\Compiler\Packages\TemplatingCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\Console\Application;
@@ -16,11 +15,7 @@ class RjFrontendBundle extends Bundle
     {
         parent::build($container);
 
-        if (Util::hasAssetComponent()) {
-            $container->addCompilerPass(new AssetCompilerPass());
-        } else {
-            $container->addCompilerPass(new TemplatingCompilerPass());
-        }
+        $container->addCompilerPass(new AssetCompilerPass());
     }
 
     public function registerCommands(Application $app)

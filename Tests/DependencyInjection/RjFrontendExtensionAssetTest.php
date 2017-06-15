@@ -2,8 +2,6 @@
 
 namespace Rj\FrontendBundle\Tests\DependencyInjection;
 
-use Rj\FrontendBundle\Util\Util;
-
 class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
 {
     public function testPathPackageIsRegistered()
@@ -94,10 +92,6 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
 
     protected function setUp()
     {
-        if (!Util::hasAssetComponent()) {
-            return $this->markTestSkipped();
-        }
-
         parent::setup();
 
         $this->container->setParameter('kernel.root_dir', 'root_dir');

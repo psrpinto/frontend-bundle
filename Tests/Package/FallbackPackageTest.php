@@ -2,7 +2,6 @@
 
 namespace Rj\FrontendBundle\Tests\Package;
 
-use Rj\FrontendBundle\Util\Util;
 use Rj\FrontendBundle\Package\FallbackPackage;
 
 class FallbackPackageTest extends \PHPUnit_Framework_TestCase
@@ -41,13 +40,8 @@ class FallbackPackageTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        if (Util::hasAssetComponent()) {
-            $packageBuilder = $this->getMockBuilder('Rj\FrontendBundle\Asset\PathPackage');
-            $defaultBuilder = $this->getMockBuilder('Symfony\Component\Asset\PathPackage');
-        } else {
-            $packageBuilder = $this->getMockBuilder('Rj\FrontendBundle\Templating\PathPackage');
-            $defaultBuilder = $this->getMockBuilder('Symfony\Component\Templating\Asset\PathPackage');
-        }
+        $packageBuilder = $this->getMockBuilder('Rj\FrontendBundle\Asset\PathPackage');
+        $defaultBuilder = $this->getMockBuilder('Symfony\Component\Asset\PathPackage');
 
         $this->package = $packageBuilder
             ->disableOriginalConstructor()
