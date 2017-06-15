@@ -3,7 +3,7 @@
 namespace Rj\FrontendBundle\Tests\DependencyInjection\Compiler\Packages;
 
 use Rj\FrontendBundle\Tests\DependencyInjection\Compiler\BaseCompilerPassTest;
-use Rj\FrontendBundle\DependencyInjection\Compiler\Packages\AssetCompilerPass;
+use Rj\FrontendBundle\DependencyInjection\Compiler\AssetCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
