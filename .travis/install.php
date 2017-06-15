@@ -10,7 +10,7 @@ if (isLatestPhp() && isLatestSymfony()) {
     // latest symfony version.
     runCommand('composer update --prefer-dist');
 } else {
-    if (getPhpVersion() === '5.3' && getSymfonyVersion() === '2.3.*') {
+    if (getPhpVersion() === '5.3') {
         // Prevent Travis throwing an out of memory error
         runCommand('echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini');
     }

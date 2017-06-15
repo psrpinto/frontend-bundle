@@ -3,7 +3,7 @@
 
 include_once 'common.php';
 
-if (!isHhvm() && !withCodeCoverage()) {
+if (!withCodeCoverage()) {
     // Disable XDebug
     runCommand('phpenv config-rm xdebug.ini');
 }
