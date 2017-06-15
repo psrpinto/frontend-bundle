@@ -82,9 +82,15 @@ class AssetExtensionLoader
             : new DefinitionDecorator($this->namespaceService('asset.package.path'))
         ;
 
+        if ($config['manifest']['enabled']) {
+            $versionStrategy = $this->createManifestVersionStrategy($name, $config['manifest']);
+        } else {
+            $versionStrategy = new Reference($this->namespaceService('version_strategy.empty'));
+        }
+
         return $packageDefinition
             ->addArgument($isUrl ? $prefixes : $prefixes[0])
-            ->addArgument($this->createVersionStrategy($name, $config['manifest']))
+            ->addArgument($versionStrategy)
             ->setPublic(false);
     }
 
@@ -110,22 +116,6 @@ class AssetExtensionLoader
     private function getPackageId($name)
     {
         return $this->namespaceService("_package.$name");
-    }
-
-    /**
-     * @param string $packageName
-     * @param array $manifest
-     * @return Reference
-     */
-    private function createVersionStrategy($packageName, array $manifest)
-    {
-        if ($manifest['enabled']) {
-            return $this->createManifestVersionStrategy($packageName, $manifest);
-        }
-
-        $versionStrategy = new Reference($this->namespaceService('version_strategy.empty'));
-
-        return $this->createAssetVersionStrategy($packageName, $versionStrategy);
     }
 
     /**
@@ -156,23 +146,7 @@ class AssetExtensionLoader
         $versionStrategyId = $this->namespaceService("_package.$packageName.version_strategy");
         $this->container->setDefinition($versionStrategyId, $versionStrategy);
 
-        return $this->createAssetVersionStrategy($packageName, new Reference($versionStrategyId));
-    }
-
-    /**
-     * @param string $packageName
-     * @param Reference $versionStrategy
-     * @return Reference
-     */
-    private function createAssetVersionStrategy($packageName, $versionStrategy)
-    {
-        $version = new DefinitionDecorator($this->namespaceService('asset.version_strategy'));
-        $version->addArgument($versionStrategy);
-
-        $versionId = $this->namespaceService("_package.$packageName.version_strategy_asset");
-        $this->container->setDefinition($versionId, $version);
-
-        return new Reference($versionId);
+        return new Reference($versionStrategyId);
     }
 
     /**
