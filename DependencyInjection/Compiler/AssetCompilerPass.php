@@ -1,6 +1,6 @@
 <?php
 
-namespace Rj\FrontendBundle\DependencyInjection\Compiler\Packages;
+namespace Rj\FrontendBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

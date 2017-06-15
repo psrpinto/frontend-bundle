@@ -2,8 +2,8 @@
 
 namespace Rj\FrontendBundle;
 
+use Rj\FrontendBundle\DependencyInjection\Compiler\AssetCompilerPass;
 use Rj\FrontendBundle\Util\Util;
-use Rj\FrontendBundle\DependencyInjection\Compiler\Packages\AssetCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\Console\Application;
