@@ -3,13 +3,29 @@
 namespace Rj\FrontendBundle\Tests\Command;
 
 use Rj\FrontendBundle\Command\SetupCommand;
-use Rj\FrontendBundle\Util\Util;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
 
 class SetupCommandTest extends \PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $fs = new Filesystem();
+        $fs->remove($this->baseDir = sys_get_temp_dir().'/rj_frontend');
+        mkdir($this->baseDir);
+
+        $application = new Application();
+
+        $application->add($this->getInstallCommand());
+        $application->add($command = new SetupCommand());
+
+        $this->command = $application->find($command->getName());
+        $this->command->setRootDir($this->baseDir);
+
+        $this->commandTester = new CommandTester($this->command);
+    }
+
     public function testDefaultOptions()
     {
         $this->assertOptions(array('src-dir' => null), array('src-dir' => $this->baseDir.'/app/Resources'));
@@ -269,28 +285,6 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
         foreach ($expected as $key => $value) {
             $this->assertEquals($value, $this->commandTester->getInput()->getOption($key));
         }
-    }
-
-    protected function setUp()
-    {
-        $fs = new Filesystem();
-        $fs->remove($this->baseDir = sys_get_temp_dir().'/rj_frontend');
-        mkdir($this->baseDir);
-
-        $application = new Application();
-
-        if (!Util::hasQuestionHelper()) {
-            $helper = new \Rj\FrontendBundle\Command\Options\Legacy\QuestionHelper();
-            $application->getHelperSet()->set($helper, 'question');
-        }
-
-        $application->add($this->getInstallCommand());
-        $application->add($command = new SetupCommand());
-
-        $this->command = $application->find($command->getName());
-        $this->command->setRootDir($this->baseDir);
-
-        $this->commandTester = new CommandTester($this->command);
     }
 
     private function getInstallCommand()

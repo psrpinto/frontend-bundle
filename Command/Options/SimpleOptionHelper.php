@@ -2,17 +2,12 @@
 
 namespace Rj\FrontendBundle\Command\Options;
 
-use Rj\FrontendBundle\Util\Util;
+use Symfony\Component\Console\Question\Question;
 
 class SimpleOptionHelper extends BaseOptionHelper
 {
     public function getQuestion($question)
     {
-        $class = Util::hasQuestionHelper()
-            ? 'Symfony\Component\Console\Question\Question'
-            : 'Rj\FrontendBundle\Command\Options\Legacy\Question'
-        ;
-
-        return new $class("<question>$question</question>", $this->defaultValue);
+        return new Question("<question>$question</question>", $this->defaultValue);
     }
 }
