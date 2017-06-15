@@ -5,7 +5,6 @@ namespace Rj\FrontendBundle\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class RjFrontendExtension extends Extension
@@ -25,48 +24,29 @@ class RjFrontendExtension extends Extension
 
         if ($config['livereload']['enabled']) {
             $loader->load('livereload.yml');
-            $container->getDefinition($this->id('livereload.listener'))
+            $container->getDefinition($this->namespaceService('livereload.listener'))
                 ->addArgument($config['livereload']['url']);
         }
 
-        $loader->load('asset.yml');
-        $helper = new AssetExtensionHelper($this->getAlias(), $container);
-
-        if ($config['override_default_package']) {
-            $loader->load('fallback.yml');
-
-            $defaultPackage = $helper->createPackage('default', array(
-                'prefix'   => $config['prefix'],
-                'manifest' => $config['manifest'],
-            ));
-
-            $defaultPackageId = $helper->getPackageId('default');
-            $container->setDefinition($defaultPackageId, $defaultPackage);
-
-            $fallbackPackage = $helper->createFallbackPackage(
-                $config['fallback_patterns'],
-                new Reference($defaultPackageId)
-            );
-
-            $container->setDefinition($this->id('package.fallback'), $fallbackPackage);
-        }
-
-        foreach ($config['packages'] as $name => $packageConfig) {
-            $packageTag = $this->id('package.asset');
-            $package = $helper->createPackage($name, $packageConfig)
-                ->addTag($packageTag, array('alias' => $name))
-            ;
-
-            $container->setDefinition($helper->getPackageId($name), $package);
-        }
+        $assetExtensionLoader = new AssetExtensionLoader($this->getAlias(), $container);
+        $assetExtensionLoader->load($config, $loader);
     }
 
+    /**
+     * @param array $config
+     * @param ContainerBuilder $container
+     * @return Configuration
+     */
     public function getConfiguration(array $config, ContainerBuilder $container)
     {
         return new Configuration($container->getParameter('kernel.root_dir'));
     }
 
-    private function id($id)
+    /**
+     * @param string $id
+     * @return string
+     */
+    private function namespaceService($id)
     {
         return $this->getAlias().'.'.$id;
     }
