@@ -6,11 +6,27 @@ use Rj\FrontendBundle\Manifest\Manifest;
 
 abstract class AbstractManifestLoader implements ManifestLoaderInterface
 {
+    /**
+     * @var string
+     */
     private $path;
+
+    /**
+     * @var null|string
+     */
     private $rootKey;
 
+    /**
+     * @param string $path
+     *
+     * @return mixed
+     */
     abstract protected function parse($path);
 
+    /**
+     * @param string      $path
+     * @param null|string $rootKey
+     */
     public function __construct($path, $rootKey = null)
     {
         if (!is_file($path)) {

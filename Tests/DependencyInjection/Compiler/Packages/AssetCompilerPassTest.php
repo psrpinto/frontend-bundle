@@ -10,6 +10,13 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class AssetCompilerPassTest extends BaseCompilerPassTest
 {
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->registerPackagesService();
+    }
+
     /**
      * @expectedException        \LogicException
      * @expectedExceptionMessage The Asset component is not registered in the container
@@ -129,18 +136,17 @@ class AssetCompilerPassTest extends BaseCompilerPassTest
         );
     }
 
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->registerPackagesService();
-    }
-
+    /**
+     * @param ContainerBuilder $container
+     */
     protected function registerCompilerPass(ContainerBuilder $container)
     {
         $container->addCompilerPass(new AssetCompilerPass());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     private function registerPackagesService($arguments = [])
     {
         $service = $this

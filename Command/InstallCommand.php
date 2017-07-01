@@ -9,6 +9,9 @@ use Symfony\Component\Process\Process;
 
 class InstallCommand extends Command
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -17,6 +20,9 @@ class InstallCommand extends Command
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if (!$this->commandExists('npm')) {
@@ -46,6 +52,10 @@ npm install -g bower
         $this->runProcess($output, 'bower install');
     }
 
+    /**
+     * @param OutputInterface $output
+     * @param string          $command
+     */
     protected function runProcess($output, $command)
     {
         $process = new Process($command);
@@ -63,6 +73,11 @@ npm install -g bower
         }
     }
 
+    /**
+     * @param string $command
+     *
+     * @return bool
+     */
     protected function commandExists($command)
     {
         $process = new Process("$command -v");

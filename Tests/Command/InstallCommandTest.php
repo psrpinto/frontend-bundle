@@ -2,12 +2,43 @@
 
 namespace Rj\FrontendBundle\Tests\Command;
 
+use PHPUnit_Framework_MockObject_MockObject;
+use PHPUnit_Framework_TestCase;
+use Rj\FrontendBundle\Command\InstallCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
 
-class InstallCommandTest extends \PHPUnit_Framework_TestCase
+class InstallCommandTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var string
+     */
+    private $baseDir;
+
+    /**
+     * @var InstallCommand|PHPUnit_Framework_MockObject_MockObject
+     */
+    private $command;
+
+    /**
+     * @var CommandTester
+     */
+    private $commandTester;
+
+    protected function setUp()
+    {
+        $fs = new Filesystem();
+        $fs->remove($this->baseDir = sys_get_temp_dir().'/rj_frontend');
+        mkdir($this->baseDir);
+
+        $application = new Application();
+        $application->add($command = $this->getCommand());
+
+        $this->command = $application->find($command->getName());
+        $this->commandTester = new CommandTester($this->command);
+    }
+
     /**
      * @runInSeparateProcess
      */
@@ -52,26 +83,13 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/Running `bower install`/', $this->commandTester->getDisplay());
     }
 
-    protected function setUp()
-    {
-        $fs = new Filesystem();
-        $fs->remove($this->baseDir = sys_get_temp_dir().'/rj_frontend');
-        mkdir($this->baseDir);
-
-        $application = new Application();
-        $application->add($command = $this->getCommand());
-
-        $this->command = $application->find($command->getName());
-        $this->commandTester = new CommandTester($this->command);
-    }
-
+    /**
+     * @return InstallCommand|PHPUnit_Framework_MockObject_MockObject
+     */
     private function getCommand()
     {
-        $command = $this->getMockBuilder('Rj\FrontendBundle\Command\InstallCommand')
+        return $this->getMockBuilder('Rj\FrontendBundle\Command\InstallCommand')
             ->setMethods(['commandExists', 'runProcess'])
-            ->getMock()
-        ;
-
-        return $command;
+            ->getMock();
     }
 }

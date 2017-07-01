@@ -2,10 +2,11 @@
 
 namespace Rj\FrontendBundle\Tests\VersionStrategy;
 
+use PHPUnit_Framework_TestCase;
 use Rj\FrontendBundle\VersionStrategy\ManifestVersionStrategy;
 use Rj\FrontendBundle\Manifest\Loader\JsonManifestLoader;
 
-class ManifestVersionStrategyTest extends \PHPUnit_Framework_TestCase
+class ManifestVersionStrategyTest extends PHPUnit_Framework_TestCase
 {
     public function testApplyVersion()
     {

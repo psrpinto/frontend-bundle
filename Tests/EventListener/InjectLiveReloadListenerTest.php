@@ -2,12 +2,16 @@
 
 namespace Rj\FrontendBundle\Tests\EventListener;
 
+use PHPUnit_Framework_MockObject_MockObject;
+use PHPUnit_Framework_TestCase;
 use Rj\FrontendBundle\EventListener\InjectLiveReloadListener;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
-class InjectLiveReloadListenerTest extends \PHPUnit_Framework_TestCase
+class InjectLiveReloadListenerTest extends PHPUnit_Framework_TestCase
 {
     public function testDontInjectScriptIfNotMasterRequest()
     {
@@ -16,8 +20,8 @@ class InjectLiveReloadListenerTest extends \PHPUnit_Framework_TestCase
 
         $listener = new InjectLiveReloadListener('bar');
         $listener->onKernelResponse(new FilterResponseEvent(
-            $this->getKernelMock(),
-            $this->getRequestMock(),
+            $this->mockKernel(),
+            $this->mockRequest(),
             HttpKernelInterface::SUB_REQUEST,
             $response
         ));
@@ -32,8 +36,8 @@ class InjectLiveReloadListenerTest extends \PHPUnit_Framework_TestCase
 
         $listener = new InjectLiveReloadListener('bar');
         $listener->onKernelResponse(new FilterResponseEvent(
-            $this->getKernelMock(),
-            $this->getRequestMock(true),
+            $this->mockKernel(),
+            $this->mockRequest(true),
             HttpKernelInterface::MASTER_REQUEST,
             $response
         ));
@@ -47,8 +51,8 @@ class InjectLiveReloadListenerTest extends \PHPUnit_Framework_TestCase
 
         $listener = new InjectLiveReloadListener('bar');
         $listener->onKernelResponse(new FilterResponseEvent(
-            $this->getKernelMock(),
-            $this->getRequestMock(),
+            $this->mockKernel(),
+            $this->mockRequest(),
             HttpKernelInterface::MASTER_REQUEST,
             $response
         ));
@@ -63,8 +67,8 @@ class InjectLiveReloadListenerTest extends \PHPUnit_Framework_TestCase
 
         $listener = new InjectLiveReloadListener('bar');
         $listener->onKernelResponse(new FilterResponseEvent(
-            $this->getKernelMock(),
-            $this->getRequestMock(),
+            $this->mockKernel(),
+            $this->mockRequest(),
             HttpKernelInterface::MASTER_REQUEST,
             $response
         ));
@@ -79,8 +83,8 @@ class InjectLiveReloadListenerTest extends \PHPUnit_Framework_TestCase
 
         $listener = new InjectLiveReloadListener('bar');
         $listener->onKernelResponse(new FilterResponseEvent(
-            $this->getKernelMock(),
-            $this->getRequestMock(),
+            $this->mockKernel(),
+            $this->mockRequest(),
             HttpKernelInterface::MASTER_REQUEST,
             $response
         ));
@@ -88,7 +92,12 @@ class InjectLiveReloadListenerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo<script src="bar"></script></body>', $response->getContent());
     }
 
-    protected function getRequestMock($isXmlHttpRequest = false)
+    /**
+     * @param bool $isXmlHttpRequest
+     *
+     * @return Request|PHPUnit_Framework_MockObject_MockObject
+     */
+    private function mockRequest($isXmlHttpRequest = false)
     {
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
             ->disableOriginalConstructor()
@@ -103,7 +112,10 @@ class InjectLiveReloadListenerTest extends \PHPUnit_Framework_TestCase
         return $request;
     }
 
-    protected function getKernelMock()
+    /**
+     * @return Kernel|PHPUnit_Framework_MockObject_MockObject
+     */
+    private function mockKernel()
     {
         return $this->getMockBuilder('Symfony\Component\HttpKernel\Kernel')
             ->disableOriginalConstructor()

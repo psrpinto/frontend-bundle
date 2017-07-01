@@ -6,6 +6,9 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 
 class ChoiceOptionHelper extends BaseOptionHelper
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getQuestion($question)
     {
         $question = new ChoiceQuestion("<question>$question</question>", $this->allowedValues, $this->defaultValue);

@@ -2,10 +2,27 @@
 
 namespace Rj\FrontendBundle\Tests\Asset;
 
+use PHPUnit_Framework_TestCase;
 use Rj\FrontendBundle\Manifest\Loader\JsonManifestLoader;
+use Rj\FrontendBundle\Manifest\Manifest;
 
-class JsonManifestLoaderTest extends \PHPUnit_Framework_TestCase
+class JsonManifestLoaderTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var string
+     */
+    private $path;
+
+    public function setUp()
+    {
+        $this->path = tempnam('/tmp', '');
+    }
+
+    public function tearDown()
+    {
+        unlink($this->path);
+    }
+
     public function testLoad()
     {
         $manifest = $this->load(['foo.css' => 'foo-123.css']);
@@ -38,17 +55,13 @@ class JsonManifestLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->path, $loader->getPath());
     }
 
-    public function setUp()
-    {
-        $this->path = tempnam('/tmp', '');
-    }
-
-    public function tearDown()
-    {
-        unlink($this->path);
-    }
-
-    private function load($entries, $rootKey = null)
+    /**
+     * @param array       $entries
+     * @param null|string $rootKey
+     *
+     * @return Manifest
+     */
+    private function load(array $entries, $rootKey = null)
     {
         if ($rootKey) {
             $entries = [$rootKey => $entries];

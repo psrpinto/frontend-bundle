@@ -172,6 +172,11 @@ class PackagesTest extends BaseTestCase
         unlink($manifest);
     }
 
+    /**
+     * @param string $route
+     * @param string $expected
+     * @param array  $config
+     */
     private function doTest($route, $expected, $config = [])
     {
         $client = $this->createClient($config);

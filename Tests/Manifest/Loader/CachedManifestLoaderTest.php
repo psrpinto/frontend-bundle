@@ -2,7 +2,9 @@
 
 namespace Rj\FrontendBundle\Tests\Asset;
 
-class CachedManifestLoaderTest extends \PHPUnit_Framework_TestCase
+use PHPUnit_Framework_TestCase;
+
+class CachedManifestLoaderTest extends PHPUnit_Framework_TestCase
 {
     public function testLoad()
     {

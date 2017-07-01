@@ -9,15 +9,26 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Templating\PhpEngine;
 use Symfony\Component\Templating\TemplateNameParser;
 use Symfony\Component\Templating\Loader\FilesystemLoader;
 
 class SetupCommand extends Command
 {
+    /**
+     * @var EngineInterface
+     */
     private $templating;
+
+    /**
+     * @var string|null
+     */
     private $rootDir = null;
 
+    /**
+     * @param string|null $name
+     */
     public function __construct($name = null)
     {
         parent::__construct($name);
@@ -28,11 +39,17 @@ class SetupCommand extends Command
         );
     }
 
+    /**
+     * @param string $path
+     */
     public function setRootDir($path)
     {
         $this->rootDir = $path;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -83,6 +100,9 @@ class SetupCommand extends Command
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $simpleOptionHelper = new SimpleOptionHelper($this, $input, $output);
@@ -134,6 +154,9 @@ class SetupCommand extends Command
         $output->writeln('');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->processOptions($input);
@@ -159,7 +182,11 @@ class SetupCommand extends Command
         $this->runInstallCommand($input, $output);
     }
 
-    private function runInstallCommand($input, $output)
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
+    private function runInstallCommand(InputInterface $input, OutputInterface $output)
     {
         if ($input->getOption('dry-run')) {
             return $output->writeln('<info>Would have installed npm and bower dependencies</info>');
@@ -169,7 +196,11 @@ class SetupCommand extends Command
             ->run(new ArrayInput(['command' => 'rj_frontend:install']), $output);
     }
 
-    private function createSourceTree($input, $output)
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
+    private function createSourceTree(InputInterface $input, OutputInterface $output)
     {
         $blueprints = __DIR__.'/../Resources/blueprints';
         $dryRun = $input->getOption('dry-run');
@@ -193,7 +224,11 @@ class SetupCommand extends Command
         $output->writeln('');
     }
 
-    private function createBuildFile($input, $output)
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
+    private function createBuildFile(InputInterface $input, OutputInterface $output)
     {
         $files = [
             'gulp' => 'gulp/gulpfile.js',
@@ -202,7 +237,11 @@ class SetupCommand extends Command
         $this->createFileFromTemplate($input, $output, 'pipelines/'.$files[$input->getOption('pipeline')]);
     }
 
-    private function createPackageJson($input, $output)
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
+    private function createPackageJson(InputInterface $input, OutputInterface $output)
     {
         $files = [
             'gulp' => 'gulp/package.json',
@@ -211,12 +250,22 @@ class SetupCommand extends Command
         $this->createFileFromTemplate($input, $output, 'pipelines/'.$files[$input->getOption('pipeline')]);
     }
 
-    private function createBowerJson($input, $output)
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
+    private function createBowerJson(InputInterface $input, OutputInterface $output)
     {
         $this->createFileFromTemplate($input, $output, 'bower.json');
     }
 
-    private function createDirFromBlueprint($input, $output, $blueprintDir, $targetDir)
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     * @param string          $blueprintDir
+     * @param string          $targetDir
+     */
+    private function createDirFromBlueprint(InputInterface $input, OutputInterface $output, $blueprintDir, $targetDir)
     {
         $dryRun = $input->getOption('dry-run');
 
@@ -256,7 +305,12 @@ class SetupCommand extends Command
         }
     }
 
-    private function createFileFromTemplate($input, $output, $file)
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     * @param string          $file
+     */
+    private function createFileFromTemplate(InputInterface $input, OutputInterface $output, $file)
     {
         $dryRun = $input->getOption('dry-run');
 
@@ -277,12 +331,18 @@ class SetupCommand extends Command
         $this->renderTemplate($input, $output, $file, $targetFile);
     }
 
-    private function renderTemplate($input, $output, $file, $target)
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     * @param string          $file
+     * @param string          $target
+     */
+    private function renderTemplate(InputInterface $input, OutputInterface $output, $file, $target)
     {
         if (file_exists($target) && !$input->getOption('force')) {
-            return $output->writeln(
-                "<error>$target already exists. Run this command with --force to overwrite</error>
-            ");
+            $output->writeln(
+                "<error>$target already exists. Run this command with --force to overwrite</error>"
+            );
         }
 
         switch ($input->getOption('csspre')) {
@@ -308,7 +368,10 @@ class SetupCommand extends Command
         ]));
     }
 
-    private function processOptions($input)
+    /**
+     * @param InputInterface $input
+     */
+    private function processOptions(InputInterface $input)
     {
         foreach ($input->getOptions() as $name => $value) {
             if (!$input->isInteractive() && $value === null) {
@@ -325,6 +388,11 @@ class SetupCommand extends Command
         }
     }
 
+    /**
+     * @param string $name
+     *
+     * @return string
+     */
     private function getDefaultOption($name)
     {
         $defaults = [
