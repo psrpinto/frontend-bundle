@@ -9,7 +9,7 @@ abstract class RjFrontendExtensionBaseTest extends AbstractExtensionTestCase
 {
     protected function getContainerExtensions()
     {
-        return array(new RjFrontendExtension());
+        return [new RjFrontendExtension()];
     }
 
     protected function namespaceService($id)

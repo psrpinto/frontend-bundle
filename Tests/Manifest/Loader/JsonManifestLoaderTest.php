@@ -8,14 +8,14 @@ class JsonManifestLoaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoad()
     {
-        $manifest = $this->load(array('foo.css' => 'foo-123.css'));
+        $manifest = $this->load(['foo.css' => 'foo-123.css']);
 
         $this->assertEquals('foo-123.css', $manifest->get('foo.css'));
     }
 
     public function testLoadRootKey()
     {
-        $manifest = $this->load(array('foo.css' => 'foo-123.css'), 'assets');
+        $manifest = $this->load(['foo.css' => 'foo-123.css'], 'assets');
 
         $this->assertEquals('foo-123.css', $manifest->get('foo.css'));
     }
@@ -25,7 +25,7 @@ class JsonManifestLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadRootKeyNotFound()
     {
-        file_put_contents($this->path, json_encode(array('foo.css' => 'foo-123.css')));
+        file_put_contents($this->path, json_encode(['foo.css' => 'foo-123.css']));
 
         $loader = new JsonManifestLoader($this->path, 'assets');
         $loader->load();
@@ -51,7 +51,7 @@ class JsonManifestLoaderTest extends \PHPUnit_Framework_TestCase
     private function load($entries, $rootKey = null)
     {
         if ($rootKey) {
-            $entries = array($rootKey => $entries);
+            $entries = [$rootKey => $entries];
         }
 
         file_put_contents($this->path, json_encode($entries));

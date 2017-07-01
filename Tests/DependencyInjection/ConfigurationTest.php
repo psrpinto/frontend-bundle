@@ -10,43 +10,43 @@ class ConfigurationTest extends AbstractConfigurationTestCase
     public function testLivereloadIsEnabledByDefault()
     {
         $this->assertConfigurationEquals(
-            array(),
-            array(
-                'livereload' => array(
+            [],
+            [
+                'livereload' => [
                     'enabled' => true,
                     'url' => '//localhost:35729/livereload.js',
-                ),
-            ),
+                ],
+            ],
             'livereload'
         );
     }
 
     public function testDefaultPackageFallbackPatterns()
     {
-        $expected = array(
-            'fallback_patterns' => array('.*bundles\/.*'),
-        );
+        $expected = [
+            'fallback_patterns' => ['.*bundles\/.*'],
+        ];
 
-        $this->assertConfigurationEquals(array(), $expected, 'fallback_patterns');
+        $this->assertConfigurationEquals([], $expected, 'fallback_patterns');
     }
 
     public function testDefaultPackageDefaultPrefix()
     {
-        $expected = array('prefix' => array('assets'));
+        $expected = ['prefix' => ['assets']];
 
-        $this->assertConfigurationEquals(array(), $expected, 'prefix');
+        $this->assertConfigurationEquals([], $expected, 'prefix');
     }
 
     public function testDefaultPackageManifestIsDisabledByDefault()
     {
         $expected = $this->getManifestExpectedDefault();
 
-        $this->assertConfigurationEquals(array(), $expected, 'manifest');
+        $this->assertConfigurationEquals([], $expected, 'manifest');
     }
 
     public function testDefaultPackageInferManifestPath()
     {
-        $config = array('manifest' => true);
+        $config = ['manifest' => true];
 
         $expected = $this->getManifestExpectedDefault();
         $expected['manifest']['enabled'] = true;
@@ -57,18 +57,18 @@ class ConfigurationTest extends AbstractConfigurationTestCase
 
     public function testDefaultPackageInferManifestPathWithPrefix()
     {
-        $config = array('manifest' => true, 'prefix' => 'foo');
+        $config = ['manifest' => true, 'prefix' => 'foo'];
 
-        $expected = array(
+        $expected = [
             'override_default_package' => true,
-            'fallback_patterns' => array('.*bundles\/.*'),
-            'livereload' => array(
+            'fallback_patterns' => ['.*bundles\/.*'],
+            'livereload' => [
                 'enabled' => true,
                 'url' => '//localhost:35729/livereload.js',
-            ),
-            'prefix' => array('foo'),
-            'packages' => array(),
-        );
+            ],
+            'prefix' => ['foo'],
+            'packages' => [],
+        ];
 
         $expected = array_merge($expected, $this->getManifestExpectedDefault());
         $expected['manifest']['enabled'] = true;
@@ -80,7 +80,7 @@ class ConfigurationTest extends AbstractConfigurationTestCase
     public function testPackagePrefixInvalidUrlAndPath()
     {
         $config = $this->getDefaultPackageConfig();
-        $config['packages']['app']['prefix'] = array('foo', 'http://foo');
+        $config['packages']['app']['prefix'] = ['foo', 'http://foo'];
 
         $this->assertConfigurationInvalid($config, 'packages',
             '.*Packages cannot have both URL and path prefixes');
@@ -89,7 +89,7 @@ class ConfigurationTest extends AbstractConfigurationTestCase
     public function testPackagePrefixInvalidMultiplePaths()
     {
         $config = $this->getDefaultPackageConfig();
-        $config['packages']['app']['prefix'] = array('foo', 'bar');
+        $config['packages']['app']['prefix'] = ['foo', 'bar'];
 
         $this->assertConfigurationInvalid($config, 'packages',
             '.*Packages can only have one path prefix');
@@ -101,7 +101,7 @@ class ConfigurationTest extends AbstractConfigurationTestCase
         $config['packages']['app']['prefix'] = 'foo';
 
         $expected = $this->getPackagesExpectedDefault();
-        $expected['packages']['app']['prefix'] = array('foo');
+        $expected['packages']['app']['prefix'] = ['foo'];
 
         $this->assertConfigurationEquals($config, $expected, 'packages');
     }
@@ -109,10 +109,10 @@ class ConfigurationTest extends AbstractConfigurationTestCase
     public function testPackagePrefixArray()
     {
         $config = $this->getDefaultPackageConfig();
-        $config['packages']['app']['prefix'] = array('http://foo', 'http://bar');
+        $config['packages']['app']['prefix'] = ['http://foo', 'http://bar'];
 
         $expected = $this->getPackagesExpectedDefault();
-        $expected['packages']['app']['prefix'] = array('http://foo', 'http://bar');
+        $expected['packages']['app']['prefix'] = ['http://foo', 'http://bar'];
 
         $this->assertConfigurationEquals($config, $expected, 'packages');
     }
@@ -172,46 +172,46 @@ class ConfigurationTest extends AbstractConfigurationTestCase
 
     private function getDefaultPackageConfig()
     {
-        return array(
-            'packages' => array(
-                'app' => array(
+        return [
+            'packages' => [
+                'app' => [
                     'prefix' => 'app_prefix',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     private function getManifestExpectedDefault()
     {
-        return array(
-            'manifest' => array(
+        return [
+            'manifest' => [
                 'enabled' => false,
                 'format' => 'json',
                 'root_key' => null,
-            ),
-        );
+            ],
+        ];
     }
 
     private function getPackagesExpectedDefault()
     {
-        return array(
-            'packages' => array(
-                'app' => array(
-                    'prefix' => array('app_prefix'),
-                    'manifest' => array(
+        return [
+            'packages' => [
+                'app' => [
+                    'prefix' => ['app_prefix'],
+                    'manifest' => [
                         'enabled' => false,
                         'format' => 'json',
                         'root_key' => null,
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 
     protected function assertConfigurationInvalid(array $config, $breadcrumbPath, $expectedMessage = null)
     {
         parent::assertPartialConfigurationIsInvalid(
-            array($config),
+            [$config],
             $breadcrumbPath,
             "/$expectedMessage/",
             $useRegExp = true
@@ -220,12 +220,12 @@ class ConfigurationTest extends AbstractConfigurationTestCase
 
     protected function assertConfigurationValid(array $config, $breadcrumbPath = null)
     {
-        parent::assertConfigurationIsValid(array($config), $breadcrumbPath);
+        parent::assertConfigurationIsValid([$config], $breadcrumbPath);
     }
 
     protected function assertConfigurationEquals($config, $expected, $breadcrumbPath = null)
     {
-        $this->assertProcessedConfigurationEquals(array($config), $expected, $breadcrumbPath);
+        $this->assertProcessedConfigurationEquals([$config], $expected, $breadcrumbPath);
     }
 
     protected function getConfiguration()

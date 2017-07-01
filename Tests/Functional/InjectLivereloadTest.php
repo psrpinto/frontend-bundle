@@ -9,11 +9,11 @@ class InjectLivereloadTest extends BaseTestCase
      */
     public function testDisabled()
     {
-        $client = $this->createClient(array(
-            'rj_frontend' => array(
+        $client = $this->createClient([
+            'rj_frontend' => [
                 'livereload' => false,
-            ),
-        ));
+            ],
+        ]);
 
         $router = $this->get('router');
 
@@ -28,14 +28,14 @@ class InjectLivereloadTest extends BaseTestCase
      */
     public function testEnabled()
     {
-        $client = $this->createClient(array(
-            'rj_frontend' => array(
-                'livereload' => array(
+        $client = $this->createClient([
+            'rj_frontend' => [
+                'livereload' => [
                     'enabled' => true,
                     'url' => '://foo',
-                ),
-            ),
-        ));
+                ],
+            ],
+        ]);
 
         $router = $this->get('router');
 

@@ -54,7 +54,7 @@ class FallbackPackageTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->fallbackPackage = new FallbackPackage(
-            array('must_fallback\/'),
+            ['must_fallback\/'],
             $this->package
         );
 

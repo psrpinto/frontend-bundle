@@ -17,7 +17,7 @@ class AssetCompilerPassTest extends BaseCompilerPassTest
     public function testThrowsExceptionIfAssetComponentIsNotRegistered()
     {
         $package = new Definition();
-        $package->addTag($this->namespaceService('package.asset'), array('alias' => 'foo'));
+        $package->addTag($this->namespaceService('package.asset'), ['alias' => 'foo']);
         $this->setDefinition('foo_service', $package);
 
         $this->container->removeDefinition('assets.packages');
@@ -45,15 +45,15 @@ class AssetCompilerPassTest extends BaseCompilerPassTest
     public function testThrowsExceptionIfPackageIsAlreadyRegisteredWithAssetComponent()
     {
         $package = new Definition();
-        $package->addTag($this->namespaceService('package.asset'), array('alias' => 'foo'));
+        $package->addTag($this->namespaceService('package.asset'), ['alias' => 'foo']);
         $this->setDefinition('foo_service', $package);
 
         $this->container->removeDefinition('assets.packages');
 
-        $this->registerPackagesService(array(
+        $this->registerPackagesService([
             new Reference('default_package'),
-            array('foo', new Reference('foo_package')),
-        ));
+            ['foo', new Reference('foo_package')],
+        ]);
 
         $this->compile();
     }
@@ -65,11 +65,11 @@ class AssetCompilerPassTest extends BaseCompilerPassTest
     public function testThrowsExceptionIfDuplicatePackage()
     {
         $package = new Definition();
-        $package->addTag($this->namespaceService('package.asset'), array('alias' => 'foo'));
+        $package->addTag($this->namespaceService('package.asset'), ['alias' => 'foo']);
         $this->setDefinition('foo_service', $package);
 
         $package2 = new Definition();
-        $package2->addTag($this->namespaceService('package.asset'), array('alias' => 'foo'));
+        $package2->addTag($this->namespaceService('package.asset'), ['alias' => 'foo']);
         $this->setDefinition('foo_service_2', $package2);
 
         $this->compile();
@@ -78,7 +78,7 @@ class AssetCompilerPassTest extends BaseCompilerPassTest
     public function testPackageIsRegisteredIntoAssets()
     {
         $package = new Definition();
-        $package->addTag($this->namespaceService('package.asset'), array('alias' => 'foo'));
+        $package->addTag($this->namespaceService('package.asset'), ['alias' => 'foo']);
         $this->setDefinition('foo_service', $package);
 
         $this->compile();
@@ -86,25 +86,25 @@ class AssetCompilerPassTest extends BaseCompilerPassTest
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             'assets.packages',
             'addPackage',
-            array('foo', new Reference('foo_service'))
+            ['foo', new Reference('foo_service')]
         );
     }
 
     public function testDefaultPackageIsRegisteredIntoAssets()
     {
         $package = new Definition();
-        $package->addTag($this->namespaceService('package.asset'), array('alias' => 'default'));
+        $package->addTag($this->namespaceService('package.asset'), ['alias' => 'default']);
         $this->setDefinition('default_service', $package);
 
         $this->container->removeDefinition('assets.packages');
-        $this->registerPackagesService(array(
+        $this->registerPackagesService([
             new Reference('default_package'),
-            array('foo', new Reference('foo_package')),
-        ));
+            ['foo', new Reference('foo_package')],
+        ]);
 
         $this
             ->registerService($this->namespaceService('package.fallback'), null)
-            ->addArgument(array('foo_pattern'))
+            ->addArgument(['foo_pattern'])
             ->setPublic(false)
         ;
 
@@ -113,13 +113,13 @@ class AssetCompilerPassTest extends BaseCompilerPassTest
         $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             $this->namespaceService('package.fallback'),
             0,
-            array('foo_pattern')
+            ['foo_pattern']
         );
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             $this->namespaceService('package.fallback'),
             'setFallback',
-            array(new Reference('default_package'))
+            [new Reference('default_package')]
         );
 
         $this->assertContainerBuilderHasServiceDefinitionWithArgument(
@@ -141,7 +141,7 @@ class AssetCompilerPassTest extends BaseCompilerPassTest
         $container->addCompilerPass(new AssetCompilerPass());
     }
 
-    private function registerPackagesService($arguments = array())
+    private function registerPackagesService($arguments = [])
     {
         $service = $this
             ->registerService('assets.packages', null)

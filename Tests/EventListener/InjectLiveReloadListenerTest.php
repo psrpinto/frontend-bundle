@@ -92,7 +92,7 @@ class InjectLiveReloadListenerTest extends \PHPUnit_Framework_TestCase
     {
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
             ->disableOriginalConstructor()
-            ->setMethods(array('isXmlHttpRequest'))
+            ->setMethods(['isXmlHttpRequest'])
             ->getMock()
         ;
 

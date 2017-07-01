@@ -13,11 +13,11 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
 
     public function testPathPackageIsRegistered()
     {
-        $this->load(array('packages' => array(
-            'app' => array(
+        $this->load(['packages' => [
+            'app' => [
                 'prefix' => 'foo',
-            ),
-        )));
+            ],
+        ]]);
 
         $package = $this->container->findDefinition($this->namespaceService('_package.app'));
 
@@ -31,17 +31,17 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
 
     public function testUrlPackageIsRegistered()
     {
-        $this->load(array('packages' => array(
-            'app' => array(
+        $this->load(['packages' => [
+            'app' => [
                 'prefix' => 'http://foo',
-            ),
-        )));
+            ],
+        ]]);
 
         $package = $this->container->findDefinition($this->namespaceService('_package.app'));
 
         $this->assertEquals($package->getParent(), $this->namespaceService('asset.package.url'));
         $this->assertFalse($package->isPublic());
-        $this->assertEquals($package->getArgument(0), array('http://foo'));
+        $this->assertEquals($package->getArgument(0), ['http://foo']);
         $this->assertEquals($package->getArgument(1), $this->namespaceService('version_strategy.empty'));
 
         $this->assertTrue($this->container->hasDefinition($this->namespaceService('version_strategy.empty')));
@@ -49,14 +49,14 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
 
     public function testPackageWithManifestIsRegistered()
     {
-        $this->load(array('packages' => array(
-            'app' => array(
+        $this->load(['packages' => [
+            'app' => [
                 'prefix' => 'foo',
-                'manifest' => array(
+                'manifest' => [
                     'path' => 'foo',
-                ),
-            ),
-        )));
+                ],
+            ],
+        ]]);
 
         $package = $this->container->findDefinition($this->namespaceService('_package.app'));
         $this->assertEquals($package->getArgument(1), $this->namespaceService('_package.app.version_strategy'));
@@ -67,11 +67,11 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
 
     public function testPackageHasAliasTag()
     {
-        $this->load(array('packages' => array(
-            'app' => array(
+        $this->load(['packages' => [
+            'app' => [
                 'prefix' => 'foo',
-            ),
-        )));
+            ],
+        ]]);
 
         $package = $this->container->findDefinition($this->namespaceService('_package.app'));
 
@@ -90,6 +90,6 @@ class RjFrontendExtensionAssetTest extends RjFrontendExtensionBaseTest
         $package = $this->container->findDefinition($this->namespaceService('package.fallback'));
 
         $this->assertFalse($package->isPublic());
-        $this->assertEquals($package->getArgument(0), array('.*bundles\/.*'));
+        $this->assertEquals($package->getArgument(0), ['.*bundles\/.*']);
     }
 }

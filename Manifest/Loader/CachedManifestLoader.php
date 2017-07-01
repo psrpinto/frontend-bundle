@@ -28,7 +28,7 @@ class CachedManifestLoader implements ManifestLoaderInterface
             $resource = new FileResource($this->getPath());
             $entries = $this->loader->load()->all();
 
-            $this->cache->write(sprintf('<?php return %s;', var_export($entries, true)), array($resource));
+            $this->cache->write(sprintf('<?php return %s;', var_export($entries, true)), [$resource]);
         } else {
             $entries = include $this->cache->getPath();
         }

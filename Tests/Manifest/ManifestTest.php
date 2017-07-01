@@ -29,9 +29,9 @@ class ManifestTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->manifest = new Manifest(array(
+        $this->manifest = new Manifest([
             'foo.css' => 'foo-123.css',
             'bar.js' => 'bar-123.js',
-        ));
+        ]);
     }
 }

@@ -42,10 +42,10 @@ class AssetExtensionLoader
         if ($config['override_default_package']) {
             $loader->load('fallback.yml');
 
-            $defaultPackage = $this->createPackage('default', array(
+            $defaultPackage = $this->createPackage('default', [
                 'prefix' => $config['prefix'],
                 'manifest' => $config['manifest'],
-            ));
+            ]);
 
             $defaultPackageId = $this->getPackageId('default');
             $this->container->setDefinition($defaultPackageId, $defaultPackage);
@@ -58,7 +58,7 @@ class AssetExtensionLoader
         foreach ($config['packages'] as $name => $packageConfig) {
             $packageTag = $this->namespaceService('package.asset');
             $package = $this->createPackage($name, $packageConfig)
-                ->addTag($packageTag, array('alias' => $name));
+                ->addTag($packageTag, ['alias' => $name]);
 
             $this->container->setDefinition($this->getPackageId($name), $package);
         }
