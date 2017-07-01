@@ -15,6 +15,12 @@
             "homepage": "https://github.com/regularjack/frontend-bundle/contributors"
         }
     ],
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": { "Rj\\FrontendBundle\\": "" }
+    },
     "require": {
         "php": ">=5.3.9",
         "symfony/asset": "~2.7|~3.0",
@@ -28,15 +34,12 @@
         "symfony/templating": "~2.7|~3.0"
     },
     "require-dev": {
+        "matthiasnoback/symfony-config-test": "~1.4",
+        "matthiasnoback/symfony-dependency-injection-test": "~0.7",
         "phpunit/phpunit": ">=4.2",
         "symfony/browser-kit": "^2.7|~3.0",
         "symfony/filesystem": "~2.7|~3.0",
         "symfony/http-foundation": "~2.7|~3.0",
-        "symfony/routing": "~2.7|~3.0",
-        "matthiasnoback/symfony-config-test": "~1.4",
-        "matthiasnoback/symfony-dependency-injection-test": "~0.7"
-    },
-    "autoload": {
-        "psr-4": { "Rj\\FrontendBundle\\": "" }
+        "symfony/routing": "~2.7|~3.0"
     }
 }
