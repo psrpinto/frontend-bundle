@@ -11,9 +11,9 @@ class ManifestVersionStrategyTest extends \PHPUnit_Framework_TestCase
     {
         $jsonFile = tempnam('/tmp', '');
 
-        file_put_contents($jsonFile, json_encode(array(
+        file_put_contents($jsonFile, json_encode([
             'foo.css' => 'foo-123.css',
-        )));
+        ]));
 
         $vs = new ManifestVersionStrategy(new JsonManifestLoader($jsonFile));
 

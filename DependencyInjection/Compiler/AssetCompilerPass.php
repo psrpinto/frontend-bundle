@@ -14,7 +14,7 @@ class AssetCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $packages = array();
+        $packages = [];
         $registeredPackages = $this->getRegisteredPackages($container);
 
         foreach ($this->getTaggedPackages($container) as $id => $tags) {
@@ -83,7 +83,7 @@ class AssetCompilerPass implements CompilerPassInterface
         foreach ($packages as $name => $id) {
             $packagesService->addMethodCall(
                 'addPackage',
-                array($name, new Reference($id))
+                [$name, new Reference($id)]
             );
         }
     }
@@ -97,7 +97,7 @@ class AssetCompilerPass implements CompilerPassInterface
         $defaultPackage = $this->getRegisteredDefaultPackage($container);
         $fallbackPackageId = $this->namespaceService('package.fallback');
 
-        $container->getDefinition($fallbackPackageId)->addMethodCall('setFallback', array($defaultPackage));
+        $container->getDefinition($fallbackPackageId)->addMethodCall('setFallback', [$defaultPackage]);
 
         $packagesService->replaceArgument(0, new Reference($fallbackPackageId));
     }
@@ -114,12 +114,12 @@ class AssetCompilerPass implements CompilerPassInterface
         $arguments = $this->getPackagesService($container)->getArguments();
 
         if (!isset($arguments[1]) || count($arguments[1]) < 2) {
-            return array();
+            return [];
         }
 
         $argPackages = $arguments[1];
 
-        $packages = array();
+        $packages = [];
         $argCount = count($argPackages);
         for ($i = 0; $i < $argCount; ++$i) {
             $packages[$argPackages[$i]] = $argPackages[++$i];

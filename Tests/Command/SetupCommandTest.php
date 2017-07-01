@@ -28,37 +28,37 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testDefaultOptions()
     {
-        $this->assertOptions(array('src-dir' => null), array('src-dir' => $this->baseDir.'/app/Resources'));
-        $this->assertOptions(array('dest-dir' => null), array('dest-dir' => $this->baseDir.'/web/assets'));
-        $this->assertOptions(array('pipeline' => null), array('pipeline' => 'gulp'));
-        $this->assertOptions(array('csspre' => null), array('csspre' => 'sass'));
-        $this->assertOptions(array('coffee' => null), array('coffee' => false));
+        $this->assertOptions(['src-dir' => null], ['src-dir' => $this->baseDir.'/app/Resources']);
+        $this->assertOptions(['dest-dir' => null], ['dest-dir' => $this->baseDir.'/web/assets']);
+        $this->assertOptions(['pipeline' => null], ['pipeline' => 'gulp']);
+        $this->assertOptions(['csspre' => null], ['csspre' => 'sass']);
+        $this->assertOptions(['coffee' => null], ['coffee' => false]);
     }
 
     public function testOptions()
     {
-        $this->assertOptions(array('src-dir' => 'foo'), array('src-dir' => 'foo'));
-        $this->assertOptions(array('dest-dir' => 'web/foo'), array('dest-dir' => 'web/foo'));
-        $this->assertOptions(array('pipeline' => 'gulp'), array('pipeline' => 'gulp'));
-        $this->assertOptions(array('csspre' => 'less'), array('csspre' => 'less'));
-        $this->assertOptions(array('coffee' => true), array('coffee' => true));
+        $this->assertOptions(['src-dir' => 'foo'], ['src-dir' => 'foo']);
+        $this->assertOptions(['dest-dir' => 'web/foo'], ['dest-dir' => 'web/foo']);
+        $this->assertOptions(['pipeline' => 'gulp'], ['pipeline' => 'gulp']);
+        $this->assertOptions(['csspre' => 'less'], ['csspre' => 'less']);
+        $this->assertOptions(['coffee' => true], ['coffee' => true]);
     }
 
     public function testOptionsNoInteraction()
     {
-        $this->assertOptions(array(), array(
+        $this->assertOptions([], [
             'src-dir' => $this->baseDir.'/app/Resources',
             'dest-dir' => $this->baseDir.'/web/assets',
             'pipeline' => 'gulp',
             'csspre' => 'sass',
             'coffee' => false,
-        ), false);
+        ], false);
 
-        $this->assertOptions(array('src-dir' => 'foo'), array('src-dir' => 'foo', 'dest-dir' => $this->baseDir.'/web/assets'), false);
-        $this->assertOptions(array('dest-dir' => 'web/foo'), array('src-dir' => $this->baseDir.'/app/Resources', 'dest-dir' => 'web/foo'), false);
-        $this->assertOptions(array('pipeline' => 'gulp'), array('src-dir' => $this->baseDir.'/app/Resources', 'pipeline' => 'gulp'), false);
-        $this->assertOptions(array('csspre' => 'less'), array('src-dir' => $this->baseDir.'/app/Resources', 'csspre' => 'less'), false);
-        $this->assertOptions(array('coffee' => 'true'), array('src-dir' => $this->baseDir.'/app/Resources', 'coffee' => true), false);
+        $this->assertOptions(['src-dir' => 'foo'], ['src-dir' => 'foo', 'dest-dir' => $this->baseDir.'/web/assets'], false);
+        $this->assertOptions(['dest-dir' => 'web/foo'], ['src-dir' => $this->baseDir.'/app/Resources', 'dest-dir' => 'web/foo'], false);
+        $this->assertOptions(['pipeline' => 'gulp'], ['src-dir' => $this->baseDir.'/app/Resources', 'pipeline' => 'gulp'], false);
+        $this->assertOptions(['csspre' => 'less'], ['src-dir' => $this->baseDir.'/app/Resources', 'csspre' => 'less'], false);
+        $this->assertOptions(['coffee' => 'true'], ['src-dir' => $this->baseDir.'/app/Resources', 'coffee' => true], false);
     }
 
     /**
@@ -67,7 +67,7 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidDestDir()
     {
-        $this->commandTester->execute(array('--dest-dir' => 'foo'), array('interactive' => false));
+        $this->commandTester->execute(['--dest-dir' => 'foo'], ['interactive' => false]);
     }
 
     /**
@@ -76,7 +76,7 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidDestDirWebRoot()
     {
-        $this->commandTester->execute(array('--dest-dir' => 'web'), array('interactive' => false));
+        $this->commandTester->execute(['--dest-dir' => 'web'], ['interactive' => false]);
     }
 
     /**
@@ -85,7 +85,7 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidDestDirWebRoot2()
     {
-        $this->commandTester->execute(array('--dest-dir' => 'web/'), array('interactive' => false));
+        $this->commandTester->execute(['--dest-dir' => 'web/'], ['interactive' => false]);
     }
 
     /**
@@ -96,8 +96,8 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
         $base = $this->baseDir;
 
         $this->commandTester->execute(
-            array('--src-dir' => $base),
-            array('interactive' => false)
+            ['--src-dir' => $base],
+            ['interactive' => false]
         );
 
         $this->assertFileExists("$base/images/.keep");
@@ -117,11 +117,11 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
         $base = $this->baseDir;
 
         $this->commandTester->execute(
-            array(
+            [
                 '--src-dir' => $base,
                 '--csspre' => 'less',
-            ),
-            array('interactive' => false)
+            ],
+            ['interactive' => false]
         );
 
         $this->assertFileExists("$base/stylesheets/app.less");
@@ -138,11 +138,11 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
         $base = $this->baseDir;
 
         $this->commandTester->execute(
-            array(
+            [
                 '--src-dir' => $base,
                 '--coffee' => 'true',
-            ),
-            array('interactive' => false)
+            ],
+            ['interactive' => false]
         );
 
         $this->assertFileExists("$base/scripts/app.coffee");
@@ -157,10 +157,10 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
     {
         $base = $this->baseDir;
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             '--src-dir' => $base,
             '--dry-run' => true,
-        ), array('interactive' => false));
+        ], ['interactive' => false]);
 
         $this->assertFileNotExists("$base/images/.keep");
         $this->assertFileNotExists("$base/scripts/.keep");
@@ -174,9 +174,9 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
     {
         $base = $this->baseDir;
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             '--dry-run' => true,
-        ), array('interactive' => false));
+        ], ['interactive' => false]);
 
         $this->assertRegExp("|Would have created file $base/gulpfile.js|", $this->commandTester->getDisplay());
         $this->assertRegExp("|Would have created file $base/package.json|", $this->commandTester->getDisplay());
@@ -194,7 +194,7 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
         touch($base.'/package.json');
         touch($base.'/bower.json');
 
-        $this->commandTester->execute(array(), array('interactive' => false));
+        $this->commandTester->execute([], ['interactive' => false]);
 
         $this->assertRegExp("|$base/gulpfile.js already exists|", $this->commandTester->getDisplay());
         $this->assertRegExp("|$base/package.json already exists|", $this->commandTester->getDisplay());
@@ -212,9 +212,9 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
         touch($base.'/package.json');
         touch($base.'/bower.json');
 
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             '--force' => true,
-        ), array('interactive' => false));
+        ], ['interactive' => false]);
 
         $this->assertRegExp("|Creating file $base/gulpfile.js|", $this->commandTester->getDisplay());
         $this->assertRegExp("|Creating file $base/package.json|", $this->commandTester->getDisplay());
@@ -228,7 +228,7 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
     {
         $base = $this->baseDir;
 
-        $this->commandTester->execute(array(), array('interactive' => false));
+        $this->commandTester->execute([], ['interactive' => false]);
 
         $this->assertRegExp("|Creating file $base/gulpfile.js|", $this->commandTester->getDisplay());
         $this->assertNotEmpty(file_get_contents("$base/gulpfile.js"));
@@ -245,22 +245,22 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testInstallDependenciesDryRun()
     {
-        $this->commandTester->execute(array(
+        $this->commandTester->execute([
             '--dry-run' => true,
-        ), array('interactive' => false));
+        ], ['interactive' => false]);
 
         $this->assertRegExp('/Would have installed npm and bower dependencies/', $this->commandTester->getDisplay());
     }
 
     private function assertOptions($options, $expected, $interactive = true)
     {
-        $defaults = !$interactive ? array() : array(
+        $defaults = !$interactive ? [] : [
             'src-dir' => 'bar',
             'dest-dir' => 'web/bar',
             'pipeline' => 'bar',
             'csspre' => 'bar',
             'coffee' => 'bar',
-        );
+        ];
 
         $options = array_merge($defaults, $options);
         $options['dry-run'] = true;
@@ -278,9 +278,9 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
         $helper = $this->command->getHelper('question');
         $helper->setInputStream($this->getInputStream(PHP_EOL));
 
-        $this->commandTester->execute($options, array(
+        $this->commandTester->execute($options, [
             'interactive' => $interactive,
-        ));
+        ]);
 
         foreach ($expected as $key => $value) {
             $this->assertEquals($value, $this->commandTester->getInput()->getOption($key));
@@ -290,7 +290,7 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
     private function getInstallCommand()
     {
         return $this->getMockBuilder('Rj\FrontendBundle\Command\InstallCommand')
-            ->setMethods(array('commandExists', 'runProcess'))
+            ->setMethods(['commandExists', 'runProcess'])
             ->getMock()
         ;
     }

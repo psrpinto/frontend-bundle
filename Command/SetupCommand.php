@@ -24,7 +24,7 @@ class SetupCommand extends Command
 
         $this->templating = new PhpEngine(
             new TemplateNameParser(),
-            new FilesystemLoader(array(__DIR__.'/../Resources/blueprints/%name%'))
+            new FilesystemLoader([__DIR__.'/../Resources/blueprints/%name%'])
         );
     }
 
@@ -105,7 +105,7 @@ class SetupCommand extends Command
         ;
 
         $choiceOptionHelper
-            ->setAllowedValues(array('gulp'))
+            ->setAllowedValues(['gulp'])
             ->setErrorMessage('%s is not a supported asset pipeline')
             ->setOption(
                 'pipeline',
@@ -114,7 +114,7 @@ class SetupCommand extends Command
         ;
 
         $choiceOptionHelper
-            ->setAllowedValues(array('sass', 'less', 'none'))
+            ->setAllowedValues(['sass', 'less', 'none'])
             ->setErrorMessage('%s is not a supported CSS preprocessor')
             ->setOption(
                 'csspre',
@@ -123,7 +123,7 @@ class SetupCommand extends Command
         ;
 
         $choiceOptionHelper
-            ->setAllowedValues(array('false', 'true'))
+            ->setAllowedValues(['false', 'true'])
             ->setErrorMessage('%s is not a supported value for --coffee. Use either true or false')
             ->setOption(
                 'coffee',
@@ -166,7 +166,7 @@ class SetupCommand extends Command
         }
 
         $this->getApplication()->find('rj_frontend:install')
-            ->run(new ArrayInput(array('command' => 'rj_frontend:install')), $output);
+            ->run(new ArrayInput(['command' => 'rj_frontend:install']), $output);
     }
 
     private function createSourceTree($input, $output)
@@ -195,18 +195,18 @@ class SetupCommand extends Command
 
     private function createBuildFile($input, $output)
     {
-        $files = array(
+        $files = [
             'gulp' => 'gulp/gulpfile.js',
-        );
+        ];
 
         $this->createFileFromTemplate($input, $output, 'pipelines/'.$files[$input->getOption('pipeline')]);
     }
 
     private function createPackageJson($input, $output)
     {
-        $files = array(
+        $files = [
             'gulp' => 'gulp/package.json',
-        );
+        ];
 
         $this->createFileFromTemplate($input, $output, 'pipelines/'.$files[$input->getOption('pipeline')]);
     }
@@ -297,7 +297,7 @@ class SetupCommand extends Command
                 break;
         }
 
-        file_put_contents($target, $this->templating->render("$file.php", array(
+        file_put_contents($target, $this->templating->render("$file.php", [
             'projectName' => basename(getcwd()),
             'srcDir' => $input->getOption('src-dir'),
             'destDir' => $input->getOption('dest-dir'),
@@ -305,7 +305,7 @@ class SetupCommand extends Command
             'coffee' => $input->getOption('coffee'),
             'cssPre' => $input->getOption('csspre'),
             'stylesheetExtension' => $stylesheetExtension,
-        )));
+        ]));
     }
 
     private function processOptions($input)
@@ -327,13 +327,13 @@ class SetupCommand extends Command
 
     private function getDefaultOption($name)
     {
-        $defaults = array(
+        $defaults = [
             'src-dir' => empty($this->rootDir) ? 'app/Resources' : $this->rootDir.'/app/Resources',
             'dest-dir' => empty($this->rootDir) ? 'web/assets' : $this->rootDir.'/web/assets',
             'pipeline' => 'gulp',
             'csspre' => 'sass',
             'coffee' => 'false',
-        );
+        ];
 
         return $defaults[$name];
     }

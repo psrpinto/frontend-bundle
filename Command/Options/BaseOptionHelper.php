@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 abstract class BaseOptionHelper
 {
     protected $defaultValue = 0;
-    protected $allowedValues = array();
+    protected $allowedValues = [];
     protected $errorMessage = null;
 
     private $command;

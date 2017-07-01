@@ -18,11 +18,11 @@ class AppKernel extends Kernel
 
     public function registerBundles()
     {
-        return array(
+        return [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new \Rj\FrontendBundle\RjFrontendBundle(),
             new \Rj\FrontendBundle\Tests\Functional\TestApp\TestBundle\TestBundle(),
-        );
+        ];
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)

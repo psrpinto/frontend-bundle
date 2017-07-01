@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BaseTestCase extends WebTestCase
 {
-    protected static function createKernel(array $options = array())
+    protected static function createKernel(array $options = [])
     {
         return self::$kernel = new AppKernel($options);
     }

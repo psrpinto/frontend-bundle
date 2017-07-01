@@ -29,7 +29,7 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('override_default_package')->defaultTrue()->end()
                 ->arrayNode('fallback_patterns')
                     ->prototype('scalar')->end()
-                    ->defaultValue(array('.*bundles\/.*'))
+                    ->defaultValue(['.*bundles\/.*'])
                 ->end()
                 ->append($this->addLivereloadSection())
                 ->append($this->addPackagePrefixSection(self::DEFAULT_PREFIX))
@@ -85,11 +85,11 @@ class Configuration implements ConfigurationInterface
     {
         $node = $this->createRoot('prefix')
             ->prototype('scalar')->end()
-            ->defaultValue(array($defaultValue))
+            ->defaultValue([$defaultValue])
             ->cannotBeEmpty()
             ->beforeNormalization()
                 ->ifString()
-                ->then(function ($v) { return array($v); })
+                ->then(function ($v) { return [$v]; })
             ->end()
             ->validate()
                 ->ifTrue(function ($prefixes) {
@@ -121,7 +121,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('format')
                     ->defaultValue('json')
                     ->validate()
-                        ->ifNotInArray(array('json'))
+                        ->ifNotInArray(['json'])
                         ->thenInvalid('For the moment only JSON manifest files are supported')
                     ->end()
                 ->end()
@@ -130,7 +130,7 @@ class Configuration implements ConfigurationInterface
             ->end()
             ->beforeNormalization()
                 ->ifString()
-                ->then(function ($v) { return array('enabled' => true, 'path' => $v); })
+                ->then(function ($v) { return ['enabled' => true, 'path' => $v]; })
             ->end()
         ;
     }
@@ -185,16 +185,16 @@ class Configuration implements ConfigurationInterface
         }
 
         if (!is_array($config['manifest'])) {
-            $config['manifest'] = array('enabled' => true);
+            $config['manifest'] = ['enabled' => true];
         }
 
-        $config['manifest']['path'] = implode('/', array(
+        $config['manifest']['path'] = implode('/', [
             $this->kernelRootDir,
             '..',
             'web',
             $prefix,
             'manifest.json',
-        ));
+        ]);
 
         return $config;
     }

@@ -6,12 +6,12 @@ class RjFrontendExtensionTest extends RjFrontendExtensionBaseTest
 {
     public function testInjectLivereloadListenerIsRegistered()
     {
-        $this->load(array(
-            'livereload' => array(
+        $this->load([
+            'livereload' => [
                 'enabled' => true,
                 'url' => 'foo',
-            ),
-        ));
+            ],
+        ]);
 
         $this->assertContainerBuilderHasService(
             $this->namespaceService('livereload.listener'),
@@ -27,18 +27,18 @@ class RjFrontendExtensionTest extends RjFrontendExtensionBaseTest
 
     public function testInjectLivereloadListenerIsNotRegistered()
     {
-        $this->load(array('livereload' => false));
+        $this->load(['livereload' => false]);
 
         $this->assertContainerBuilderNotHasService($this->namespaceService('livereload.listener'));
     }
 
     public function testPackageIsRegisteredAndPrivate()
     {
-        $this->load(array('packages' => array(
-            'foo' => array(
+        $this->load(['packages' => [
+            'foo' => [
                 'prefix' => 'foo_prefix',
-            ),
-        )));
+            ],
+        ]]);
 
         $this->assertContainerBuilderHasService($this->namespaceService('_package.foo'));
         $this->assertFalse($this->container->findDefinition($this->namespaceService('_package.foo'))->isPublic());

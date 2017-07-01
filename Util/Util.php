@@ -12,7 +12,7 @@ class Util
     public static function containsUrl($subject, $negate = false)
     {
         if (is_string($subject)) {
-            $subject = array($subject);
+            $subject = [$subject];
         }
 
         $flags = $negate ? PREG_GREP_INVERT : null;

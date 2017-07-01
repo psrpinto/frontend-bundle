@@ -20,7 +20,7 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
                  return $args[0] !== 'npm';
              }));
 
-        $this->commandTester->execute(array());
+        $this->commandTester->execute([]);
         $this->assertRegExp('/npm is not installed/', $this->commandTester->getDisplay());
     }
 
@@ -36,7 +36,7 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
                  return $args[0] !== 'bower';
              }));
 
-        $this->commandTester->execute(array());
+        $this->commandTester->execute([]);
         $this->assertRegExp('/bower is not installed/', $this->commandTester->getDisplay());
     }
 
@@ -47,7 +47,7 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->command->method('commandExists')->willReturn(true);
 
-        $this->commandTester->execute(array());
+        $this->commandTester->execute([]);
         $this->assertRegExp('/Running `npm install`/', $this->commandTester->getDisplay());
         $this->assertRegExp('/Running `bower install`/', $this->commandTester->getDisplay());
     }
@@ -68,7 +68,7 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
     private function getCommand()
     {
         $command = $this->getMockBuilder('Rj\FrontendBundle\Command\InstallCommand')
-            ->setMethods(array('commandExists', 'runProcess'))
+            ->setMethods(['commandExists', 'runProcess'])
             ->getMock()
         ;
 
