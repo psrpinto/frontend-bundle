@@ -3,6 +3,8 @@
 namespace Rj\FrontendBundle\DependencyInjection;
 
 use Rj\FrontendBundle\Util\Util;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -10,8 +12,14 @@ class Configuration implements ConfigurationInterface
 {
     const DEFAULT_PREFIX = 'assets';
 
+    /**
+     * @var string
+     */
     private $kernelRootDir;
 
+    /**
+     * @param string $kernelRootDir
+     */
     public function __construct($kernelRootDir)
     {
         $this->kernelRootDir = $kernelRootDir;
@@ -150,7 +158,7 @@ class Configuration implements ConfigurationInterface
      *
      * @return bool
      */
-    public function mustApplyManifestDefaultPath($config)
+    public function mustApplyManifestDefaultPath(array $config)
     {
         return isset($config['manifest']) &&
             !is_string($config['manifest']) &&
@@ -176,7 +184,7 @@ class Configuration implements ConfigurationInterface
      *
      * @return array
      */
-    public function applyManifestDefaultPath($config)
+    public function applyManifestDefaultPath(array $config)
     {
         $prefix = isset($config['prefix']) ? $config['prefix'] : self::DEFAULT_PREFIX;
 
@@ -199,6 +207,12 @@ class Configuration implements ConfigurationInterface
         return $config;
     }
 
+    /**
+     * @param string      $root
+     * @param string|null $type
+     *
+     * @return ArrayNodeDefinition|NodeDefinition
+     */
     private function createRoot($root, $type = null)
     {
         $treeBuilder = new TreeBuilder();

@@ -9,13 +9,22 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class InjectLiveReloadListener implements EventSubscriberInterface
 {
+    /**
+     * @var string
+     */
     private $url;
 
+    /**
+     * @param string $url
+     */
     public function __construct($url)
     {
         $this->url = $url;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onKernelResponse(FilterResponseEvent $event)
     {
         if (!$this->shouldInject($event)) {
@@ -34,6 +43,9 @@ class InjectLiveReloadListener implements EventSubscriberInterface
         $response->setContent(substr($content, 0, $pos).$script.substr($content, $pos));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function getSubscribedEvents()
     {
         return [
@@ -41,7 +53,12 @@ class InjectLiveReloadListener implements EventSubscriberInterface
         ];
     }
 
-    private function shouldInject($event)
+    /**
+     * @param $event
+     *
+     * @return bool
+     */
+    private function shouldInject(FilterResponseEvent $event)
     {
         if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
             return false;

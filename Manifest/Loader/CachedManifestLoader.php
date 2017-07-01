@@ -8,9 +8,21 @@ use Symfony\Component\Config\Resource\FileResource;
 
 class CachedManifestLoader implements ManifestLoaderInterface
 {
+    /**
+     * @var ManifestLoaderInterface
+     */
     private $loader;
+
+    /**
+     * @var ConfigCache
+     */
     private $cache;
 
+    /**
+     * @param string                  $cacheDir
+     * @param bool                    $debug
+     * @param ManifestLoaderInterface $loader
+     */
     public function __construct($cacheDir, $debug, ManifestLoaderInterface $loader)
     {
         $cachePath = $cacheDir.'/'.hash('sha1', $loader->getPath()).'.php.cache';

@@ -5,19 +5,52 @@ namespace Rj\FrontendBundle\Command\Options;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
 
 abstract class BaseOptionHelper
 {
+    /**
+     * @var mixed
+     */
     protected $defaultValue = 0;
+
+    /**
+     * @var array
+     */
     protected $allowedValues = [];
+
+    /**
+     * @var string|null
+     */
     protected $errorMessage = null;
 
+    /**
+     * @var Command
+     */
     private $command;
+
+    /**
+     * @var InputInterface
+     */
     private $input;
+
+    /**
+     * @var OutputInterface
+     */
     private $output;
 
+    /**
+     * @param string $question
+     *
+     * @return Question
+     */
     abstract protected function getQuestion($question);
 
+    /**
+     * @param Command         $command
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
     public function __construct(Command $command, InputInterface $input, OutputInterface $output)
     {
         $this->command = $command;
@@ -25,13 +58,23 @@ abstract class BaseOptionHelper
         $this->output = $output;
     }
 
-    public function setAllowedValues($allowedValues)
+    /**
+     * @param array $allowedValues
+     *
+     * @return $this
+     */
+    public function setAllowedValues(array $allowedValues)
     {
         $this->allowedValues = $allowedValues;
 
         return $this;
     }
 
+    /**
+     * @param string $errorMessage
+     *
+     * @return $this
+     */
     public function setErrorMessage($errorMessage)
     {
         $this->errorMessage = $errorMessage;
@@ -39,6 +82,11 @@ abstract class BaseOptionHelper
         return $this;
     }
 
+    /**
+     * @param mixed $defaultValue
+     *
+     * @return $this
+     */
     public function setDefaultValue($defaultValue)
     {
         $this->defaultValue = $defaultValue;
@@ -46,6 +94,12 @@ abstract class BaseOptionHelper
         return $this;
     }
 
+    /**
+     * @param string $name
+     * @param string $question
+     *
+     * @return string|bool
+     */
     public function setOption($name, $question)
     {
         $selection = $this->input->getOption($name);
@@ -74,7 +128,12 @@ abstract class BaseOptionHelper
         return $selection;
     }
 
-    private function ask($question)
+    /**
+     * @param Question $question
+     *
+     * @return mixed
+     */
+    private function ask(Question $question)
     {
         return $this->command->getHelper('question')->ask($this->input, $this->output, $question);
     }

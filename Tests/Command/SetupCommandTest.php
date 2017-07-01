@@ -2,6 +2,8 @@
 
 namespace Rj\FrontendBundle\Tests\Command;
 
+use PHPUnit_Framework_MockObject_MockObject;
+use Rj\FrontendBundle\Command\InstallCommand;
 use Rj\FrontendBundle\Command\SetupCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -9,6 +11,21 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class SetupCommandTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var string
+     */
+    private $baseDir;
+
+    /**
+     * @var SetupCommand
+     */
+    private $command;
+
+    /**
+     * @var CommandTester
+     */
+    private $commandTester;
+
     protected function setUp()
     {
         $fs = new Filesystem();
@@ -252,7 +269,12 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/Would have installed npm and bower dependencies/', $this->commandTester->getDisplay());
     }
 
-    private function assertOptions($options, $expected, $interactive = true)
+    /**
+     * @param array $options
+     * @param array $expected
+     * @param bool  $interactive
+     */
+    private function assertOptions(array $options, array $expected, $interactive = true)
     {
         $defaults = !$interactive ? [] : [
             'src-dir' => 'bar',
@@ -287,6 +309,9 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @return InstallCommand|PHPUnit_Framework_MockObject_MockObject
+     */
     private function getInstallCommand()
     {
         return $this->getMockBuilder('Rj\FrontendBundle\Command\InstallCommand')
@@ -295,6 +320,11 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
         ;
     }
 
+    /**
+     * @param $input
+     *
+     * @return bool|resource
+     */
     private function getInputStream($input)
     {
         $stream = fopen('php://memory', 'r+', false);

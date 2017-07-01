@@ -170,6 +170,9 @@ class ConfigurationTest extends AbstractConfigurationTestCase
         $this->assertConfigurationEquals($config, $expected, 'packages');
     }
 
+    /**
+     * @return array
+     */
     private function getDefaultPackageConfig()
     {
         return [
@@ -181,6 +184,9 @@ class ConfigurationTest extends AbstractConfigurationTestCase
         ];
     }
 
+    /**
+     * @return array
+     */
     private function getManifestExpectedDefault()
     {
         return [
@@ -192,6 +198,9 @@ class ConfigurationTest extends AbstractConfigurationTestCase
         ];
     }
 
+    /**
+     * @return array
+     */
     private function getPackagesExpectedDefault()
     {
         return [
@@ -208,6 +217,11 @@ class ConfigurationTest extends AbstractConfigurationTestCase
         ];
     }
 
+    /**
+     * @param array       $config
+     * @param string      $breadcrumbPath
+     * @param null|string $expectedMessage
+     */
     protected function assertConfigurationInvalid(array $config, $breadcrumbPath, $expectedMessage = null)
     {
         parent::assertPartialConfigurationIsInvalid(
@@ -218,16 +232,28 @@ class ConfigurationTest extends AbstractConfigurationTestCase
         );
     }
 
+    /**
+     * @param array       $config
+     * @param null|string $breadcrumbPath
+     */
     protected function assertConfigurationValid(array $config, $breadcrumbPath = null)
     {
         parent::assertConfigurationIsValid([$config], $breadcrumbPath);
     }
 
-    protected function assertConfigurationEquals($config, $expected, $breadcrumbPath = null)
+    /**
+     * @param string      $config
+     * @param array       $expected
+     * @param null|string $breadcrumbPath
+     */
+    protected function assertConfigurationEquals($config, array $expected, $breadcrumbPath = null)
     {
         $this->assertProcessedConfigurationEquals([$config], $expected, $breadcrumbPath);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getConfiguration()
     {
         return new Configuration('root_dir');
