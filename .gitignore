@@ -3,3 +3,4 @@
 /venv/
 /Resources/doc/_build/
 composer.lock
+.php_cs.cache
