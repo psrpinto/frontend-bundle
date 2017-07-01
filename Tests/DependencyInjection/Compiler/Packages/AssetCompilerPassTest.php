@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class AssetCompilerPassTest extends BaseCompilerPassTest
 {
     /**
-     * @expectedException        LogicException
+     * @expectedException        \LogicException
      * @expectedExceptionMessage The Asset component is not registered in the container
      */
     public function testThrowsExceptionIfAssetComponentIsNotRegistered()
@@ -26,7 +26,7 @@ class AssetCompilerPassTest extends BaseCompilerPassTest
     }
 
     /**
-     * @expectedException        LogicException
+     * @expectedException        \LogicException
      * @expectedExceptionMessage The tag for the service with id 'foo_service' must define an 'alias' attribute
      */
     public function testThrowsExceptionIfPackageWithNoTag()
@@ -39,7 +39,7 @@ class AssetCompilerPassTest extends BaseCompilerPassTest
     }
 
     /**
-     * @expectedException        LogicException
+     * @expectedException        \LogicException
      * @expectedExceptionMessage A package named 'foo' has already been registered
      */
     public function testThrowsExceptionIfPackageIsAlreadyRegisteredWithAssetComponent()
@@ -59,7 +59,7 @@ class AssetCompilerPassTest extends BaseCompilerPassTest
     }
 
     /**
-     * @expectedException        LogicException
+     * @expectedException        \LogicException
      * @expectedExceptionMessage Multiple packages were found with alias 'foo'. Package alias' must be unique
      */
     public function testThrowsExceptionIfDuplicatePackage()
