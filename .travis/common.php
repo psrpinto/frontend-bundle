@@ -7,7 +7,7 @@ function shouldBuildDocs()
 
 function withCodeCoverage()
 {
-    return isLatestPhp() && in_array(getSymfonyVersion(), array('2.3.*', '3.3.*'));
+    return isLatestPhp() && isLatestSymfony();
 }
 
 function isLatestPhp()
