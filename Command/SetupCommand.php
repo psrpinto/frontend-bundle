@@ -298,12 +298,12 @@ class SetupCommand extends Command
         }
 
         file_put_contents($target, $this->templating->render("$file.php", array(
-            'projectName'         => basename(getcwd()),
-            'srcDir'              => $input->getOption('src-dir'),
-            'destDir'             => $input->getOption('dest-dir'),
-            'prefix'              => str_replace('web/', '', $input->getOption('dest-dir')),
-            'coffee'              => $input->getOption('coffee'),
-            'cssPre'              => $input->getOption('csspre'),
+            'projectName' => basename(getcwd()),
+            'srcDir' => $input->getOption('src-dir'),
+            'destDir' => $input->getOption('dest-dir'),
+            'prefix' => str_replace('web/', '', $input->getOption('dest-dir')),
+            'coffee' => $input->getOption('coffee'),
+            'cssPre' => $input->getOption('csspre'),
             'stylesheetExtension' => $stylesheetExtension,
         )));
     }
@@ -328,11 +328,11 @@ class SetupCommand extends Command
     private function getDefaultOption($name)
     {
         $defaults = array(
-            'src-dir'  => empty($this->rootDir) ? 'app/Resources' : $this->rootDir.'/app/Resources',
+            'src-dir' => empty($this->rootDir) ? 'app/Resources' : $this->rootDir.'/app/Resources',
             'dest-dir' => empty($this->rootDir) ? 'web/assets' : $this->rootDir.'/web/assets',
             'pipeline' => 'gulp',
-            'csspre'   => 'sass',
-            'coffee'   => 'false',
+            'csspre' => 'sass',
+            'coffee' => 'false',
         );
 
         return $defaults[$name];

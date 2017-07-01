@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class AssetCompilerPass implements CompilerPassInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
@@ -50,6 +50,7 @@ class AssetCompilerPass implements CompilerPassInterface
 
     /**
      * @param ContainerBuilder $container
+     *
      * @return Definition[]
      */
     private function getTaggedPackages(ContainerBuilder $container)
@@ -59,6 +60,7 @@ class AssetCompilerPass implements CompilerPassInterface
 
     /**
      * @param ContainerBuilder $container
+     *
      * @return Definition
      */
     private function getPackagesService(ContainerBuilder $container)
@@ -71,7 +73,7 @@ class AssetCompilerPass implements CompilerPassInterface
     }
 
     /**
-     * @param Definition[] $packages
+     * @param Definition[]     $packages
      * @param ContainerBuilder $container
      */
     private function addPackages($packages, ContainerBuilder $container)
@@ -104,6 +106,7 @@ class AssetCompilerPass implements CompilerPassInterface
      * Retrieve packages that have already been registered.
      *
      * @param ContainerBuilder $container
+     *
      * @return array with the packages' name as keys
      */
     private function getRegisteredPackages(ContainerBuilder $container)
@@ -118,7 +121,7 @@ class AssetCompilerPass implements CompilerPassInterface
 
         $packages = array();
         $argCount = count($argPackages);
-        for ($i = 0; $i < $argCount; $i++) {
+        for ($i = 0; $i < $argCount; ++$i) {
             $packages[$argPackages[$i]] = $argPackages[++$i];
         }
 
@@ -127,6 +130,7 @@ class AssetCompilerPass implements CompilerPassInterface
 
     /**
      * @param ContainerBuilder $container
+     *
      * @return Definition|null
      */
     private function getRegisteredDefaultPackage(ContainerBuilder $container)
@@ -142,6 +146,7 @@ class AssetCompilerPass implements CompilerPassInterface
 
     /**
      * @param string $id
+     *
      * @return string
      */
     private function namespaceService($id)

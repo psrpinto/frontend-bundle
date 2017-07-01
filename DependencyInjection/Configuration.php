@@ -138,7 +138,7 @@ class Configuration implements ConfigurationInterface
     /**
      * Returns true if the manifest's path has not been defined AND:
      *  - a prefix has not been defined
-     *  - OR if a prefix has been defined, it's not a URL
+     *  - OR if a prefix has been defined, it's not a URL.
      *
      * Note that the manifest's configuration can be a string, in which case it
      * represents the path to the manifest file.
@@ -146,8 +146,9 @@ class Configuration implements ConfigurationInterface
      * This method is public because of the inability to use $this in closures
      * in PHP 5.3.
      *
-     * @param  array   $config
-     * @return boolean
+     * @param array $config
+     *
+     * @return bool
      */
     public function mustApplyManifestDefaultPath($config)
     {
@@ -171,7 +172,8 @@ class Configuration implements ConfigurationInterface
      * This method is public because of the inability to use $this in closures
      * in PHP 5.3
      *
-     * @param  array $config
+     * @param array $config
+     *
      * @return array
      */
     public function applyManifestDefaultPath($config)

@@ -33,8 +33,9 @@ class RjFrontendExtension extends Extension
     }
 
     /**
-     * @param array $config
+     * @param array            $config
      * @param ContainerBuilder $container
+     *
      * @return Configuration
      */
     public function getConfiguration(array $config, ContainerBuilder $container)
@@ -44,6 +45,7 @@ class RjFrontendExtension extends Extension
 
     /**
      * @param string $id
+     *
      * @return string
      */
     private function namespaceService($id)

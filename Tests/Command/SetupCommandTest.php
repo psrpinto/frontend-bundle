@@ -62,7 +62,7 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        InvalidArgumentException
+     * @expectedException        \InvalidArgumentException
      * @expectedExceptionMessage 'dest-dir' must be a directory under web/
      */
     public function testInvalidDestDir()
@@ -71,7 +71,7 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        InvalidArgumentException
+     * @expectedException        \InvalidArgumentException
      * @expectedExceptionMessage 'dest-dir' must be a directory under web/
      */
     public function testInvalidDestDirWebRoot()
@@ -80,7 +80,7 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        InvalidArgumentException
+     * @expectedException        \InvalidArgumentException
      * @expectedExceptionMessage 'dest-dir' must be a directory under web/
      */
     public function testInvalidDestDirWebRoot2()

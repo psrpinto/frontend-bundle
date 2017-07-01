@@ -2,7 +2,6 @@
 
 namespace Rj\FrontendBundle\Tests\Command;
 
-use Rj\FrontendBundle\Command\InstallCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
@@ -16,9 +15,9 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->command->method('commandExists')
              ->will($this->returnCallback(function () {
-                $args = func_get_args();
+                 $args = func_get_args();
 
-                return $args[0] !== 'npm';
+                 return $args[0] !== 'npm';
              }));
 
         $this->commandTester->execute(array());
@@ -32,9 +31,9 @@ class InstallCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->command->method('commandExists')
              ->will($this->returnCallback(function () {
-                $args = func_get_args();
+                 $args = func_get_args();
 
-                return $args[0] !== 'bower';
+                 return $args[0] !== 'bower';
              }));
 
         $this->commandTester->execute(array());

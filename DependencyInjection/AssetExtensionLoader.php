@@ -22,7 +22,7 @@ class AssetExtensionLoader
     private $container;
 
     /**
-     * @param string $alias
+     * @param string           $alias
      * @param ContainerBuilder $container
      */
     public function __construct($alias, ContainerBuilder $container)
@@ -32,7 +32,7 @@ class AssetExtensionLoader
     }
 
     /**
-     * @param array $config
+     * @param array           $config
      * @param LoaderInterface $loader
      */
     public function load(array $config, LoaderInterface $loader)
@@ -43,7 +43,7 @@ class AssetExtensionLoader
             $loader->load('fallback.yml');
 
             $defaultPackage = $this->createPackage('default', array(
-                'prefix'   => $config['prefix'],
+                'prefix' => $config['prefix'],
                 'manifest' => $config['manifest'],
             ));
 
@@ -66,7 +66,8 @@ class AssetExtensionLoader
 
     /**
      * @param string $name
-     * @param array $config
+     * @param array  $config
+     *
      * @return Definition
      */
     private function createPackage($name, array $config)
@@ -93,6 +94,7 @@ class AssetExtensionLoader
 
     /**
      * @param string $name
+     *
      * @return string
      */
     private function getPackageId($name)
@@ -102,7 +104,8 @@ class AssetExtensionLoader
 
     /**
      * @param string $packageName
-     * @param array $config
+     * @param array  $config
+     *
      * @return Reference
      */
     private function createManifestVersionStrategy($packageName, $config)
@@ -133,6 +136,7 @@ class AssetExtensionLoader
 
     /**
      * @param string $id
+     *
      * @return string
      */
     private function namespaceService($id)
