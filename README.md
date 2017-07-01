@@ -17,7 +17,7 @@ It has thus become more and more common to integrate tools native to frontend de
 
 This bundle attempts to be the go-to solution for quickly, easily and cleanly setting up a tailored frontend development workflow in Symfony projects.
 
-*Supports PHP 5.3+, Symfony 2.7+*
+*Supports PHP 5.4+, Symfony 2.7+*
 
 # Features
 * **Asset pipeline**
