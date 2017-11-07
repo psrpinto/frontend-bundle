@@ -2,8 +2,6 @@
 
 namespace Rj\FrontendBundle\Tests\Command;
 
-use PHPUnit_Framework_MockObject_MockObject;
-use Rj\FrontendBundle\Command\InstallCommand;
 use Rj\FrontendBundle\Command\SetupCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -34,7 +32,6 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
 
         $application = new Application();
 
-        $application->add($this->getInstallCommand());
         $application->add($command = new SetupCommand());
 
         $this->command = $application->find($command->getName());
@@ -258,18 +255,6 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @runInSeparateProcess
-     */
-    public function testInstallDependenciesDryRun()
-    {
-        $this->commandTester->execute([
-            '--dry-run' => true,
-        ], ['interactive' => false]);
-
-        $this->assertRegExp('/Would have installed npm and bower dependencies/', $this->commandTester->getDisplay());
-    }
-
-    /**
      * @param array $options
      * @param array $expected
      * @param bool  $interactive
@@ -307,17 +292,6 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
         foreach ($expected as $key => $value) {
             $this->assertEquals($value, $this->commandTester->getInput()->getOption($key));
         }
-    }
-
-    /**
-     * @return InstallCommand|PHPUnit_Framework_MockObject_MockObject
-     */
-    private function getInstallCommand()
-    {
-        return $this->getMockBuilder('Rj\FrontendBundle\Command\InstallCommand')
-            ->setMethods(['commandExists', 'runProcess'])
-            ->getMock()
-        ;
     }
 
     /**

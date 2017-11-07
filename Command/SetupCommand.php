@@ -5,7 +5,6 @@ namespace Rj\FrontendBundle\Command;
 use Rj\FrontendBundle\Command\Options\SimpleOptionHelper;
 use Rj\FrontendBundle\Command\Options\ChoiceOptionHelper;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -179,21 +178,12 @@ class SetupCommand extends Command
         $this->createBowerJson($input, $output);
 
         $output->writeln('');
-        $this->runInstallCommand($input, $output);
-    }
-
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     */
-    private function runInstallCommand(InputInterface $input, OutputInterface $output)
-    {
-        if ($input->getOption('dry-run')) {
-            return $output->writeln('<info>Would have installed npm and bower dependencies</info>');
-        }
-
-        $this->getApplication()->find('rj_frontend:install')
-            ->run(new ArrayInput(['command' => 'rj_frontend:install']), $output);
+        $output->writeln('<info>All files generated.</info>');
+        $output->writeln('');
+        $output->writeln('<comment>Make sure to install dependencies:</comment>');
+        $output->writeln('');
+        $output->writeln('<comment>  npm install</comment>');
+        $output->writeln('');
     }
 
     /**
