@@ -1,4 +1,4 @@
-@charset 'utf-8';
+@charset "utf-8";
 
 // This file is compiled to `/<?php echo $destDir; ?>/css/vendor.css`.
 //
