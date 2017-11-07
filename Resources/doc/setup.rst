@@ -111,6 +111,12 @@ You can read about all available options with:
 
     Feel free to take a look at the generated ``gulpfile.js``. Even though the file is somewhat long, it should be straightforward to understand so you'll be able to adapt it to your use case, if need be.
 
+Finally, install ``npm`` dependencies required by ``gulpfile.js``:
+
+.. code-block :: shell
+
+    npm install
+
 Livereload
 ----------
 
