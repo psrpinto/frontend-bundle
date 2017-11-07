@@ -17,7 +17,7 @@ For example, if you wanted to use `Bootstrap <http://getbootstrap.com>`_ you wou
 
     The ``--save`` flag adds the dependency to ``bower.json``
 
-Since Bootsrap requires jquery, Bower installed both under ``bower_components/``:
+Since Bootstrap requires jquery, Bower installed both under ``bower_components/``:
 
 .. code ::
 
@@ -155,7 +155,7 @@ For example, if you look into Bootstrap's ``bower.json``, you will see something
 
 By parsing this file, we're able to automatically add the ``bootstrap.js`` file to our ``vendor.js``.
 
-However, as you can see above, Boostrap does not define ``bootstrap.css`` as a main file. If you wanted to automatically include ``bootstrap.css`` into your ``vendor.css``, you would *override* the main files defined in Bootstrap's ``bower.json`` by adding the following to your own ``bower.json``:
+However, as you can see above, Bootstrap does not define ``bootstrap.css`` as a main file. If you wanted to automatically include ``bootstrap.css`` into your ``vendor.css``, you would *override* the main files defined in Bootstrap's ``bower.json`` by adding the following to your own ``bower.json``:
 
 .. code ::
 
