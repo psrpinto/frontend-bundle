@@ -7,5 +7,5 @@ services:
         class: Rj\FrontendBundle\Manifest\Loader\CachedManifestLoader
         public: false
         arguments:
-            - %kernel.cache_dir%/rj_frontend
-            - %kernel.debug%
+            - "%kernel.cache_dir%/rj_frontend"
+            - "%kernel.debug%"
