@@ -29,7 +29,7 @@ Once Node is installed, run:
 .. code-block:: shell
 
     npm install -g bower
-    npm install -g gulp
+    npm install -g gulp-cli
 
 .. note ::
 
