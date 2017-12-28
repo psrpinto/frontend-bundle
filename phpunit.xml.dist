@@ -19,4 +19,8 @@
             </exclude>
         </whitelist>
     </filter>
+    <php>
+        <!-- See https://github.com/symfony/symfony/issues/25362 -->
+        <env name="SHELL_VERBOSITY" value="1"/>
+    </php>
 </phpunit>
