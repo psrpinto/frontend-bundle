@@ -282,8 +282,7 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
 
         // Simulate the user pressing enter. This is needed to test the default
         // value, has no impact when the value is provided.
-        $helper = $this->command->getHelper('question');
-        $helper->setInputStream($this->getInputStream(PHP_EOL));
+        $this->commandTester->setInputs([PHP_EOL]);
 
         $this->commandTester->execute($options, [
             'interactive' => $interactive,
@@ -292,19 +291,5 @@ class SetupCommandTest extends \PHPUnit_Framework_TestCase
         foreach ($expected as $key => $value) {
             $this->assertEquals($value, $this->commandTester->getInput()->getOption($key));
         }
-    }
-
-    /**
-     * @param $input
-     *
-     * @return bool|resource
-     */
-    private function getInputStream($input)
-    {
-        $stream = fopen('php://memory', 'r+', false);
-        fputs($stream, $input);
-        rewind($stream);
-
-        return $stream;
     }
 }

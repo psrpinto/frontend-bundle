@@ -94,7 +94,7 @@ class Configuration implements ConfigurationInterface
         $node = $this->createRoot('prefix')
             ->prototype('scalar')->end()
             ->defaultValue([$defaultValue])
-            ->cannotBeEmpty()
+            ->requiresAtLeastOneElement()
             ->beforeNormalization()
                 ->ifString()
                 ->then(function ($v) { return [$v]; })
