@@ -4,9 +4,9 @@ namespace Rj\FrontendBundle\DependencyInjection;
 
 use Rj\FrontendBundle\Util\Util;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 
 class AssetExtensionLoader
@@ -76,8 +76,8 @@ class AssetExtensionLoader
         $isUrl = Util::containsUrl($prefixes);
 
         $packageDefinition = $isUrl
-            ? new DefinitionDecorator($this->namespaceService('asset.package.url'))
-            : new DefinitionDecorator($this->namespaceService('asset.package.path'))
+            ? new ChildDefinition($this->namespaceService('asset.package.url'))
+            : new ChildDefinition($this->namespaceService('asset.package.path'))
         ;
 
         if ($config['manifest']['enabled']) {
@@ -110,7 +110,7 @@ class AssetExtensionLoader
      */
     private function createManifestVersionStrategy($packageName, $config)
     {
-        $loader = new DefinitionDecorator($this->namespaceService('manifest.loader.'.$config['format']));
+        $loader = new ChildDefinition($this->namespaceService('manifest.loader.'.$config['format']));
         $loader
             ->addArgument($config['path'])
             ->addArgument($config['root_key'])
@@ -119,13 +119,13 @@ class AssetExtensionLoader
         $loaderId = $this->namespaceService("_package.$packageName.manifest_loader");
         $this->container->setDefinition($loaderId, $loader);
 
-        $cachedLoader = new DefinitionDecorator($this->namespaceService('manifest.loader.cached'));
+        $cachedLoader = new ChildDefinition($this->namespaceService('manifest.loader.cached'));
         $cachedLoader->addArgument(new Reference($loaderId));
 
         $cachedLoaderId = $this->namespaceService("_package.$packageName.manifest_loader_cached");
         $this->container->setDefinition($cachedLoaderId, $cachedLoader);
 
-        $versionStrategy = new DefinitionDecorator($this->namespaceService('version_strategy.manifest'));
+        $versionStrategy = new ChildDefinition($this->namespaceService('version_strategy.manifest'));
         $versionStrategy->addArgument(new Reference($cachedLoaderId));
 
         $versionStrategyId = $this->namespaceService("_package.$packageName.version_strategy");
