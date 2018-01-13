@@ -1,0 +1,5 @@
+services:
+    Rj\FrontendBundle\Command\:
+        resource: '../../Command/*Command.php'
+        tags:
+            -  { name: console.command }
