@@ -2,6 +2,13 @@
 
 namespace Rj\FrontendBundle\DependencyInjection;
 
+if (!class_exists('Symfony\Component\DependencyInjection\ChildDefinition')) {
+    class_alias(
+        'Symfony\Component\DependencyInjection\DefinitionDecorator',
+        'Symfony\Component\DependencyInjection\ChildDefinition'
+    );
+}
+
 use Rj\FrontendBundle\Util\Util;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ChildDefinition;
