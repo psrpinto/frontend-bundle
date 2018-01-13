@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\HttpKernel\Kernel;
 
 class RjFrontendExtension extends Extension
 {
@@ -21,6 +22,10 @@ class RjFrontendExtension extends Extension
         $loader->load('console.yml');
         $loader->load('version_strategy.yml');
         $loader->load('manifest.yml');
+
+        if (version_compare(Kernel::VERSION, '3.3.0', '>=')) {
+            $loader->load('commands.yml');
+        }
 
         if ($config['livereload']['enabled']) {
             $loader->load('livereload.yml');
