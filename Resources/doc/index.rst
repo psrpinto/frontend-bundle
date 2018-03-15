@@ -2,6 +2,16 @@ frontend-bundle
 ===============
 A modern frontend development workflow for Symfony apps
 
+DEPRECATED
+----------
+This project is deprecated. Use `Webpack Encore <https://symfony.com/doc/current/frontend.html>`_ instead.
+
+    Webpack Encore is a simpler way to integrate Webpack into your Symfony application. It wraps Webpack, giving you a clean & powerful API for bundling JavaScript modules, pre-processing CSS & JS and compiling and minifying assets.
+
+There used to be a time where Symfony had no first-class support for a modern frontend development workflow, which was the problem this bundle was trying to solve. With Webpack Encore that is no longer the case so there is no reason for this bundle to continue to exist. Webpack Encore does it better and is the officially recommended way to integrate frontend technologies into Symfony applications.
+
+---------
+
 .. image:: https://img.shields.io/travis/regularjack/frontend-bundle/master.svg?style=flat-square
   :alt: Build Status
   :target: https://travis-ci.org/regularjack/frontend-bundle
