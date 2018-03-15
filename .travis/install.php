@@ -14,5 +14,5 @@ if (isLatestPhp() && isLatestSymfony()) {
 }
 
 if (shouldBuildDocs()) {
-    runCommand('export PATH=$HOME/.local/bin:$PATH && pip install -r requirements.txt --user `whoami`');
+    runCommand('export PATH=$HOME/.local/bin:$PATH && pip install pip --user `whoami` && pip install -r requirements.txt --user `whoami`');
 }
