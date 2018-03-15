@@ -2,6 +2,8 @@
 
 function shouldBuildDocs()
 {
+    // disable due to SSL error on travis
+    return false;
     return isLatestPhp() && isLatestSymfony();
 }
 
